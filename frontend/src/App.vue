@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SkillTree from "./components/SkillTree.vue";
 import { useCharacterStore } from "./stores/characterStore";
+import type { CharacterClass } from "./types";
 
 const characterStore = useCharacterStore();
 </script>
@@ -11,7 +12,12 @@ const characterStore = useCharacterStore();
       <select
         name="character-class"
         id="character-class"
-        v-model="characterStore.characterClass"
+        :value="characterStore.characterClass"
+        @change="
+          characterStore.setCharacterClass(
+            ($event.target as HTMLSelectElement).value as CharacterClass
+          )
+        "
       >
         <option value="amazon">Amazon</option>
         <option value="assassin">Assassin</option>
@@ -28,7 +34,12 @@ const characterStore = useCharacterStore();
         type="number"
         min="1"
         max="99"
-        v-model="characterStore.characterLevel"
+        :value="characterStore.characterLevel"
+        @change="
+          characterStore.setCharacterLevel(
+            parseInt(($event.target as HTMLInputElement).value)
+          )
+        "
       />
     </header>
 
@@ -38,4 +49,8 @@ const characterStore = useCharacterStore();
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.app {
+  user-select: none;
+}
+</style>

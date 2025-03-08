@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, type CSSProperties } from "vue";
+import { computed, type CSSProperties } from "vue";
 import { useCharacterStore } from "../stores/characterStore";
 import {
   getSkillIconSrc,
@@ -17,43 +17,25 @@ const skillTreeSrc = computed(
     ).href
 );
 
-// Use reactive to track the state changes
-const skillTreeItemsState = reactive<{ [key: string]: { points: number } }>(
-  Object.fromEntries(
-    skillTreeIcons[characterStore.characterClass].map((e) => [
-      e.name,
-      { points: 0 },
-    ])
-  )
-);
-
 function skillStyle(skill: SkillTreeIcon): CSSProperties {
   const treeWidth = 231;
   const skillGapX = 69;
   const skillGapY = 68;
   const x = 14 + skill.tree * treeWidth + skill.x * skillGapX;
-  const y = 16 + skill.y * skillGapY;
+  let y = 16 + skill.y * skillGapY;
+  if (skill.y >= 4) y += 1; // why are you like this ._.
 
-  const opacity = skillTreeItemsState[skill.name].points > 0 ? "100" : "0";
+  const opacity =
+    characterStore.skillTreeState[skill.name].points > 0 ? "100" : "0";
 
   return { left: `${x}px`, top: `${y}px`, opacity };
 }
 
-function incrementSkill(name: string) {
-  const state = skillTreeItemsState[name];
-  if (state.points < 20) state.points++;
-}
-
-function decrementSkill(name: string) {
-  const state = skillTreeItemsState[name];
-  if (state.points > 0) state.points--;
-}
-
 function handleMouseDown(event: MouseEvent, skillName: string) {
   if (event.button === 0) {
-    incrementSkill(skillName);
+    characterStore.incrementSkill(skillName);
   } else if (event.button === 2) {
-    decrementSkill(skillName);
+    characterStore.decrementSkill(skillName);
   }
 }
 </script>
@@ -73,7 +55,9 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
         :src="getSkillIconSrc(characterStore.characterClass, skill)"
         @mousedown="handleMouseDown($event, skill.name)"
       />
-      <p class="skill-label">{{ skillTreeItemsState[skill.name].points }}</p>
+      <p class="skill-label">
+        {{ characterStore.skillTreeState[skill.name].points }}
+      </p>
     </div>
   </div>
 </template>
@@ -102,7 +86,7 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
   height: 24px;
   text-align: center;
   line-height: 24px;
-  z-index: 1000;
   user-select: none;
+  font-weight: bold;
 }
 </style>
