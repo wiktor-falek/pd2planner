@@ -38,9 +38,22 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
     characterStore.decrementSkill(skillName);
   }
 }
+
+const tooltipData = ref();
+
+function displayTooltip(skillName: string) {
+  console.log(skillName);
+  tooltipData = skillDetails;
+}
+
+function hideTooltip() {}
 </script>
 
 <template>
+  <Teleport to="body">
+    <div class="skillTooltip"></div>
+  </Teleport>
+
   <div class="skill-tree">
     <img class="skill-tree-image" :src="skillTreeSrc" />
 
@@ -54,6 +67,8 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
         class="skill-icon"
         :src="getSkillIconSrc(characterStore.characterClass, skill)"
         @mousedown="handleMouseDown($event, skill.name)"
+        @mouseover="displayTooltip(skill.name)"
+        @mouseleave="hideTooltip"
       />
       <p class="skill-label">
         {{ characterStore.skillTreeState[skill.name].points }}
