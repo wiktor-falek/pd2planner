@@ -61,7 +61,7 @@ export const useCharacterStore = defineStore("character", () => {
   const characterClass = ref(getCharacterClass());
   const characterLevel = ref(getCharacterLevel());
   const skillTreeState = ref(getSkillTreeState(characterClass.value));
-  const spentPointsCount = computed(() =>
+  const allocatedPointsCount = computed(() =>
     Object.values(skillTreeState.value).reduce(
       (prev, curr) => prev + curr.points,
       0
@@ -81,23 +81,31 @@ export const useCharacterStore = defineStore("character", () => {
   }
 
   function setCharacterLevel(newCharacterLevel: number) {
-    const clampedLevel = Math.min(Math.max(newCharacterLevel, 0), 99);
+    const clampedLevel = Math.min(Math.max(newCharacterLevel, 1), 99);
     characterLevel.value = clampedLevel;
     localStorage.setItem("characterLevel", characterLevel.value.toString());
   }
 
   function incrementSkill(name: string) {
     const state = skillTreeState.value[name];
-    if (state.points < 20) state.points++;
+    if (state.points >= 20) return;
+    state.points++;
+
     localStorage.setItem(
       "skillTreeState",
       JSON.stringify(skillTreeState.value)
     );
+
+    while (allocatedPointsCount.value > totalPointsCount.value) {
+      setCharacterLevel(characterLevel.value + 1);
+    }
   }
 
   function decrementSkill(name: string) {
     const state = skillTreeState.value[name];
-    if (state.points > 0) state.points--;
+    if (state.points <= 0) return;
+    state.points--;
+
     localStorage.setItem(
       "skillTreeState",
       JSON.stringify(skillTreeState.value)
@@ -112,7 +120,7 @@ export const useCharacterStore = defineStore("character", () => {
     skillTreeState,
     incrementSkill,
     decrementSkill,
-    spentPointsCount,
+    allocatedPointsCount,
     totalPointsCount,
   };
 });

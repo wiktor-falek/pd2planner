@@ -48,9 +48,9 @@ const characterStore = useCharacterStore();
         <span
           :class="{
             red:
-              characterStore.spentPointsCount > characterStore.totalPointsCount,
+              characterStore.allocatedPointsCount > characterStore.totalPointsCount,
           }"
-          >{{ characterStore.spentPointsCount }}</span
+          >{{ characterStore.allocatedPointsCount }}</span
         >
         <span>/</span>
         <span>{{ characterStore.totalPointsCount }}</span>
