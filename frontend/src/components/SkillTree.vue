@@ -62,13 +62,19 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
   <div class="skill-tree">
     <img class="skill-tree-image" :src="skillTreeSrc" />
 
-    <img
+    <div
       v-for="skill in skillTreeIcons[characterStore.characterClass]"
-      class="skill-icon"
-      :src="getSkillIconSrc(characterStore.characterClass, skill)"
+      :key="skill.name"
+      class="skill-icon-container"
       :style="skillStyle(skill)"
-      @mousedown="handleMouseDown($event, skill.name)"
-    />
+    >
+      <img
+        class="skill-icon"
+        :src="getSkillIconSrc(characterStore.characterClass, skill)"
+        @mousedown="handleMouseDown($event, skill.name)"
+      />
+      <p class="skill-label">{{ skillTreeItemsState[skill.name].points }}</p>
+    </div>
   </div>
 </template>
 
@@ -77,9 +83,26 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
   position: relative;
 }
 
-.skill-icon {
+.skill-icon-container {
   position: absolute;
+}
+
+.skill-icon {
   width: 48px;
   height: auto;
+}
+
+.skill-label {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  color: rgb(225, 225, 225);
+  font-size: 12px;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  z-index: 1000;
+  user-select: none;
 }
 </style>
