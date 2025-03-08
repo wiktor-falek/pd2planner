@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import type { CharacterClass } from "../types";
 import { skillTreeIcons } from "../data/skillTree";
 
@@ -31,6 +31,27 @@ function getSkillTreeState(characterClass: CharacterClass): SkillTreeState {
   return getDefaultSkillTreeState(characterClass);
 }
 
+function calculateQuestSkillPoints(characterLevel: number) {
+  let points = 0;
+
+  // Normal
+  if (characterLevel >= 2) points += 1; // Den
+  if (characterLevel >= 14) points += 1; // Radament
+  if (characterLevel >= 26) points += 2; // Izual
+
+  // Nightmare
+  if (characterLevel >= 36) points += 1; // Den of Evil
+  if (characterLevel >= 42) points += 1; // Radament
+  if (characterLevel >= 54) points += 2; // Izual
+
+  // Hell
+  if (characterLevel >= 60) points += 1; // Den
+  if (characterLevel >= 62) points += 1; // Radament
+  if (characterLevel >= 64) points += 2; // Izual
+
+  return points;
+}
+
 export const useCharacterStore = defineStore("character", () => {
   function resetSkillTreeState(characterClass: CharacterClass) {
     skillTreeState.value = getDefaultSkillTreeState(characterClass);
@@ -40,6 +61,18 @@ export const useCharacterStore = defineStore("character", () => {
   const characterClass = ref(getCharacterClass());
   const characterLevel = ref(getCharacterLevel());
   const skillTreeState = ref(getSkillTreeState(characterClass.value));
+  const spentPointsCount = computed(() =>
+    Object.values(skillTreeState.value).reduce(
+      (prev, curr) => prev + curr.points,
+      0
+    )
+  );
+  const questSkillPointsCount = computed(() =>
+    calculateQuestSkillPoints(characterLevel.value)
+  );
+  const totalPointsCount = computed(
+    () => questSkillPointsCount.value + characterLevel.value - 1
+  );
 
   function setCharacterClass(newCharacterClass: CharacterClass) {
     characterClass.value = newCharacterClass;
@@ -48,7 +81,8 @@ export const useCharacterStore = defineStore("character", () => {
   }
 
   function setCharacterLevel(newCharacterLevel: number) {
-    characterLevel.value = newCharacterLevel;
+    const clampedLevel = Math.min(Math.max(newCharacterLevel, 0), 99);
+    characterLevel.value = clampedLevel;
     localStorage.setItem("characterLevel", characterLevel.value.toString());
   }
 
@@ -78,5 +112,7 @@ export const useCharacterStore = defineStore("character", () => {
     skillTreeState,
     incrementSkill,
     decrementSkill,
+    spentPointsCount,
+    totalPointsCount,
   };
 });

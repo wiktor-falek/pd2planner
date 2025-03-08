@@ -28,19 +28,33 @@ const characterStore = useCharacterStore();
         <option value="druid">Druid</option>
       </select>
 
-      <span>Level</span>
-      <input
-        id="character-level"
-        type="number"
-        min="1"
-        max="99"
-        :value="characterStore.characterLevel"
-        @change="
-          characterStore.setCharacterLevel(
-            parseInt(($event.target as HTMLInputElement).value)
-          )
-        "
-      />
+      <div>
+        <span>Level</span>
+        <input
+          id="character-level"
+          type="number"
+          min="1"
+          max="99"
+          :value="characterStore.characterLevel"
+          @change="
+            characterStore.setCharacterLevel(
+              parseInt(($event.target as HTMLInputElement).value)
+            )
+          "
+        />
+      </div>
+
+      <span>
+        <span
+          :class="{
+            red:
+              characterStore.spentPointsCount > characterStore.totalPointsCount,
+          }"
+          >{{ characterStore.spentPointsCount }}</span
+        >
+        <span>/</span>
+        <span>{{ characterStore.totalPointsCount }}</span>
+      </span>
     </header>
 
     <div>
@@ -52,5 +66,14 @@ const characterStore = useCharacterStore();
 <style scoped>
 .app {
   user-select: none;
+}
+
+header {
+  display: flex;
+  gap: 10px;
+}
+
+.red {
+  color: rgb(162, 58, 58);
 }
 </style>
