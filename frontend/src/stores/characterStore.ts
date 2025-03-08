@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import type { CharacterClass } from "../types";
-import { skillTreeIcons } from "../data/skillTree";
+import { skillTreeIcons } from "../data/skillTrees";
 
 type SkillTreeState = { [key: string]: { points: number } };
 
@@ -40,7 +40,7 @@ function calculateQuestSkillPoints(characterLevel: number) {
   if (characterLevel >= 26) points += 2; // Izual
 
   // Nightmare
-  if (characterLevel >= 36) points += 1; // Den of Evil
+  if (characterLevel >= 36) points += 1; // Den
   if (characterLevel >= 42) points += 1; // Radament
   if (characterLevel >= 54) points += 2; // Izual
 

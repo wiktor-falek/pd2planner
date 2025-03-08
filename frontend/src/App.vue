@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import SkillTree from "./components/SkillTree.vue";
+import Attributes from "./components/Attributes.vue";
 import { useCharacterStore } from "./stores/characterStore";
 import type { CharacterClass } from "./types";
 
 const characterStore = useCharacterStore();
+
+type Tab = "skill-tree" | "attributes";
+const selectedTab = ref<Tab>("skill-tree");
 </script>
 
 <template>
@@ -48,7 +53,8 @@ const characterStore = useCharacterStore();
         <span
           :class="{
             red:
-              characterStore.allocatedPointsCount > characterStore.totalPointsCount,
+              characterStore.allocatedPointsCount >
+              characterStore.totalPointsCount,
           }"
           >{{ characterStore.allocatedPointsCount }}</span
         >
@@ -58,7 +64,8 @@ const characterStore = useCharacterStore();
     </header>
 
     <div>
-      <SkillTree></SkillTree>
+      <SkillTree v-if="selectedTab === 'skill-tree'"></SkillTree>
+      <Attributes v-else-if="selectedTab === 'attributes'"></Attributes>
     </div>
   </div>
 </template>

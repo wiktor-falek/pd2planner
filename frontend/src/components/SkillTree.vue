@@ -5,7 +5,7 @@ import {
   getSkillIconSrc,
   skillTreeIcons,
   type SkillTreeIcon,
-} from "../data/skillTree";
+} from "../data/skillTrees";
 
 const characterStore = useCharacterStore();
 
