@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { attributeInfo } from "../data/attributes";
 import { useCharacterStore } from "../stores/characterStore";
 
@@ -13,6 +13,5 @@ const energy = attributes.energy.base;
 </script>
 
 <template>
-
-    
+  <div></div>
 </template>

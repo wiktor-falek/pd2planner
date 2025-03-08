@@ -1,3 +1,18 @@
+@font-face {
+  font-family: "ExocetHeavy";
+  src: url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.eot");
+  src: url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.svg#ExocetHeavy")
+      format("svg");
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

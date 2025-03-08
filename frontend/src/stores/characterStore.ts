@@ -96,7 +96,10 @@ export const useCharacterStore = defineStore("character", () => {
       JSON.stringify(skillTreeState.value)
     );
 
-    while (allocatedPointsCount.value > totalPointsCount.value) {
+    while (
+      characterLevel.value < 99 &&
+      allocatedPointsCount.value > totalPointsCount.value
+    ) {
       setCharacterLevel(characterLevel.value + 1);
     }
   }

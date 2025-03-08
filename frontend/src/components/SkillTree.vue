@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, type CSSProperties } from "vue";
+import { computed, ref, type CSSProperties } from "vue";
 import { useCharacterStore } from "../stores/characterStore";
 import {
   getSkillIconSrc,
   skillTreeIcons,
   type SkillTreeIcon,
 } from "../data/skillTrees";
+import { type SkillDetails, skillDetails } from "../data/skillDetails";
 
 const characterStore = useCharacterStore();
 
@@ -39,37 +40,42 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
   }
 }
 
-const tooltipData = ref();
+const tooltipData = ref<(SkillDetails & { name: string }) | null>(null);
 
 function displayTooltip(skillName: string) {
-  console.log(skillName);
-  tooltipData = skillDetails;
+  if (tooltipData.value?.name === skillName) return;
+  tooltipData.value = { name: skillName, ...skillDetails[skillName] };
 }
 
-function hideTooltip() {}
+function hideTooltip() {
+  tooltipData.value = null;
+}
 </script>
 
 <template>
   <Teleport to="body">
-    <div class="skillTooltip"></div>
+    <div v-if="tooltipData !== null" class="skill-tooltip">
+      <p>
+        <span class="green">{{ tooltipData.name + "\n" }}</span>
+        {{ tooltipData.description + "\n" }}
+        <span>Required Level: {{ tooltipData.levelRequirement }}</span>
+      </p>
+      <p>{{ tooltipData.mechanics }}</p>
+      <div v-if="tooltipData.synergies">
+        <p class="green">{{ tooltipData.name }} Receives Bonuses From:</p>
+        <p>{{ tooltipData.synergies }}</p>
+      </div>
+    </div>
   </Teleport>
 
   <div class="skill-tree">
     <img class="skill-tree-image" :src="skillTreeSrc" />
 
-    <div
-      v-for="skill in skillTreeIcons[characterStore.characterClass]"
-      :key="skill.name"
-      class="skill-icon-container"
-      :style="skillStyle(skill)"
-    >
-      <img
-        class="skill-icon"
-        :src="getSkillIconSrc(characterStore.characterClass, skill)"
-        @mousedown="handleMouseDown($event, skill.name)"
-        @mouseover="displayTooltip(skill.name)"
-        @mouseleave="hideTooltip"
-      />
+    <div v-for="skill in skillTreeIcons[characterStore.characterClass]" :key="skill.name" class="skill-icon-container"
+      :style="skillStyle(skill)">
+      <img class="skill-icon" :src="getSkillIconSrc(characterStore.characterClass, skill)"
+        @mousedown="handleMouseDown($event, skill.name)" @mouseenter="displayTooltip(skill.name)"
+        @mouseout="hideTooltip" />
       <p class="skill-label">
         {{ characterStore.skillTreeState[skill.name].points }}
       </p>
@@ -103,5 +109,29 @@ function hideTooltip() {}
   line-height: 24px;
   user-select: none;
   font-weight: bold;
+}
+
+.skill-tooltip {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  left: 0;
+  top: 0;
+  background-color: rgba(20, 20, 20, 0.85);
+  white-space: pre-line;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  font-family: "ExocetHeavy";
+  text-transform: uppercase;
+}
+
+.skill-tooltip p {
+  margin: 0;
+}
+
+.green {
+  color: #42b842;
 }
 </style>

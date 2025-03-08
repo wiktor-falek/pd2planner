@@ -1,11 +1,11 @@
-interface SkillDetail {
+export interface SkillDetails {
   description: string;
   mechanics: string;
   levelRequirement: number;
   synergies: string;
 }
 
-export const skillDetails: { [skill: string]: SkillDetail } = {
+export const skillDetails: { [skill: string]: SkillDetails } = {
   "Magic Arrow": {
     description: "Creates a magical arrow or bolt\nthat does extra damage",
     mechanics:
