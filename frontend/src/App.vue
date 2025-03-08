@@ -6,33 +6,35 @@ const characterStore = useCharacterStore();
 </script>
 
 <template>
-  <header>
-    <select
-      name="character-class"
-      id="character-class"
-      v-model="characterStore.characterClass"
-    >
-      <option value="amazon">Amazon</option>
-      <option value="assassin">Assassin</option>
-      <option value="necromancer">Necromancer</option>
-      <option value="barbarian">Barbarian</option>
-      <option value="paladin">Paladin</option>
-      <option value="sorceress">Sorceress</option>
-      <option value="druid">Druid</option>
-    </select>
+  <div class="app" @contextmenu.prevent>
+    <header>
+      <select
+        name="character-class"
+        id="character-class"
+        v-model="characterStore.characterClass"
+      >
+        <option value="amazon">Amazon</option>
+        <option value="assassin">Assassin</option>
+        <option value="necromancer">Necromancer</option>
+        <option value="barbarian">Barbarian</option>
+        <option value="paladin">Paladin</option>
+        <option value="sorceress">Sorceress</option>
+        <option value="druid">Druid</option>
+      </select>
 
-    <span>Level</span>
-    <input
-      id="character-level"
-      type="number"
-      min="1"
-      max="99"
-      v-model="characterStore.characterLevel"
-    />
-  </header>
+      <span>Level</span>
+      <input
+        id="character-level"
+        type="number"
+        min="1"
+        max="99"
+        v-model="characterStore.characterLevel"
+      />
+    </header>
 
-  <div>
-    <SkillTree></SkillTree>
+    <div>
+      <SkillTree></SkillTree>
+    </div>
   </div>
 </template>
 

@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, reactive, type CSSProperties } from "vue";
 import { useCharacterStore } from "../stores/characterStore";
-import type { CharacterClass } from "../types";
+import {
+  getSkillIconSrc,
+  skillTreeIcons,
+  type SkillTreeIcon,
+} from "../data/skillTree";
 
 const characterStore = useCharacterStore();
 
@@ -13,96 +17,57 @@ const skillTreeSrc = computed(
     ).href
 );
 
-interface SkillTreeIcon {
-  name: string;
-  tree: 0 | 1 | 2;
-  x: 0 | 1 | 2;
-  y: 0 | 1 | 2 | 3 | 4 | 5;
-}
-const skills: Record<CharacterClass, Array<SkillTreeIcon>> = {
-  amazon: [
-    // Javelin and Spear skills
-    { name: "Jab", tree: 0, x: 0, y: 0 },
-    { name: "Poison Javelin", tree: 0, x: 2, y: 0 },
-    { name: "Javelin and Spear Mastery", tree: 0, x: 0, y: 1 },
-    { name: "Power Strike", tree: 0, x: 1, y: 1 },
-    { name: "Lightning Bolt", tree: 0, x: 2, y: 2 },
-    { name: "Fend", tree: 0, x: 0, y: 3 },
-    { name: "Charged Strike", tree: 0, x: 1, y: 3 },
-    { name: "Plague Javelin", tree: 0, x: 2, y: 3 },
-    { name: "Lightning Strike", tree: 0, x: 1, y: 5 },
-    { name: "Lightning Fury", tree: 0, x: 2, y: 5 },
+// Use reactive to track the state changes
+const skillTreeItemsState = reactive<{ [key: string]: { points: number } }>(
+  Object.fromEntries(
+    skillTreeIcons[characterStore.characterClass].map((e) => [
+      e.name,
+      { points: 0 },
+    ])
+  )
+);
 
-    // Passive and Magic skills
-    { name: "Inner Sight", tree: 1, x: 0, y: 0 },
-    { name: "Critical Strike", tree: 1, x: 2, y: 0 },
-    { name: "Evade", tree: 1, x: 1, y: 1 },
-    { name: "Slow Movement", tree: 1, x: 0, y: 2 },
-    { name: "Pierce", tree: 1, x: 2, y: 2 },
-    { name: "Decoy", tree: 1, x: 0, y: 3 },
-    { name: "Dodge", tree: 1, x: 1, y: 3 },
-    { name: "Penetrate", tree: 1, x: 2, y: 4 },
-    { name: "Valkyrie", tree: 1, x: 0, y: 5 },
-
-    // Bow and Crossbow skills
-    { name: "Magic Arrow", tree: 2, x: 1, y: 0 },
-    { name: "Cold Arrow", tree: 2, x: 0, y: 1 },
-    { name: "Multiple Shot", tree: 2, x: 1, y: 1 },
-    { name: "Fire Arrow", tree: 2, x: 2, y: 1 },
-    { name: "Ice Arrow", tree: 2, x: 0, y: 2 },
-    { name: "Guided Arrow", tree: 2, x: 1, y: 3 },
-    { name: "Exploding Arrow", tree: 2, x: 2, y: 3 },
-    { name: "Strafe", tree: 2, x: 1, y: 4 },
-    { name: "Freezing Arrow", tree: 2, x: 0, y: 5 },
-    { name: "Immolation Arrow", tree: 2, x: 2, y: 5 },
-  ],
-
-  assassin: [],
-  necromancer: [],
-  barbarian: [],
-  paladin: [],
-  sorceress: [],
-  druid: [],
-};
-
-const getSkillIconSrc = (skill: SkillTreeIcon) => {
-  const treeDirectoryNames: Record<CharacterClass, [string, string, string]> = {
-    amazon: ["javelin-and-spear", "passive-and-magic", "bow-and-crossbow"],
-    assassin: ["martial-arts", "shadow-disciplines", "traps"],
-    barbarian: ["combat-masteries", "combat-skills", "warcries"],
-    druid: ["elemental", "shape-shifting", "summoning"],
-    necromancer: ["curses", "poison-and-bone", "summoning"],
-    paladin: ["combat", "defensive-auras", "offensive-auras"],
-    sorceress: ["cold", "fire", "lightning"],
-  };
-
-  const className = characterStore.characterClass;
-  const treeDir = treeDirectoryNames[className][skill.tree];
-  return new URL(
-    `../assets/skills/${className}/${treeDir}/${skill.name}.png`,
-    import.meta.url
-  ).href;
-};
-
-function skillPositionStyle(skill: SkillTreeIcon) {
+function skillStyle(skill: SkillTreeIcon): CSSProperties {
   const treeWidth = 231;
   const skillGapX = 69;
   const skillGapY = 68;
   const x = 14 + skill.tree * treeWidth + skill.x * skillGapX;
   const y = 16 + skill.y * skillGapY;
 
-  return { left: `${x}px`, top: `${y}px` };
+  const opacity = skillTreeItemsState[skill.name].points > 0 ? "100" : "0";
+
+  return { left: `${x}px`, top: `${y}px`, opacity };
+}
+
+function incrementSkill(name: string) {
+  const state = skillTreeItemsState[name];
+  if (state.points < 20) state.points++;
+}
+
+function decrementSkill(name: string) {
+  const state = skillTreeItemsState[name];
+  if (state.points > 0) state.points--;
+}
+
+function handleMouseDown(event: MouseEvent, skillName: string) {
+  if (event.button === 0) {
+    incrementSkill(skillName);
+  } else if (event.button === 2) {
+    decrementSkill(skillName);
+  }
 }
 </script>
 
 <template>
   <div class="skill-tree">
     <img class="skill-tree-image" :src="skillTreeSrc" />
+
     <img
-      v-for="skill in skills[characterStore.characterClass]"
+      v-for="skill in skillTreeIcons[characterStore.characterClass]"
       class="skill-icon"
-      :src="getSkillIconSrc(skill)"
-      :style="skillPositionStyle(skill)"
+      :src="getSkillIconSrc(characterStore.characterClass, skill)"
+      :style="skillStyle(skill)"
+      @mousedown="handleMouseDown($event, skill.name)"
     />
   </div>
 </template>
