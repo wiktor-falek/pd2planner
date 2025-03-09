@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import SkillTree from "./components/SkillTree.vue";
-import Attributes from "./components/Attributes.vue";
+// import Attributes from "./components/Attributes.vue";
 import { useCharacterStore } from "./stores/characterStore";
 import type { CharacterClass } from "./types";
 

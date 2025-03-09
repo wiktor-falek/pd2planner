@@ -44,7 +44,10 @@ const tooltipData = ref<(SkillDetails & { name: string }) | null>(null);
 
 function displayTooltip(skillName: string) {
   if (tooltipData.value?.name === skillName) return;
-  tooltipData.value = { name: skillName, ...skillDetails[skillName] };
+  tooltipData.value = {
+    name: skillName,
+    ...skillDetails[characterStore.characterClass][skillName],
+  };
 }
 
 function hideTooltip() {
@@ -53,15 +56,15 @@ function hideTooltip() {
 </script>
 
 <template>
-  <Teleport to="body">
-    <div v-if="tooltipData !== null" class="skill-tooltip">
+  <Teleport to="#app">
+    <div v-if="tooltipData !== null" class="skill-tooltip" @contextmenu.prevent>
       <p>
         <span class="green">{{ tooltipData.name + "\n" }}</span>
         {{ tooltipData.description + "\n" }}
         <span>Required Level: {{ tooltipData.levelRequirement }}</span>
       </p>
-      <p>{{ tooltipData.mechanics }}</p>
-      <div v-if="tooltipData.synergies">
+      <p v-if="tooltipData.mechanics.length > 0">{{ tooltipData.mechanics }}</p>
+      <div v-if="tooltipData.synergies.length > 0">
         <p class="green">{{ tooltipData.name }} Receives Bonuses From:</p>
         <p>{{ tooltipData.synergies }}</p>
       </div>
@@ -71,11 +74,19 @@ function hideTooltip() {
   <div class="skill-tree">
     <img class="skill-tree-image" :src="skillTreeSrc" />
 
-    <div v-for="skill in skillTreeIcons[characterStore.characterClass]" :key="skill.name" class="skill-icon-container"
-      :style="skillStyle(skill)">
-      <img class="skill-icon" :src="getSkillIconSrc(characterStore.characterClass, skill)"
-        @mousedown="handleMouseDown($event, skill.name)" @mouseenter="displayTooltip(skill.name)"
-        @mouseout="hideTooltip" />
+    <div
+      v-for="skill in skillTreeIcons[characterStore.characterClass]"
+      :key="skill.name"
+      class="skill-icon-container"
+      :style="skillStyle(skill)"
+    >
+      <img
+        class="skill-icon"
+        :src="getSkillIconSrc(characterStore.characterClass, skill)"
+        @mousedown="handleMouseDown($event, skill.name)"
+        @mouseenter="displayTooltip(skill.name)"
+        @mouseout="hideTooltip"
+      />
       <p class="skill-label">
         {{ characterStore.skillTreeState[skill.name].points }}
       </p>
@@ -125,6 +136,7 @@ function hideTooltip() {
   font-size: 14px;
   font-family: "ExocetHeavy";
   text-transform: uppercase;
+  z-index: 1000;
 }
 
 .skill-tooltip p {
