@@ -6,7 +6,7 @@ import {
   skillTreeIcons,
   type SkillTreeIcon,
 } from "../data/skillTrees";
-import { type SkillDetails, skillDetails } from "../data/skillDetails";
+import { skillDetails, type SkillDetails } from "../data/skillDetails";
 
 const characterStore = useCharacterStore();
 
@@ -18,18 +18,20 @@ const skillTreeSrc = computed(
     ).href
 );
 
-function skillStyle(skill: SkillTreeIcon): CSSProperties {
+function getSkillIconTreeLocation(skill: SkillTreeIcon): [number, number] {
   const treeWidth = 231;
   const skillGapX = 69;
   const skillGapY = 68;
   const x = 14 + skill.tree * treeWidth + skill.x * skillGapX;
   let y = 16 + skill.y * skillGapY;
-  if (skill.y >= 4) y += 1; // why are you like this ._.
+  if (skill.y >= 4) y += 1;
+  return [x, y];
+}
 
-  const opacity =
-    characterStore.skillTreeState[skill.name].points > 0 ? "100" : "0";
+function skillContainerStyle(skill: SkillTreeIcon): CSSProperties {
+  const [x, y] = getSkillIconTreeLocation(skill);
 
-  return { left: `${x}px`, top: `${y}px`, opacity };
+  return { left: `${x}px`, top: `${y}px`, pointerEvents: "all" };
 }
 
 function handleMouseDown(event: MouseEvent, skillName: string) {
@@ -40,56 +42,64 @@ function handleMouseDown(event: MouseEvent, skillName: string) {
   }
 }
 
-const tooltipData = ref<(SkillDetails & { name: string }) | null>(null);
+function handleMouseEnter(skillName: string) {
 
-function displayTooltip(skillName: string) {
-  if (tooltipData.value?.name === skillName) return;
-  tooltipData.value = {
-    name: skillName,
-    ...skillDetails[characterStore.characterClass][skillName],
-  };
+  const skillTreeIcon = skillTreeIcons[characterStore.characterClass].find(e => e.name === skillName);
+  if (skillTreeIcon === undefined) {
+    throw new Error("Shit hit the fan")
+  }
+
+  const [x, y] = getSkillIconTreeLocation(skillTreeIcon);
+
+  setSkillTooltip(skillName, x, y);
 }
 
-function hideTooltip() {
-  tooltipData.value = null;
+function handleMouseLeave() {
+  setSkillTooltip(null);
+}
+
+const skillTooltip = ref<(SkillDetails & { name: string, x: number, y: number }) | null>(null);
+
+function setSkillTooltip(skillName: string | null, x: number | null = null, y: number | null = null) {
+  if (skillName === null) {
+    skillTooltip.value = null;
+    return;
+  }
+
+  skillTooltip.value = { name: skillName, x: x ?? 0, y: y ?? 0, ...skillDetails[characterStore.characterClass][skillName] };
 }
 </script>
 
 <template>
-  <Teleport to="#app">
-    <div v-if="tooltipData !== null" class="skill-tooltip" @contextmenu.prevent>
-      <p>
-        <span class="green">{{ tooltipData.name + "\n" }}</span>
-        {{ tooltipData.description + "\n" }}
-        <span>Required Level: {{ tooltipData.levelRequirement }}</span>
-      </p>
-      <p v-if="tooltipData.mechanics.length > 0">{{ tooltipData.mechanics }}</p>
-      <div v-if="tooltipData.synergies.length > 0">
-        <p class="green">{{ tooltipData.name }} Receives Bonuses From:</p>
-        <p>{{ tooltipData.synergies }}</p>
-      </div>
-    </div>
-  </Teleport>
-
   <div class="skill-tree">
     <img class="skill-tree-image" :src="skillTreeSrc" />
 
-    <div
-      v-for="skill in skillTreeIcons[characterStore.characterClass]"
-      :key="skill.name"
-      class="skill-icon-container"
-      :style="skillStyle(skill)"
-    >
-      <img
-        class="skill-icon"
-        :src="getSkillIconSrc(characterStore.characterClass, skill)"
-        @mousedown="handleMouseDown($event, skill.name)"
-        @mouseenter="displayTooltip(skill.name)"
-        @mouseout="hideTooltip"
-      />
-      <p class="skill-label">
-        {{ characterStore.skillTreeState[skill.name].points }}
+    <div class="skill-tooltip" v-if="skillTooltip !== null">
+      <p>
+        <span class="green">{{ skillTooltip.name }}</span><br />
+        {{ skillDetails[characterStore.characterClass][skillTooltip.name].description }}<br />
+        <span>Required Level: {{ skillDetails[characterStore.characterClass][skillTooltip.name].levelRequirement
+          }}</span>
       </p>
+      <p v-if="skillDetails[characterStore.characterClass][skillTooltip.name].mechanics.length > 0">
+        {{ skillDetails[characterStore.characterClass][skillTooltip.name].mechanics }}
+      </p>
+      <div v-if="skillDetails[characterStore.characterClass][skillTooltip.name].synergies.length > 0">
+        <p class="green">{{ skillTooltip.name }} Receives Bonuses From:</p>
+        <p>{{ skillDetails[characterStore.characterClass][skillTooltip.name].synergies }}</p>
+      </div>
+    </div>
+
+    <div v-for="skill in skillTreeIcons[characterStore.characterClass]" :key="skill.name" class="skill-icon-container"
+      :style="skillContainerStyle(skill)">
+      <div :style="{ opacity: characterStore.skillTreeState[skill.name].points > 0 ? '100' : '0' }">
+        <img class="skill-icon" :src="getSkillIconSrc(characterStore.characterClass, skill)"
+          @mousedown="handleMouseDown($event, skill.name)" @mouseenter="handleMouseEnter(skill.name)"
+          @mouseleave="handleMouseLeave()" />
+        <p class="skill-label">
+          {{ characterStore.skillTreeState[skill.name].points }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -101,19 +111,23 @@ function hideTooltip() {
 
 .skill-icon-container {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .skill-icon {
   width: 48px;
   height: auto;
+  cursor: pointer;
 }
 
 .skill-label {
   position: absolute;
-  top: 30px;
-  left: 40px;
+  top: 41px;
+  left: 41px;
   color: rgb(225, 225, 225);
-  font-size: 12px;
+  font-size: 14px;
   width: 24px;
   height: 24px;
   text-align: center;
@@ -123,27 +137,24 @@ function hideTooltip() {
 }
 
 .skill-tooltip {
-  position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  left: 0;
-  top: 0;
+  gap: 16px;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: rgba(20, 20, 20, 0.85);
-  white-space: pre-line;
-  padding: 8px;
+  padding: 10px;
   text-align: center;
-  font-size: 14px;
-  font-family: "ExocetHeavy";
+  font-size: 12px;
   text-transform: uppercase;
   z-index: 1000;
+  white-space: preserve nowrap;
+  pointer-events: none;
 }
 
 .skill-tooltip p {
   margin: 0;
-}
-
-.green {
-  color: #42b842;
 }
 </style>

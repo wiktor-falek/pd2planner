@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import SkillTree from "./components/SkillTree.vue";
-// import Attributes from "./components/Attributes.vue";
+import Attributes from "./components/Attributes.vue";
 import { useCharacterStore } from "./stores/characterStore";
 import type { CharacterClass } from "./types";
+import { skillDetails } from "./data/skillDetails";
+import { attributeInfo } from "./data/attributes";
 
 const characterStore = useCharacterStore();
 
@@ -14,58 +16,98 @@ const selectedTab = ref<Tab>("skill-tree");
 <template>
   <div class="app" @contextmenu.prevent>
     <header>
-      <select
-        name="character-class"
-        id="character-class"
-        :value="characterStore.characterClass"
-        @change="
+      <div>
+        <label for="character-class">Class&nbsp;</label>
+        <select id="character-class" name="character-class" :value="characterStore.characterClass" @change="
           characterStore.setCharacterClass(
             ($event.target as HTMLSelectElement).value as CharacterClass
           )
-        "
-      >
-        <option value="amazon">Amazon</option>
-        <option value="assassin">Assassin</option>
-        <option value="necromancer">Necromancer</option>
-        <option value="barbarian">Barbarian</option>
-        <option value="paladin">Paladin</option>
-        <option value="sorceress">Sorceress</option>
-        <option value="druid">Druid</option>
-      </select>
-
-      <div>
-        <span>Level</span>
-        <input
-          id="character-level"
-          type="number"
-          min="1"
-          max="99"
-          :value="characterStore.characterLevel"
-          @change="
-            characterStore.setCharacterLevel(
-              parseInt(($event.target as HTMLInputElement).value)
-            )
-          "
-        />
+          ">
+          <option value="amazon">Amazon</option>
+          <option value="assassin">Assassin</option>
+          <option value="necromancer">Necromancer</option>
+          <option value="barbarian">Barbarian</option>
+          <option value="paladin">Paladin</option>
+          <option value="sorceress">Sorceress</option>
+          <option value="druid">Druid</option>
+        </select>
       </div>
 
-      <span>
-        <span
-          :class="{
+      <div>
+        <label for="character-level">Level&nbsp;</label>
+        <input id="character-level" type="number" min="1" max="99" :value="characterStore.characterLevel" @change="
+          characterStore.setCharacterLevel(
+            parseInt(($event.target as HTMLInputElement).value)
+          )
+          " />
+      </div>
+
+      <div>
+        <label for="skill-points">Skill Points:&nbsp;</label>
+        <span id="skill-points">
+          <span :class="{
             red:
-              characterStore.allocatedPointsCount >
-              characterStore.totalPointsCount,
-          }"
-          >{{ characterStore.allocatedPointsCount }}</span
-        >
-        <span>/</span>
-        <span>{{ characterStore.totalPointsCount }}</span>
-      </span>
+              characterStore.allocatedSkillPoints >
+              characterStore.totalSkillPoints,
+          }">{{ characterStore.allocatedSkillPoints }}</span>
+          <span>/</span>
+          <span>{{ characterStore.totalSkillPoints }}</span>
+        </span>
+      </div>
+
+
+      <div>
+        <label for="attribute-points">Attribute Points:&nbsp;</label>
+        <span id="attribute-points">
+          <span :class="{
+            red:
+              characterStore.allocatedAttributePoints >
+              characterStore.totalAttributePoints,
+          }">{{ characterStore.allocatedAttributePoints }}</span>
+          <span>/</span>
+          <span>{{ characterStore.totalAttributePoints }}</span>
+
+        </span>
+      </div>
     </header>
 
-    <div>
-      <SkillTree v-if="selectedTab === 'skill-tree'"></SkillTree>
-      <Attributes v-else-if="selectedTab === 'attributes'"></Attributes>
+    <div class="container">
+      <div class="stat-panel">
+        <p class="green">Chain Lightning</p>
+        <p>Damage: 1-3873</p>
+        <br>
+        <p>Life: 69</p>
+        <p>Mana: 69</p>
+        <br>
+        <p>Fire Res: 95 (75)</p>
+        <p>Cold Res: 86 (75)</p>
+        <p>Lightning Res: 86 (79)</p>
+        <p>Poison Res: 76 (75)</p>
+        <br>
+        <p>IAS: 0 (13)</p>
+        <p>FCR: 200 (11)</p>
+        <br>
+        <p>Defense: 3127</p>
+        <p>FHR: 83 (6)</p>
+        <p>Block: 0%</p>
+        <p>FBR: 0 (17)</p>
+        <br>
+
+
+        <p>FRW: 100 (60%)</p>
+        <p>MF: 200</p>
+      </div>
+
+      <div class="main">
+        <SkillTree v-if="selectedTab === 'skill-tree'"></SkillTree>
+        <Attributes v-else-if="selectedTab === 'attributes'"></Attributes>
+      </div>
+
+      <div class="navigation-panel">
+        <p>nav</p>
+        <button @click="selectedTab = 'skill-tree'">Skill Tree</button>
+        <button @click="selectedTab = 'attributes'">Attributes</button>
+      </div>
     </div>
   </div>
 </template>
@@ -73,14 +115,62 @@ const selectedTab = ref<Tab>("skill-tree");
 <style scoped>
 .app {
   user-select: none;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header {
   display: flex;
-  gap: 10px;
+  gap: 20px;
+  flex: 0 1 auto;
+  background-color: #282828;
+  justify-content: center;
+  width: 100%;
 }
 
-.red {
-  color: rgb(162, 58, 58);
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  position: relative;
+}
+
+.stat-panel,
+.navigation-panel {
+  background-color: rgb(33, 33, 33);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.stat-panel {
+  width: 240px;
+}
+
+.navigation-panel {
+  width: 180px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navigation-panel button {
+  width: auto;
+  text-align: center;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 0;
 }
 </style>

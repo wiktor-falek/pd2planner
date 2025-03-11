@@ -204,7 +204,7 @@ export const skillDetails: Record<
       description:
         "Magically enhances your arrows or bolts\nby adding cold damage and a slowing effect\nCold arrows only do half of their regular damage",
       levelRequirement: 1,
-      mechanics: "1/2 Weapon Damage\nCold Length: 1/0.4/0.2 second",
+      mechanics: "1/2 Weapon Damage\nCold Length: 1/0.4/0.2 seconds",
       synergies:
         "Magic Arrow: +17% Cold Damage per Level\nIce Arrow: +17% Cold Damage per Level",
       requires: ["Magic Arrow"],
@@ -213,7 +213,7 @@ export const skillDetails: Record<
       description: "Magically splits one arrow or bolt into many",
       levelRequirement: 6,
       mechanics:
-        "Arrows deal 20% reduced damage every time they pierce\nThe 3 middle arrows can trigger On Striking effects",
+        "Arrows deal 20% reduced damage every time they pierce\nOnly the 3 middle arrows can proc effects",
       synergies: "",
       requires: ["Magic Arrow"],
     },

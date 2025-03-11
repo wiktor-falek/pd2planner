@@ -14,18 +14,25 @@
 }
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: "ExocetHeavy";
+  text-transform: uppercase;
   line-height: 1.5;
   font-weight: 400;
+  font-size: 14px;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #1a1a1a;
+  background-color: #1d1d1d;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  margin: 0;
 }
 
 a {
@@ -43,5 +50,28 @@ body {
   max-width: 1920px;
 }
 
-#app {
+.red {
+  color: rgb(213, 70, 70);
+}
+
+.green {
+  color: #42b842;
+}
+
+button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 2px 16px;
+  background-color: #a7811a;
+  color: black;
+  border-radius: 4px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+button:hover {
+  background-color: #cc9e20;
 }

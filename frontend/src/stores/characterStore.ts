@@ -3,7 +3,14 @@ import { computed, ref } from "vue";
 import type { CharacterClass } from "../types";
 import { skillTreeIcons } from "../data/skillTrees";
 
-type SkillTreeState = { [key: string]: { points: number } };
+export type SkillTreeState = { [key: string]: { points: number } };
+export type Attributes = {
+  strength: number;
+  dexterity: number;
+  vitality: number;
+  energy: number;
+};
+export type Attribute = "strength" | "dexterity" | "vitality" | "energy";
 
 function getCharacterClass(): CharacterClass {
   return (localStorage.getItem("characterClass") as CharacterClass) ?? "amazon";
@@ -11,6 +18,21 @@ function getCharacterClass(): CharacterClass {
 
 function getCharacterLevel(): number {
   return parseInt((localStorage.getItem("characterLevel") as string) ?? 1);
+}
+
+function getCharacterAttributes(): Attributes {
+  const persisted = localStorage.getItem("characterAttributes");
+
+  if (persisted !== null) {
+    return JSON.parse(persisted);
+  }
+
+  return {
+    strength: 0,
+    dexterity: 0,
+    vitality: 0,
+    energy: 0,
+  };
 }
 
 function getDefaultSkillTreeState(
@@ -52,6 +74,16 @@ function calculateQuestSkillPoints(characterLevel: number) {
   return points;
 }
 
+function calculateQuestAttributePoints(characterLevel: number) {
+  let attributes = 0;
+
+  if (characterLevel >= 24) attributes += 5;
+  if (characterLevel >= 52) attributes += 5;
+  if (characterLevel >= 64) attributes += 5;
+
+  return attributes;
+}
+
 export const useCharacterStore = defineStore("character", () => {
   function resetSkillTreeState(characterClass: CharacterClass) {
     skillTreeState.value = getDefaultSkillTreeState(characterClass);
@@ -60,8 +92,9 @@ export const useCharacterStore = defineStore("character", () => {
 
   const characterClass = ref(getCharacterClass());
   const characterLevel = ref(getCharacterLevel());
+  const attributes = ref(getCharacterAttributes());
   const skillTreeState = ref(getSkillTreeState(characterClass.value));
-  const allocatedPointsCount = computed(() =>
+  const allocatedSkillPoints = computed(() =>
     Object.values(skillTreeState.value).reduce(
       (prev, curr) => prev + curr.points,
       0
@@ -70,8 +103,21 @@ export const useCharacterStore = defineStore("character", () => {
   const questSkillPointsCount = computed(() =>
     calculateQuestSkillPoints(characterLevel.value)
   );
-  const totalPointsCount = computed(
+  const totalSkillPoints = computed(
     () => questSkillPointsCount.value + characterLevel.value - 1
+  );
+  const questAttributePoints = computed(() =>
+    calculateQuestAttributePoints(characterLevel.value)
+  );
+  const totalAttributePoints = computed(
+    () => questAttributePoints.value + (characterLevel.value - 1) * 5
+  );
+  const allocatedAttributePoints = computed(
+    () =>
+      attributes.value.strength +
+      attributes.value.dexterity +
+      attributes.value.vitality +
+      attributes.value.energy
   );
 
   function setCharacterClass(newCharacterClass: CharacterClass) {
@@ -98,7 +144,7 @@ export const useCharacterStore = defineStore("character", () => {
 
     while (
       characterLevel.value < 99 &&
-      allocatedPointsCount.value > totalPointsCount.value
+      allocatedSkillPoints.value > totalSkillPoints.value
     ) {
       setCharacterLevel(characterLevel.value + 1);
     }
@@ -115,6 +161,30 @@ export const useCharacterStore = defineStore("character", () => {
     );
   }
 
+  function allocateAttribute(attribute: Attribute, amount: number) {
+    const unallocatedPoints =
+      totalAttributePoints.value - allocatedAttributePoints.value;
+    const actualAmount = Math.max(Math.min(amount, unallocatedPoints), 0);
+
+    attributes.value[attribute] += actualAmount;
+
+    localStorage.setItem(
+      "characterAttributes",
+      JSON.stringify(attributes.value)
+    );
+  }
+
+  function deallocateAttribute(attribute: Attribute, amount: number) {
+    attributes.value[attribute] = Math.max(
+      attributes.value[attribute] - amount,
+      0
+    );
+    localStorage.setItem(
+      "characterAttributes",
+      JSON.stringify(attributes.value)
+    );
+  }
+
   return {
     characterClass,
     setCharacterClass,
@@ -123,7 +193,12 @@ export const useCharacterStore = defineStore("character", () => {
     skillTreeState,
     incrementSkill,
     decrementSkill,
-    allocatedPointsCount,
-    totalPointsCount,
+    allocatedSkillPoints,
+    totalSkillPoints,
+    attributes,
+    allocatedAttributePoints,
+    totalAttributePoints,
+    allocateAttribute,
+    deallocateAttribute,
   };
 });
