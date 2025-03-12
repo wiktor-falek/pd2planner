@@ -17,11 +17,8 @@ function getDefaultSkillTreeState(characterClass: CharacterClass): SkillTreeStat
 export const useSkillStore = defineStore("skills", () => {
 	const characterStore = useCharacterStore();
 
-	const skillTreeState = ref(
-		loadFromStorage<SkillTreeState>(
-			"skillTreeState",
-			getDefaultSkillTreeState(characterStore.characterClass)
-		)
+	const skillTreeState = ref<SkillTreeState>(
+		loadFromStorage("skillTreeState", getDefaultSkillTreeState(characterStore.characterClass))
 	);
 
 	watch(

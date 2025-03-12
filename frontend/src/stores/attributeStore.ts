@@ -17,7 +17,7 @@ function getDefaultAttributes(): Attributes {
 export const useAttributeStore = defineStore("attributes", () => {
 	const characterStore = useCharacterStore();
 
-	const attributes = ref(loadFromStorage<Attributes>("attributes", getDefaultAttributes()));
+	const attributes = ref<Attributes>(loadFromStorage("attributes", getDefaultAttributes()));
 
 	const allocatedAttributePoints = computed(
 		() =>

@@ -4,8 +4,8 @@ import type { CharacterClass } from "../types";
 import { loadFromStorage, saveToStorage } from "../persistence";
 
 export const useCharacterStore = defineStore("character", () => {
-	const characterClass = ref(loadFromStorage<CharacterClass>("characterClass", "amazon"));
-	const characterLevel = ref(loadFromStorage<number>("characterLevel", 1));
+	const characterClass = ref<CharacterClass>(loadFromStorage("characterClass", "amazon"));
+	const characterLevel = ref<number>(loadFromStorage("characterLevel", 1));
 
 	watch(characterClass, (newClass) => saveToStorage("characterClass", newClass));
 	watch(characterLevel, (newLevel) => saveToStorage("characterLevel", newLevel));
