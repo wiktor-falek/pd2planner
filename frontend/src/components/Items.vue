@@ -13,18 +13,74 @@ const itemStore = useItemStore();
 				<p for="" class="label">Equipped Items:</p>
 				<div class="equipped-items">
 					<div class="equipped-item">
-						<label for="">Main hand:</label>
+						<label for="">Weapon 1:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
-					<div class="">
-						<label for="">Off hand:</label>
+					<div class="equipped-item">
+						<label for="">Weapon 2:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
 
-					<div class="">
+					<div class="equipped-item">
 						<label for="">Helmet:</label>
 						<select name="" id="" class="item-select">
-							<option value="">Shako</option>
+							<option value=""></option>
+						</select>
+					</div>
+
+
+					<div class="equipped-item">
+						<label for="">Chest:</label>
+						<select name="" id="" class="item-select">
+							<option value=""></option>
+						</select>
+					</div>
+
+
+					<div class="equipped-item">
+						<label for="">Gloves:</label>
+						<select name="" id="" class="item-select">
+							<option value=""></option>
+						</select>
+					</div>
+
+
+					<div class="equipped-item">
+						<label for="">Boots:</label>
+						<select name="" id="" class="item-select">
+							<option value=""></option>
+						</select>
+					</div>
+
+
+					<div class="equipped-item">
+						<label for="">Amulet:</label>
+						<select name="" id="" class="item-select">
+							<option value=""></option>
+						</select>
+					</div>
+
+
+					<div class="equipped-item">
+						<label for="">Ring 1:</label>
+						<select name="" id="" class="item-select">
+							<option value=""></option>
+						</select>
+					</div>
+
+
+					<div class="equipped-item">
+						<label for="">Ring 2:</label>
+						<select name="" id="" class="item-select">
+							<option value=""></option>
+						</select>
+					</div>
+
+
+					<div class="equipped-item">
+						<label for="">Belt:</label>
+						<select name="" id="" class="item-select">
+							<option value=""></option>
 						</select>
 					</div>
 				</div>
@@ -34,33 +90,33 @@ const itemStore = useItemStore();
 
 				<div class="equipped-items--mercenary">
 					<div class="equipped-item">
-						<label for="">Main hand:</label>
+						<label for="">Weapon 1:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
-					<div class="">
-						<label for="">Off hand:</label>
+					<div class="equipped-item">
+						<label for="">Weapon 2:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
 
-					<div class="">
+					<div class="equipped-item">
 						<label for="">Helmet:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
 						</select>
 					</div>
-					<div class="">
+					<div class="equipped-item">
 						<label for="">Chest:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
 						</select>
 					</div>
-					<div class="">
+					<div class="equipped-item">
 						<label for="">Gloves:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
 						</select>
 					</div>
-					<div class="">
+					<div class="equipped-item">
 						<label for="">Boots:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -142,21 +198,33 @@ const itemStore = useItemStore();
 	gap: 16px;
 }
 
+.equipped-items,
+.equipped-items--mercenary {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	border: 1px solid gray;
+}
+
 .equipped-items {
 	width: 320px;
 	height: 460px;
-	border: 1px solid gray;
 }
 
 .equipped-items--mercenary {
 	width: 320px;
 	height: 240px;
-	border: 1px solid gray;
 }
 
-.equipped-item {}
+.item-select {
+	width: 226px;
+	margin-left: 4px;
+}
 
-.item-select {}
+.equipped-item {
+	margin-left: auto;
+}
+
 
 .selected-item {
 	width: 320px;
