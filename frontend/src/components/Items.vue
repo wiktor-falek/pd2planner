@@ -67,18 +67,18 @@ const selectedItem = ref<Item | null>(null);
 <style scoped>
 .items {
 	display: flex;
-	gap: 24px;
+	gap: 16px;
 }
 
 .container {
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
+	gap: 16px;
 }
 
 .equipped-items {
 	width: 380px;
-	height: 480px;
+	height: 460px;
 	border: 1px solid gray;
 }
 
@@ -90,13 +90,13 @@ const selectedItem = ref<Item | null>(null);
 
 .all-items {
 	width: 380px;
-	height: 480px;
+	height: 460px;
 	border: 1px solid gray;
 }
 
 .unique-and-set-item-list {
 	border: 1px solid gray;
-	height: 300px;
+	height: 240px;
 }
 
 .search {

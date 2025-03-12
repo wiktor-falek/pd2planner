@@ -39,7 +39,7 @@ export const useAttributeStore = defineStore("attributes", () => {
 		Math.max(totalAttributePoints.value - allocatedAttributePoints.value, 0)
 	);
 
-	watch(attributes, (newAttributes) => saveToStorage("attributes", newAttributes));
+	watch(attributes, (newAttributes) => saveToStorage("attributes", newAttributes), { deep: true });
 
 	function allocateAttribute(attribute: Attribute, amount: number) {
 		const actualAmount = Math.max(Math.min(amount, unallocatedAttributePoints.value), 0);

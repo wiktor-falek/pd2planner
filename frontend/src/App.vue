@@ -21,16 +21,11 @@ const selectedTab = ref<Tab>("skill-tree");
 		<header>
 			<div>
 				<label for="character-class">Class&nbsp;</label>
-				<select
-					id="character-class"
-					name="character-class"
-					:value="characterStore.characterClass"
-					@change="
-						characterStore.setCharacterClass(
-							($event.target as HTMLSelectElement).value as CharacterClass
-						)
-					"
-				>
+				<select id="character-class" name="character-class" :value="characterStore.characterClass" @change="
+					characterStore.setCharacterClass(
+						($event.target as HTMLSelectElement).value as CharacterClass
+					)
+					">
 					<option value="amazon">Amazon</option>
 					<option value="assassin">Assassin</option>
 					<option value="necromancer">Necromancer</option>
@@ -43,27 +38,18 @@ const selectedTab = ref<Tab>("skill-tree");
 
 			<div>
 				<label for="character-level">Level&nbsp;</label>
-				<input
-					id="character-level"
-					type="number"
-					min="1"
-					max="99"
-					:value="characterStore.characterLevel"
+				<input id="character-level" type="number" min="1" max="99" :value="characterStore.characterLevel"
 					@change="
 						characterStore.setCharacterLevel(parseInt(($event.target as HTMLInputElement).value))
-					"
-				/>
+						" />
 			</div>
 
 			<div>
 				<label for="skill-points">Skill Points:&nbsp;</label>
 				<span id="skill-points">
-					<span
-						:class="{
-							red: skillStore.allocatedSkillPoints > skillStore.totalSkillPoints,
-						}"
-						>{{ skillStore.allocatedSkillPoints }}</span
-					>
+					<span :class="{
+						red: skillStore.allocatedSkillPoints > skillStore.totalSkillPoints,
+					}">{{ skillStore.allocatedSkillPoints }}</span>
 					<span>/</span>
 					<span>{{ skillStore.totalSkillPoints }}</span>
 				</span>
@@ -72,12 +58,9 @@ const selectedTab = ref<Tab>("skill-tree");
 			<div>
 				<label for="attribute-points">Attribute Points:&nbsp;</label>
 				<span id="attribute-points">
-					<span
-						:class="{
-							red: attributeStore.allocatedAttributePoints > attributeStore.totalAttributePoints,
-						}"
-						>{{ attributeStore.allocatedAttributePoints }}</span
-					>
+					<span :class="{
+						red: attributeStore.allocatedAttributePoints > attributeStore.totalAttributePoints,
+					}">{{ attributeStore.allocatedAttributePoints }}</span>
 					<span>/</span>
 					<span>{{ attributeStore.totalAttributePoints }}</span>
 				</span>

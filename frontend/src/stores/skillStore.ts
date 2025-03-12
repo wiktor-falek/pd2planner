@@ -46,10 +46,9 @@ export const useSkillStore = defineStore("skills", () => {
 		() => questSkillPoints.value + characterStore.characterLevel - 1
 	);
 
-	function incrementSkill(name: string) {
-		const state = skillTreeState.value[name];
-		if (state.points >= 20) return;
-		state.points++;
+	function allocateSkill(name: string, amount: number) {
+		const skill = skillTreeState.value[name];
+		skill.points = Math.min(skill.points + amount, 20);
 
 		while (
 			characterStore.characterLevel < 99 &&
@@ -59,10 +58,9 @@ export const useSkillStore = defineStore("skills", () => {
 		}
 	}
 
-	function decrementSkill(name: string) {
-		const state = skillTreeState.value[name];
-		if (state.points <= 0) return;
-		state.points--;
+	function deallocateSkill(name: string, amount: number) {
+		const skill = skillTreeState.value[name];
+		skill.points = Math.max(skill.points - amount, 0);
 	}
 
 	return {
@@ -70,7 +68,7 @@ export const useSkillStore = defineStore("skills", () => {
 		allocatedSkillPoints,
 		unallocatedSkillPoints,
 		totalSkillPoints,
-		incrementSkill,
-		decrementSkill,
+		allocateSkill,
+		deallocateSkill,
 	};
 });
