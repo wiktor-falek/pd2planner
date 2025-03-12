@@ -58,9 +58,11 @@ function removeSelectedItemFromList() {
 				<p for="" class="label">All Items:</p>
 				<div class="all-items">
 					<div class="item-listing" v-for="item in allItems.values()" @click="selectItem(item)">
-						<p :class="{
-							[item.rarity]: true,
-						}">
+						<p
+							:class="{
+								[item.rarity]: true,
+							}"
+						>
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
@@ -69,10 +71,16 @@ function removeSelectedItemFromList() {
 			<div>
 				<input class="search" type="text" placeholder="Search" />
 				<div class="unique-and-set-item-list">
-					<div class="item-listing" v-for="item in Object.values(uniques.helmets)" @click="selectItem(item)">
-						<p :class="{
-							[item.rarity]: true,
-						}">
+					<div
+						class="item-listing"
+						v-for="item in Object.values(uniques.helmets)"
+						@click="selectItem(item)"
+					>
+						<p
+							:class="{
+								[item.rarity]: true,
+							}"
+						>
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
@@ -91,10 +99,16 @@ function removeSelectedItemFromList() {
 			</div>
 			<div class="selected-item">
 				<div class="" v-if="selectedItem">
-					<p>{{ selectedItem.name }}</p>
+					<p :class="{ [selectedItem.rarity]: true }">{{ selectedItem.name }}</p>
+					<p :class="{ [selectedItem.rarity]: true }">{{ selectedItem.baseName }}</p>
+					<br />
+					<p v-if="selectedItem.defense">
+						Defense: {{ selectedItem.defense[0] }} - {{ selectedItem.defense[1] }}
+					</p>
+					<br />
+					<p class="magic" v-for="item in selectedItem.modifiers">{{ item.description }}</p>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -117,9 +131,11 @@ function removeSelectedItemFromList() {
 	border: 1px solid gray;
 }
 
-.equipped-item {}
+.equipped-item {
+}
 
-.item-select {}
+.item-select {
+}
 
 .selected-item {
 	width: 320px;
