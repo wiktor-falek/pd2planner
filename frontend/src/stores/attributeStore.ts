@@ -3,14 +3,7 @@ import { useCharacterStore } from "./characterStore";
 import { computed, ref, watch } from "vue";
 import { loadFromStorage, saveToStorage } from "../persistence";
 import { calculateQuestAttributePoints } from "../calculations";
-
-export type Attributes = {
-	strength: number;
-	dexterity: number;
-	vitality: number;
-	energy: number;
-};
-export type Attribute = "strength" | "dexterity" | "vitality" | "energy";
+import type { Attribute, Attributes } from "../types";
 
 function getDefaultAttributes(): Attributes {
 	return {

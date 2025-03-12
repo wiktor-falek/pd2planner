@@ -52,11 +52,28 @@ body {
 }
 
 .green {
-	color: #42b842;
+	color: #3ead3e;
 }
 
 .gray {
 	color: rgb(180, 180, 180);
+}
+
+.normal {
+	color: rgb(233, 233, 233);
+}
+
+.magic {
+	color: rgb(70, 70, 211);
+}
+.rare {
+	color: rgb(196, 196, 24);
+}
+.set {
+	color: #3ead3e;
+}
+.unique {
+	color: rgb(196, 89, 27);
 }
 
 button {
