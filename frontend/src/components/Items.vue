@@ -17,7 +17,7 @@ function addSelectedItemToList() {
 
 	const clone = structuredClone(toRaw(selectedItem.value));
 	allItems.value.add(clone);
-	selectedItem.value = null;
+	selectedItem.value = clone;
 }
 
 const selectedItemInList = computed(() => {
@@ -58,11 +58,9 @@ function removeSelectedItemFromList() {
 				<p for="" class="label">All Items:</p>
 				<div class="all-items">
 					<div class="item-listing" v-for="item in allItems.values()" @click="selectItem(item)">
-						<p
-							:class="{
-								[item.rarity]: true,
-							}"
-						>
+						<p :class="{
+							[item.rarity]: true,
+						}">
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
@@ -71,16 +69,10 @@ function removeSelectedItemFromList() {
 			<div>
 				<input class="search" type="text" placeholder="Search" />
 				<div class="unique-and-set-item-list">
-					<div
-						class="item-listing"
-						v-for="item in Object.values(uniques.helmets)"
-						@click="selectItem(item)"
-					>
-						<p
-							:class="{
-								[item.rarity]: true,
-							}"
-						>
+					<div class="item-listing" v-for="item in Object.values(uniques.helmets)" @click="selectItem(item)">
+						<p :class="{
+							[item.rarity]: true,
+						}">
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
@@ -131,11 +123,9 @@ function removeSelectedItemFromList() {
 	border: 1px solid gray;
 }
 
-.equipped-item {
-}
+.equipped-item {}
 
-.item-select {
-}
+.item-select {}
 
 .selected-item {
 	width: 320px;

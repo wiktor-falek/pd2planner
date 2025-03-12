@@ -12,8 +12,8 @@ const characterStore = useCharacterStore();
 const attributeStore = useAttributeStore();
 const skillStore = useSkillStore();
 
-type Tab = "skill-tree" | "attributes" | "items";
-const selectedTab = ref<Tab>("skill-tree");
+type Tab = "items" | "skill-tree" | "attributes";
+const selectedTab = ref<Tab>("items");
 </script>
 
 <template>
@@ -93,15 +93,15 @@ const selectedTab = ref<Tab>("skill-tree");
 			</div>
 
 			<div class="main">
-				<SkillTree v-if="selectedTab === 'skill-tree'"></SkillTree>
+				<Items v-if="selectedTab === 'items'"></Items>
+				<SkillTree v-else-if="selectedTab === 'skill-tree'"></SkillTree>
 				<Attributes v-else-if="selectedTab === 'attributes'"></Attributes>
-				<Items v-else-if="selectedTab === 'items'"></Items>
 			</div>
 
 			<div class="navigation-panel">
+				<button @click="selectedTab = 'items'">Items</button>
 				<button @click="selectedTab = 'skill-tree'">Skill Tree</button>
 				<button @click="selectedTab = 'attributes'">Attributes</button>
-				<button @click="selectedTab = 'items'">Items</button>
 			</div>
 		</div>
 	</div>
