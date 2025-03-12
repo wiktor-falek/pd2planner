@@ -5,6 +5,8 @@ import { uniques, type Item } from "../data/items";
 // const itemStore = useItemStore();
 
 const allItems = ref<Item[]>([uniques.helmets["Harlequin Crest"]]);
+
+const selectedItem = ref<Item | null>(null);
 </script>
 
 <template>
