@@ -1,18 +1,40 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref, toRaw } from "vue";
 import { uniques, type Item } from "../data/items";
 
 // const itemStore = useItemStore();
 
-const allItems = ref<Item[]>([uniques.helmets["Harlequin Crest"]]);
+const allItems = ref<Set<Item>>(new Set());
 
 const selectedItem = ref<Item | null>(null);
+
+function selectItem(item: Item) {
+	selectedItem.value = item;
+}
+
+function addSelectedItemToList() {
+	if (selectedItem.value === null) return;
+
+	const clone = structuredClone(toRaw(selectedItem.value));
+	allItems.value.add(clone);
+	selectedItem.value = null;
+}
+
+const selectedItemInList = computed(() => {
+	if (selectedItem.value === null) return false;
+	return allItems.value.has(selectedItem.value);
+});
+
+function removeSelectedItemFromList() {
+	if (selectedItem.value === null) return false;
+	allItems.value.delete(selectedItem.value);
+}
 </script>
 
 <template>
 	<div class="items">
-		<div class="">
-			<label for="">Equipped Items:</label>
+		<div class="left">
+			<p for="" class="label">Equipped Items:</p>
 			<div class="equipped-items">
 				<div class="equipped-item">
 					<label for="">Main hand:</label>
@@ -31,16 +53,14 @@ const selectedItem = ref<Item | null>(null);
 				</div>
 			</div>
 		</div>
-		<div class="container">
+		<div class="middle">
 			<div>
-				<label for="">All Items:</label>
+				<p for="" class="label">All Items:</p>
 				<div class="all-items">
-					<div class="item-listing" v-for="item in allItems">
-						<p
-							:class="{
-								[item.rarity]: true,
-							}"
-						>
+					<div class="item-listing" v-for="item in allItems.values()" @click="selectItem(item)">
+						<p :class="{
+							[item.rarity]: true,
+						}">
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
@@ -49,17 +69,32 @@ const selectedItem = ref<Item | null>(null);
 			<div>
 				<input class="search" type="text" placeholder="Search" />
 				<div class="unique-and-set-item-list">
-					<div class="item-listing" v-for="item in Object.values(uniques.helmets)">
-						<p
-							:class="{
-								[item.rarity]: true,
-							}"
-						>
+					<div class="item-listing" v-for="item in Object.values(uniques.helmets)" @click="selectItem(item)">
+						<p :class="{
+							[item.rarity]: true,
+						}">
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="right">
+			<div class="idk" v-if="selectedItem">
+				<button v-if="selectedItemInList" @click="removeSelectedItemFromList()">Remove</button>
+				<button v-else @click="addSelectedItemToList()">Add to build</button>
+				<button @click="selectedItem = null">Cancel</button>
+			</div>
+			<div class="idk" v-else>
+				<button>Craft Item</button>
+			</div>
+			<div class="selected-item">
+				<div class="" v-if="selectedItem">
+					<p>{{ selectedItem.name }}</p>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -70,22 +105,26 @@ const selectedItem = ref<Item | null>(null);
 	gap: 16px;
 }
 
-.container {
+.middle {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
 }
 
 .equipped-items {
-	width: 380px;
+	width: 320px;
 	height: 460px;
 	border: 1px solid gray;
 }
 
-.equipped-item {
-}
+.equipped-item {}
 
-.item-select {
+.item-select {}
+
+.selected-item {
+	width: 320px;
+	height: 460px;
+	border: 1px solid gray;
 }
 
 .all-items {
@@ -111,5 +150,23 @@ const selectedItem = ref<Item | null>(null);
 
 .item-listing:hover {
 	border-color: white;
+}
+
+.idk {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 4px;
+}
+
+button {
+	background-color: transparent;
+	color: white;
+	border: 1px solid gray;
+	font-size: 12px;
+	padding: 2px 8px;
+}
+
+.label {
+	padding-bottom: 7px;
 }
 </style>

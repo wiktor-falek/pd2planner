@@ -58,4 +58,4 @@ const NightwingsVeil: Item = {
 
 export const uniques = {
 	helmets: { "Harlequin Crest": HarlequinCrest, "Nightwing's Veil": NightwingsVeil },
-};
+} as const;
