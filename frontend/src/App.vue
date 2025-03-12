@@ -4,10 +4,12 @@ import SkillTree from "./components/SkillTree.vue";
 import Attributes from "./components/Attributes.vue";
 import { useCharacterStore } from "./stores/characterStore";
 import type { CharacterClass } from "./types";
-import { skillDetails } from "./data/skillDetails";
-import { attributeInfo } from "./data/attributes";
+import { useSkillStore } from "./stores/skillStore";
+import { useAttributeStore } from "./stores/attributeStore";
 
 const characterStore = useCharacterStore();
+const attributeStore = useAttributeStore();
+const skillStore = useSkillStore();
 
 type Tab = "skill-tree" | "attributes";
 const selectedTab = ref<Tab>("skill-tree");
@@ -47,11 +49,11 @@ const selectedTab = ref<Tab>("skill-tree");
         <span id="skill-points">
           <span :class="{
             red:
-              characterStore.allocatedSkillPoints >
-              characterStore.totalSkillPoints,
-          }">{{ characterStore.allocatedSkillPoints }}</span>
+              skillStore.allocatedSkillPoints >
+              skillStore.totalSkillPoints,
+          }">{{ skillStore.allocatedSkillPoints }}</span>
           <span>/</span>
-          <span>{{ characterStore.totalSkillPoints }}</span>
+          <span>{{ skillStore.totalSkillPoints }}</span>
         </span>
       </div>
 
@@ -61,11 +63,11 @@ const selectedTab = ref<Tab>("skill-tree");
         <span id="attribute-points">
           <span :class="{
             red:
-              characterStore.allocatedAttributePoints >
-              characterStore.totalAttributePoints,
-          }">{{ characterStore.allocatedAttributePoints }}</span>
+              attributeStore.allocatedAttributePoints >
+              attributeStore.totalAttributePoints,
+          }">{{ attributeStore.allocatedAttributePoints }}</span>
           <span>/</span>
-          <span>{{ characterStore.totalAttributePoints }}</span>
+          <span>{{ attributeStore.totalAttributePoints }}</span>
 
         </span>
       </div>
@@ -92,8 +94,6 @@ const selectedTab = ref<Tab>("skill-tree");
         <p>Block: 0%</p>
         <p>FBR: 0 (17)</p>
         <br>
-
-
         <p>FRW: 100 (60%)</p>
         <p>MF: 200</p>
       </div>
@@ -104,7 +104,6 @@ const selectedTab = ref<Tab>("skill-tree");
       </div>
 
       <div class="navigation-panel">
-        <p>nav</p>
         <button @click="selectedTab = 'skill-tree'">Skill Tree</button>
         <button @click="selectedTab = 'attributes'">Attributes</button>
       </div>

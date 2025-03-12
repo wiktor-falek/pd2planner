@@ -1,77 +1,78 @@
 @font-face {
-  font-family: "ExocetHeavy";
-  src: url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.eot");
-  src: url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.eot?#iefix")
-      format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.woff2")
-      format("woff2"),
-    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.woff")
-      format("woff"),
-    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.ttf")
-      format("truetype"),
-    url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.svg#ExocetHeavy")
-      format("svg");
+	font-family: "ExocetHeavy";
+	src: url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.eot");
+	src: url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.eot?#iefix")
+			format("embedded-opentype"),
+		url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.woff2") format("woff2"),
+		url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.woff") format("woff"),
+		url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.ttf") format("truetype"),
+		url("https://db.onlinewebfonts.com/t/4c4ffeb3108490ecc59eb6b0108cb6d6.svg#ExocetHeavy")
+			format("svg");
 }
 
 :root {
-  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
-  font-family: "ExocetHeavy";
-  text-transform: uppercase;
-  line-height: 1.5;
-  font-weight: 400;
-  font-size: 14px;
+	/* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
+	font-family: "ExocetHeavy";
+	text-transform: uppercase;
+	line-height: 1.5;
+	font-weight: 400;
+	font-size: 14px;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #1d1d1d;
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #1d1d1d;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 p {
-  margin: 0;
+	margin: 0;
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+	font-weight: 500;
+	color: #646cff;
+	text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+	color: #535bf2;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  max-width: 1920px;
+	margin: 0;
+	padding: 0;
+	max-width: 1920px;
 }
 
 .red {
-  color: rgb(213, 70, 70);
+	color: rgb(213, 70, 70);
 }
 
 .green {
-  color: #42b842;
+	color: #42b842;
+}
+
+.gray {
+	color: rgb(180, 180, 180);
 }
 
 button {
-  all: unset;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 2px 16px;
-  background-color: #a7811a;
-  color: black;
-  border-radius: 4px;
-  cursor: pointer;
-  width: fit-content;
+	all: unset;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 2px 16px;
+	background-color: #a7811a;
+	color: black;
+	border-radius: 4px;
+	cursor: pointer;
+	width: fit-content;
 }
 
 button:hover {
-  background-color: #cc9e20;
+	background-color: #cc9e20;
 }

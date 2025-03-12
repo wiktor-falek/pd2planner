@@ -7,8 +7,10 @@ import {
   type SkillTreeIcon,
 } from "../data/skillTrees";
 import { skillDetails, type SkillDetails } from "../data/skillDetails";
+import { useSkillStore } from "../stores/skillStore";
 
 const characterStore = useCharacterStore();
+const skillStore = useSkillStore();
 
 const skillTreeSrc = computed(
   () =>
@@ -34,30 +36,6 @@ function skillContainerStyle(skill: SkillTreeIcon): CSSProperties {
   return { left: `${x}px`, top: `${y}px`, pointerEvents: "all" };
 }
 
-function handleMouseDown(event: MouseEvent, skillName: string) {
-  if (event.button === 0) {
-    characterStore.incrementSkill(skillName);
-  } else if (event.button === 2) {
-    characterStore.decrementSkill(skillName);
-  }
-}
-
-function handleMouseEnter(skillName: string) {
-
-  const skillTreeIcon = skillTreeIcons[characterStore.characterClass].find(e => e.name === skillName);
-  if (skillTreeIcon === undefined) {
-    throw new Error("Shit hit the fan")
-  }
-
-  const [x, y] = getSkillIconTreeLocation(skillTreeIcon);
-
-  setSkillTooltip(skillName, x, y);
-}
-
-function handleMouseLeave() {
-  setSkillTooltip(null);
-}
-
 const skillTooltip = ref<(SkillDetails & { name: string, x: number, y: number }) | null>(null);
 
 function setSkillTooltip(skillName: string | null, x: number | null = null, y: number | null = null) {
@@ -68,39 +46,81 @@ function setSkillTooltip(skillName: string | null, x: number | null = null, y: n
 
   skillTooltip.value = { name: skillName, x: x ?? 0, y: y ?? 0, ...skillDetails[characterStore.characterClass][skillName] };
 }
+
+const skillTooltipData = computed(() => {
+  if (!skillTooltip.value) return null;
+
+  const skillInfo = skillDetails[characterStore.characterClass]?.[skillTooltip.value.name];
+  if (!skillInfo) return null;
+
+  return {
+    name: skillTooltip.value.name,
+    description: skillInfo.description,
+    levelRequirement: skillInfo.levelRequirement,
+    mechanics: skillInfo.mechanics,
+    synergies: skillInfo.synergies,
+  };
+});
+
+function handleMouseDown(event: MouseEvent, skillName: string) {
+  if (event.button === 0) {
+    skillStore.incrementSkill(skillName);
+  } else if (event.button === 2) {
+    skillStore.decrementSkill(skillName);
+  }
+}
+
+function handleMouseEnter(skillName: string) {
+  const skillTreeIcon = skillTreeIcons[characterStore.characterClass].find(e => e.name === skillName);
+  if (skillTreeIcon === undefined) {
+    throw new Error("Shit hit the fan")
+  }
+
+  const [x, y] = getSkillIconTreeLocation(skillTreeIcon);
+  setSkillTooltip(skillName, x, y);
+}
+
+function handleMouseLeave() {
+  setSkillTooltip(null);
+}
+
+const getSkillPoints = (skillName: string) => skillStore.skillTreeState[skillName]?.points ?? 0;
 </script>
 
 <template>
   <div class="skill-tree">
     <img class="skill-tree-image" :src="skillTreeSrc" />
 
-    <div class="skill-tooltip" v-if="skillTooltip !== null">
+    <div class="skill-tooltip" v-if="skillTooltipData != null">
+      <!-- TODO: optimize -->
       <p>
-        <span class="green">{{ skillTooltip.name }}</span><br />
-        {{ skillDetails[characterStore.characterClass][skillTooltip.name].description }}<br />
-        <span>Required Level: {{ skillDetails[characterStore.characterClass][skillTooltip.name].levelRequirement
-          }}</span>
+        <span class="green">{{ skillTooltipData.name }}</span><br />
+        {{ skillDetails[characterStore.characterClass][skillTooltipData.name].description }}<br />
+        <span>Required Level: {{ skillDetails[characterStore.characterClass][skillTooltipData.name].levelRequirement
+        }}</span>
       </p>
-      <p v-if="skillDetails[characterStore.characterClass][skillTooltip.name].mechanics.length > 0">
-        {{ skillDetails[characterStore.characterClass][skillTooltip.name].mechanics }}
+      <p v-if="skillDetails[characterStore.characterClass][skillTooltipData.name].mechanics.length > 0">
+        {{ skillDetails[characterStore.characterClass][skillTooltipData.name].mechanics }}
       </p>
-      <div v-if="skillDetails[characterStore.characterClass][skillTooltip.name].synergies.length > 0">
-        <p class="green">{{ skillTooltip.name }} Receives Bonuses From:</p>
-        <p>{{ skillDetails[characterStore.characterClass][skillTooltip.name].synergies }}</p>
+      <div v-if="skillDetails[characterStore.characterClass][skillTooltipData.name].synergies.length > 0">
+        <p class="green">{{ skillTooltipData.name }} Receives Bonuses From:</p>
+        <p>{{ skillDetails[characterStore.characterClass][skillTooltipData.name].synergies }}</p>
       </div>
     </div>
 
     <div v-for="skill in skillTreeIcons[characterStore.characterClass]" :key="skill.name" class="skill-icon-container"
       :style="skillContainerStyle(skill)">
-      <div :style="{ opacity: characterStore.skillTreeState[skill.name].points > 0 ? '100' : '0' }">
+      <div :style="{ opacity: getSkillPoints(skill.name) > 0 ? '100' : '0' }">
         <img class="skill-icon" :src="getSkillIconSrc(characterStore.characterClass, skill)"
           @mousedown="handleMouseDown($event, skill.name)" @mouseenter="handleMouseEnter(skill.name)"
           @mouseleave="handleMouseLeave()" />
         <p class="skill-label">
-          {{ characterStore.skillTreeState[skill.name].points }}
+          {{ getSkillPoints(skill.name) }}
         </p>
       </div>
     </div>
+
+    <p class="gray">Remaining: {{ skillStore.unallocatedSkillPoints }}</p>
   </div>
 </template>
 
