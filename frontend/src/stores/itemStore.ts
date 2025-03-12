@@ -32,6 +32,7 @@ export const useItemStore = defineStore("items", () => {
 	function removeSelectedItemFromBuild() {
 		if (selectedItem.value === null) return false;
 		items.value.delete(selectedItem.value);
+		// selectItem(null);
 	}
 
 	return {

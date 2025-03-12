@@ -164,8 +164,8 @@ const itemStore = useItemStore();
 			<div class="idk" v-else>
 				<button>Craft Item</button>
 			</div>
-			<div class="selected-item">
-				<div class="" v-if="itemStore.selectedItem">
+			<div class="thingy">
+				<div class="selected-item" v-if="itemStore.selectedItem">
 					<p :class="{ [itemStore.selectedItem.rarity]: true }">{{ itemStore.selectedItem.name }}</p>
 					<p :class="{ [itemStore.selectedItem.rarity]: true }">{{ itemStore.selectedItem.baseName }}</p>
 					<br />
@@ -184,6 +184,7 @@ const itemStore = useItemStore();
 .items {
 	display: flex;
 	gap: 16px;
+	margin-left: 60px;
 }
 
 .left {
@@ -203,7 +204,7 @@ const itemStore = useItemStore();
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	border: 1px solid gray;
+	/* border: 1px solid gray; */
 }
 
 .equipped-items {
@@ -226,9 +227,12 @@ const itemStore = useItemStore();
 }
 
 
+.thingy {
+	width: 360px;
+}
+
 .selected-item {
-	width: 320px;
-	height: 460px;
+	padding: 4px;
 	border: 1px solid gray;
 }
 

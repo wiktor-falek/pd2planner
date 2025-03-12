@@ -123,6 +123,7 @@ header {
 	background-color: #282828;
 	justify-content: center;
 	width: 100%;
+	padding: 2px 0;
 }
 
 .container {
