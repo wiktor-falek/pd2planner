@@ -64,16 +64,28 @@ body {
 }
 
 .magic {
-	color: rgb(83, 83, 230);
+	color: rgb(108, 108, 245);
 }
+
 .rare {
 	color: rgb(196, 196, 24);
 }
+
 .set {
 	color: #3ead3e;
 }
+
 .unique {
-	color: rgb(196, 89, 27);
+	/* color: rgb(227, 108, 39); */
+	color: #dbbd98;
+}
+
+.corrupted {
+	color: #e44f29;
+}
+
+.ethereal {
+	color: rgb(158, 154, 154);
 }
 
 button {

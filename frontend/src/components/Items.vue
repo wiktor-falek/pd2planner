@@ -12,16 +12,16 @@ const itemStore = useItemStore();
 			<div>
 				<p for="" class="label">Equipped Items:</p>
 				<div class="equipped-items">
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Weapon 1:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Weapon 2:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Helmet:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -29,7 +29,7 @@ const itemStore = useItemStore();
 					</div>
 
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Chest:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -37,7 +37,7 @@ const itemStore = useItemStore();
 					</div>
 
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Gloves:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -45,7 +45,7 @@ const itemStore = useItemStore();
 					</div>
 
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Boots:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -53,7 +53,7 @@ const itemStore = useItemStore();
 					</div>
 
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Amulet:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -61,7 +61,7 @@ const itemStore = useItemStore();
 					</div>
 
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Ring 1:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -69,7 +69,7 @@ const itemStore = useItemStore();
 					</div>
 
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Ring 2:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -77,7 +77,7 @@ const itemStore = useItemStore();
 					</div>
 
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Belt:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -89,34 +89,34 @@ const itemStore = useItemStore();
 				<p for="" class="label">Mercenary Items:</p>
 
 				<div class="equipped-items--mercenary">
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Weapon 1:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Weapon 2:</label>
 						<select name="" id="" class="item-select"></select>
 					</div>
 
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Helmet:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
 						</select>
 					</div>
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Chest:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
 						</select>
 					</div>
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Gloves:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
 						</select>
 					</div>
-					<div class="equipped-item">
+					<div class="equipped-item label-input">
 						<label for="">Boots:</label>
 						<select name="" id="" class="item-select">
 							<option value=""></option>
@@ -165,15 +165,35 @@ const itemStore = useItemStore();
 				<button>Craft Item</button>
 			</div>
 			<div class="thingy">
-				<div class="selected-item" v-if="itemStore.selectedItem">
-					<p :class="{ [itemStore.selectedItem.rarity]: true }">{{ itemStore.selectedItem.name }}</p>
-					<p :class="{ [itemStore.selectedItem.rarity]: true }">{{ itemStore.selectedItem.baseName }}</p>
-					<br />
-					<p v-if="itemStore.selectedItem.defense">
-						Defense: {{ itemStore.selectedItem.defense[0] }} - {{ itemStore.selectedItem.defense[1] }}
-					</p>
-					<br />
-					<p class="magic" v-for="item in itemStore.selectedItem.modifiers">{{ item.description }}</p>
+				<div v-if="itemStore.selectedItem">
+					<div class="selected-item">
+						<p :class="{ [itemStore.selectedItem.rarity]: true }">
+							{{ itemStore.selectedItem.name }}
+							<span v-if="itemStore.selectedItem.sockets">[{{ itemStore.selectedItem.sockets }}]</span>
+						</p>
+						<p :class="{ [itemStore.selectedItem.rarity]: true }">{{ itemStore.selectedItem.baseName }}</p>
+						<p v-if="itemStore.selectedItem.defense">
+							Defense: {{ itemStore.selectedItem.defense[0] }} - {{ itemStore.selectedItem.defense[1] }}
+						</p>
+						<p class="corrupted">{{ itemStore.selectedItem.corrupted ? "Corrupted" : "&nbsp;" }}</p>
+						<p class="magic" v-for="item in itemStore.selectedItem.modifiers">{{ item.description }}</p>
+						<p class="ethereal">{{ itemStore.selectedItem.ethereal ? "Ethereal (Cannot Be Repaired)" :
+							"&nbsp;" }}</p>
+					</div>
+					<div class="label-input">
+						<label for="ethereal">Sockets</label>
+						<select name="" id="" v-model="itemStore.selectedItem.sockets">
+							<option v-for="i in 7" :value="i - 1">{{ i - 1 }}</option>
+						</select>
+					</div>
+					<div class="label-input">
+						<label for="corrupted">Corrupted</label>
+						<input id="corrupted" type="checkbox" v-model="itemStore.selectedItem.corrupted">
+					</div>
+					<div class="label-input">
+						<label for="ethereal">Ethereal</label>
+						<input id="ethereal" type="checkbox" v-model="itemStore.selectedItem.ethereal">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -277,5 +297,10 @@ button {
 
 .label {
 	padding-bottom: 7px;
+}
+
+.label-input {
+	display: flex;
+	align-items: center;
 }
 </style>
