@@ -31,7 +31,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -51,7 +51,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -72,7 +72,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -93,7 +93,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -114,7 +114,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -135,7 +135,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -156,7 +156,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -177,7 +177,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -198,7 +198,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -219,7 +219,7 @@ function selectEquippedItem(e: Event, slot: Slot) {
 								:value="index + 1"
 								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
 							>
-								<span class="kok" :class="{ [item.rarity]: true }">
+								<span class="selected-item-text" :class="{ [item.rarity]: true }">
 									{{ item.name }}, {{ item.baseName }}
 								</span>
 							</option>
@@ -473,7 +473,6 @@ button {
 	align-items: center;
 }
 
-.kok {
-	color: blue !important;
+.selected-item-text {
 }
 </style>
