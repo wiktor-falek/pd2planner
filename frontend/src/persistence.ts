@@ -1,12 +1,17 @@
-export function loadFromStorage<T>(key: string, defaultValue: T): T {
+export function loadFromStorage<T>(key: string, defaultValue: any): T {
 	const item = localStorage.getItem(key);
 	if (item === null) return defaultValue;
-	const parsed = JSON.parse(item);
-	return defaultValue instanceof Set ? new Set(parsed) : parsed;
+	try {
+		const parsed = JSON.parse(item);
+		return parsed;
+	} catch {
+		console.error(`Failed to parse '${key}' data`);
+		return defaultValue;
+	}
 }
 
 export function saveToStorage(key: string, value: any) {
-	localStorage.setItem(key, JSON.stringify(value instanceof Set ? [...value] : value));
+	localStorage.setItem(key, JSON.stringify(value));
 }
 
 export function removeFromStorage(key: string) {

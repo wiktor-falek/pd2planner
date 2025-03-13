@@ -3,10 +3,22 @@ export interface Modifier {
 }
 
 export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
+export type Slot =
+	| "weapon-1"
+	| "weapon-2"
+	| "helmet"
+	| "chest"
+	| "gloves"
+	| "boots"
+	| "amulet"
+	| "ring-1"
+	| "ring-2"
+	| "belt";
 
 export interface Item {
 	name: string;
 	baseName: string;
+	slot: Slot;
 	rarity: Rarity;
 	modifiers: Modifier[];
 	requiredLevel: number;
@@ -33,6 +45,7 @@ interface ItemOptions {
 function createItem(
 	name: string,
 	baseName: string,
+	slot: Slot,
 	rarity: Rarity,
 	modifiers: Modifier[] = [],
 	options?: ItemOptions
@@ -40,6 +53,7 @@ function createItem(
 	return {
 		name,
 		baseName,
+		slot,
 		rarity,
 		modifiers,
 		defense: options?.defense,
@@ -56,6 +70,7 @@ function createItem(
 const HarlequinCrest = createItem(
 	"Harlequin Crest",
 	"Shako",
+	"helmet",
 	"unique",
 	[
 		{ description: "+2 to All Skills" },
@@ -75,6 +90,7 @@ const HarlequinCrest = createItem(
 const NightwingsVeil = createItem(
 	"Nightwing's Veil",
 	"Spired Helm",
+	"helmet",
 	"unique",
 	[
 		{ description: "+2 to All Skills" },
