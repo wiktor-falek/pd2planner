@@ -353,10 +353,5 @@ button {
 	padding-bottom: 7px;
 }
 
-.label-input {
-	display: flex;
-	align-items: center;
-}
-
 .selected-item-text {}
 </style>

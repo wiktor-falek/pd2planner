@@ -19,7 +19,7 @@ const selectedTab = ref<Tab>("items");
 <template>
 	<div class="app" @contextmenu.prevent>
 		<header>
-			<div>
+			<div class="label-input">
 				<label for="character-class">Class&nbsp;</label>
 				<select id="character-class" name="character-class" :value="characterStore.characterClass" @change="
 					characterStore.setCharacterClass(
@@ -36,7 +36,7 @@ const selectedTab = ref<Tab>("items");
 				</select>
 			</div>
 
-			<div>
+			<div class="label-input">
 				<label for="character-level">Level&nbsp;</label>
 				<input id="character-level" type="number" min="1" max="99" :value="characterStore.characterLevel"
 					@change="
@@ -122,6 +122,7 @@ header {
 	flex: 0 1 auto;
 	background-color: #282828;
 	justify-content: center;
+	align-items: center;
 	width: 100%;
 	padding: 2px 0;
 }

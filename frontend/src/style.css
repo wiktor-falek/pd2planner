@@ -105,3 +105,8 @@ button {
 button:hover {
 	background-color: #cc9e20;
 }
+
+.label-input {
+	display: flex;
+	align-items: center;
+}
