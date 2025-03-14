@@ -1,12 +1,11 @@
 import { defineStore } from "pinia";
-import { computed, ref, toRaw, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { loadFromStorage, saveToStorage } from "../persistence";
-import type { Item, Slot } from "../data/items";
+import { createItemCopy, type Item, type Slot } from "../data/items";
 
-type EquippedItems = Record<Slot, { items: Set<Item>; selected: number }>;
-type EquippedItemsWithArrays = Record<Slot, { items: Item[]; selected: number }>;
+type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
 
-function getDefaultEquippedItems(): EquippedItemsWithArrays {
+function getDefaultEquippedItems(): EquippedItems {
 	return {
 		"weapon-1": { items: [], selected: 0 },
 		"weapon-2": { items: [], selected: 0 },
@@ -21,49 +20,24 @@ function getDefaultEquippedItems(): EquippedItemsWithArrays {
 	};
 }
 
-function equippedItemsSetsToArrays(equippedItems: EquippedItems): EquippedItemsWithArrays {
-	const transformed = Object.fromEntries(
-		Object.entries(equippedItems).map(([key, data]) => [
-			key,
-			{ items: [...data.items], selected: data.selected },
-		])
-	) as EquippedItemsWithArrays;
-	return transformed;
-}
-
-function equippedItemsArraysToSets(equippedItems: EquippedItemsWithArrays): EquippedItems {
-	const transformed = Object.fromEntries(
-		Object.entries(equippedItems).map(([key, data]) => [
-			key,
-			{ items: new Set(data.items), selected: data.selected },
-		])
-	) as EquippedItems;
-	return transformed;
-}
-
 export const useItemStore = defineStore("items", () => {
-	const items = ref<Set<Item>>(new Set(loadFromStorage("items", [])));
+	const items = ref<Item[]>(loadFromStorage("items", []));
 	const selectedItem = ref<Item | null>(null);
 	const equippedItems = ref<EquippedItems>(
-		equippedItemsArraysToSets(loadFromStorage("equippedItems", getDefaultEquippedItems()))
+		loadFromStorage("equippedItems", getDefaultEquippedItems())
 	);
 
-	watch(items, (newItems) => saveToStorage("items", [...newItems]), { deep: true });
+	watch(items, (newItems) => saveToStorage("items", newItems), { deep: true });
 	// watch(selectedItem, (newSelectedItem) => saveToStorage("selectedItem", newSelectedItem), {
 	// 	deep: true,
 	// });
-	watch(
-		equippedItems,
-		(newEquippedItems) =>
-			saveToStorage("equippedItems", equippedItemsSetsToArrays(newEquippedItems)),
-		{
-			deep: true,
-		}
-	);
+	watch(equippedItems, (newEquippedItems) => saveToStorage("equippedItems", newEquippedItems), {
+		deep: true,
+	});
 
 	const selectedItemIsAdded = computed(() => {
 		if (selectedItem.value === null) return false;
-		return items.value.has(selectedItem.value);
+		return items.value.find((i) => i.id === selectedItem.value!.id);
 	});
 
 	function selectItem(item: Item | null) {
@@ -73,17 +47,20 @@ export const useItemStore = defineStore("items", () => {
 	function addSelectedItemToBuild() {
 		if (selectedItem.value === null) return;
 
-		const newItemReference = structuredClone(toRaw(selectedItem.value));
-		items.value.add(newItemReference);
-		selectedItem.value = newItemReference;
+		const itemCopy = createItemCopy(selectedItem.value);
+		items.value.push(itemCopy);
+		selectedItem.value = itemCopy;
 
-		const isNoneSelected = equippedItems.value[selectedItem.value.slot].items.size === 0;
+		const isNoneSelected = equippedItems.value[selectedItem.value.slot].items.length === 0;
 		_equipItem(selectedItem.value, isNoneSelected);
 	}
 
 	function removeSelectedItemFromBuild() {
 		if (selectedItem.value === null) return false;
-		items.value.delete(selectedItem.value);
+
+		const index = items.value.findIndex((i) => i.id === selectedItem.value!.id);
+		if (index !== -1) items.value.splice(index, 1);
+
 		// selectItem(null);
 		_unequipItem(selectedItem.value);
 	}
@@ -91,17 +68,20 @@ export const useItemStore = defineStore("items", () => {
 	function _equipItem(item: Item, select: boolean = false) {
 		const equippedSlot = equippedItems.value[item.slot];
 
-		equippedSlot.items.add(item);
+		equippedSlot.items.push(item);
 		if (select) {
-			equippedSlot.selected = equippedSlot.items.size;
+			equippedSlot.selected = equippedSlot.items.length;
 		}
 	}
 
 	function _unequipItem(item: Item) {
 		const equippedSlot = equippedItems.value[item.slot];
-		const originalSize = equippedSlot.items.size;
+		const originalSize = equippedSlot.items.length;
 
-		equippedSlot.items.delete(item);
+		const index = equippedSlot.items.findIndex((i) => i.id === item.id);
+		if (index === -1) return;
+
+		equippedSlot.items.splice(index, 1);
 
 		const wasLastItem = equippedSlot.selected === originalSize;
 		if (wasLastItem) {
@@ -117,6 +97,5 @@ export const useItemStore = defineStore("items", () => {
 		addSelectedItemToBuild,
 		removeSelectedItemFromBuild,
 		equippedItems,
-		// equipItem,
 	};
 });
