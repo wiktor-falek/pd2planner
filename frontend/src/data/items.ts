@@ -1,3 +1,5 @@
+import { toRaw } from "vue";
+
 export interface Modifier {
 	description: string;
 }
@@ -16,6 +18,7 @@ export type Slot =
 	| "belt";
 
 export interface Item {
+	id: string;
 	name: string;
 	baseName: string;
 	slot: Slot;
@@ -42,6 +45,12 @@ interface ItemOptions {
 	ethereal?: boolean;
 }
 
+export function createItemCopy(item: Item) {
+	const copy = structuredClone(toRaw(item));
+	copy.id = crypto.randomUUID();
+	return copy;
+}
+
 function createItem(
 	name: string,
 	baseName: string,
@@ -51,6 +60,7 @@ function createItem(
 	options?: ItemOptions
 ): Item {
 	return {
+		id: crypto.randomUUID(),
 		name,
 		baseName,
 		slot,
