@@ -2,6 +2,7 @@ import { toRaw } from "vue";
 import {
 	allAttributesModifier,
 	allSkillsModifier,
+	baseDefenseModifier,
 	coldAbsorbModifier,
 	coldSkillDamageModifier,
 	dexterityModifier,
@@ -36,6 +37,7 @@ export interface Item {
 	slot: Slot;
 	rarity: Rarity;
 	modifiers: ItemModifier[];
+	baseModifiers: ItemModifier[];
 	requiredLevel: number;
 	requiredStrength: number;
 	requiredDexterity: number;
@@ -43,12 +45,12 @@ export interface Item {
 	corrupted: boolean;
 	corruptedModifier?: ItemModifier;
 	ethereal: boolean;
-	defense?: [number, number];
+	defense?: ItemModifier;
 }
 
 interface ItemOptions {
 	corruptedModifier?: ItemModifier;
-	defense?: [number, number];
+	// defense?: ItemModifier;
 	requiredLevel?: number;
 	requiredStrength?: number;
 	requiredDexterity?: number;
@@ -68,6 +70,7 @@ function createItem(
 	baseName: string,
 	slot: Slot,
 	rarity: Rarity,
+	baseModifiers: ItemModifier[],
 	modifiers: ItemModifier[],
 	options?: ItemOptions
 ): Item {
@@ -77,8 +80,9 @@ function createItem(
 		baseName,
 		slot,
 		rarity,
+		baseModifiers,
 		modifiers,
-		defense: options?.defense,
+		// defense: options?.defense,
 		corruptedModifier: options?.corruptedModifier,
 		requiredLevel: options?.requiredLevel ?? 0,
 		requiredStrength: options?.requiredStrength ?? 0,
@@ -94,6 +98,7 @@ const HarlequinCrest = createItem(
 	"Shako",
 	"helmet",
 	"unique",
+	[baseDefenseModifier([98, 141])],
 	[
 		allSkillsModifier(2),
 		allAttributesModifier(2),
@@ -105,7 +110,6 @@ const HarlequinCrest = createItem(
 	{
 		requiredLevel: 62,
 		requiredStrength: 50,
-		defense: [98, 141],
 	}
 );
 
@@ -114,6 +118,7 @@ const NightwingsVeil = createItem(
 	"Spired Helm",
 	"helmet",
 	"unique",
+	[baseDefenseModifier([304, 352])],
 	[
 		allSkillsModifier(2),
 		enemyColdResistanceModifier([5, 10]),
@@ -127,7 +132,6 @@ const NightwingsVeil = createItem(
 	{
 		requiredLevel: 67,
 		requiredStrength: 96,
-		defense: [304, 352],
 	}
 );
 

@@ -166,35 +166,53 @@ export function enhancedDamageModifier(value: ModifierValue): ItemModifier {
 
 export function enemyColdResistanceModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
-	const template = isRange ? `-[${value[0]}-${value[1]}]` : `-${value}`;
+	const template = isRange ? `[${value[0]}-${value[1]}]` : `${value}`;
 	return createItemModifier(
 		"enemy_cold_resistance",
 		"static",
-		`${template}% to Enemy Cold Resistance`,
+		`-${template}% to Enemy Cold Resistance`,
 		value,
-		"{}% to Enemy Cold Resistance"
+		"-{}% to Enemy Cold Resistance"
 	);
 }
 
 export function coldSkillDamageModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
-	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	const template = isRange ? `[${value[0]}-${value[1]}]` : `${value}`;
 	return createItemModifier(
 		"cold_skill_damage",
 		"static",
-		`${template}% to Cold Skill Damage`,
+		`+${template}% to Cold Skill Damage`,
 		value,
 		"+{}% to Cold Skill Damage"
 	);
 }
 
+export function baseDefenseModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `[${value[0]}-${value[1]}]` : `${value}`;
+	return createItemModifier(
+		"base_defense",
+		"static",
+		`Base Defense: ${template}`,
+		value,
+		"Base Defense: {}"
+	);
+}
+
+export function defenseModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `[${value[0]}-${value[1]}]` : `${value}`;
+	return createItemModifier("defense", "static", `+${template} Defense`, value, "+{} Defense");
+}
+
 export function enhancedDefenseModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
-	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	const template = isRange ? `[${value[0]}-${value[1]}]` : `${value}`;
 	return createItemModifier(
 		"enhanced_defense",
 		"static",
-		`${template}% Enhanced Defense`,
+		`+${template}% Enhanced Defense`,
 		value,
 		"+{}% Enhanced Defense"
 	);
@@ -202,7 +220,7 @@ export function enhancedDefenseModifier(value: ModifierValue): ItemModifier {
 
 export function dexterityModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
-	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	const template = isRange ? `[${value[0]}-${value[1]}]` : `${value}`;
 	return createItemModifier(
 		"dexterity",
 		"static",
@@ -214,7 +232,7 @@ export function dexterityModifier(value: ModifierValue): ItemModifier {
 
 export function coldAbsorbModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
-	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	const template = isRange ? `[${value[0]}-${value[1]}]` : `${value}`;
 	return createItemModifier(
 		"cold_absorb",
 		"static",
@@ -230,7 +248,7 @@ export function halfFreezeDurationModifier(): ItemModifier {
 
 export function requirementsModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
-	const template = isRange ? `-${value[0]}-${value[1]}` : `-${value}`;
+	const template = isRange ? `${value[0]}-${value[1]}` : `${value}`;
 	return createItemModifier(
 		"requirements",
 		"static",
@@ -239,14 +257,6 @@ export function requirementsModifier(value: ModifierValue): ItemModifier {
 		"Requirements -{}%"
 	);
 }
-
-// { "-[5-10]% to Enemy Cold Resistance" },
-// { "+[10-15]% to Cold Skill Damage" },
-// { "+[90-120]% Enhanced Defense" },
-// { "+[10-20] to Dexterity" },
-// { "+[5-9] Cold Absorb" },
-// { "Half Freeze Duration" },
-// { "Requirements -50% " },
 
 // class HybridItemModifier {
 // 	id: string;

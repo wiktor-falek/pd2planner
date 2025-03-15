@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { computed, ref, watch } from "vue";
 import { uniques, type Slot } from "../data/items";
-import { getModifierTooltip } from "../data/modifiers";
+import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
 import { useItemStore } from "../stores/itemStore";
 
@@ -12,6 +13,16 @@ function selectEquippedItem(e: Event, slot: Slot) {
 	const index = parseInt(selectElement.value);
 	itemStore.equippedItems[slot].selected = index;
 }
+
+const rollableModifiers = computed<ItemModifier[] | null>(() =>
+	itemStore.selectedItem?.modifiers
+		.concat(itemStore.selectedItem?.baseModifiers)
+		.filter(mod => mod.rolls) ?? null);
+const selectedModifier = ref<ItemModifier | null>(null);
+
+watch(rollableModifiers, (newModifiers) => {
+	selectedModifier.value = newModifiers?.length ? newModifiers[0] : null;
+});
 </script>
 
 <template>
@@ -226,10 +237,12 @@ function selectEquippedItem(e: Event, slot: Slot) {
 						<p :class="{ [itemStore.selectedItem.rarity]: true }">
 							{{ itemStore.selectedItem.baseName }}
 						</p>
-						<p v-if="itemStore.selectedItem.defense">
-							Defense: {{ itemStore.selectedItem.defense[0] }} -
-							{{ itemStore.selectedItem.defense[1] }}
+
+						<!-- TODO: base modifiers list -->
+						<p v-for="baseModifier in itemStore.selectedItem.baseModifiers">
+							{{ getModifierTooltip(baseModifier) }}
 						</p>
+
 						<p class="corrupted">{{ itemStore.selectedItem.corrupted ? "Corrupted" : "&nbsp;" }}</p>
 						<p class="magic" v-for="modifier in itemStore.selectedItem.modifiers">
 							{{ getModifierTooltip(modifier, characterStore.characterLevel) }}
@@ -253,6 +266,18 @@ function selectEquippedItem(e: Event, slot: Slot) {
 						<label for="ethereal">Ethereal</label>
 						<input id="ethereal" type="checkbox" v-model="itemStore.selectedItem.ethereal" />
 					</div>
+
+					<div class="label-input">
+						<select v-if="rollableModifiers?.length" v-model="selectedModifier" name="" id="">
+							<option :value="modifier" v-for="modifier in rollableModifiers" :key="modifier.id">{{
+								getModifierTooltip(modifier) }}
+							</option>
+						</select>
+					</div>
+					<input v-if="selectedModifier?.rolls" id="modifier-range" type="range"
+						v-model="selectedModifier._value" :min="selectedModifier.rolls[0]"
+						:max="selectedModifier.rolls[1]"
+						@input="selectedModifier._value = parseInt(($event.target as HTMLInputElement).value)">
 				</div>
 			</div>
 		</div>
