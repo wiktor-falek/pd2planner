@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { uniques, type Slot } from "../data/items";
+import { getModifierTooltip } from "../data/modifiers";
+import { useCharacterStore } from "../stores/characterStore";
 import { useItemStore } from "../stores/itemStore";
 
+const characterStore = useCharacterStore();
 const itemStore = useItemStore();
 
 function selectEquippedItem(e: Event, slot: Slot) {
@@ -228,8 +231,9 @@ function selectEquippedItem(e: Event, slot: Slot) {
 							{{ itemStore.selectedItem.defense[1] }}
 						</p>
 						<p class="corrupted">{{ itemStore.selectedItem.corrupted ? "Corrupted" : "&nbsp;" }}</p>
-						<p class="magic" v-for="item in itemStore.selectedItem.modifiers">
-							{{ item.description }}
+						<p class="magic" v-for="modifier in itemStore.selectedItem.modifiers">
+							{{ getModifierTooltip(modifier, characterStore.characterLevel) }}
+
 						</p>
 						<p class="ethereal">
 							{{ itemStore.selectedItem.ethereal ? "Ethereal (Cannot Be Repaired)" : "&nbsp;" }}

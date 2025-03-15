@@ -1,9 +1,3 @@
-export interface Modifier {
-	id: string;
-	description: string;
-	value: number;
-}
-
 type ModifierValue = number | [number, number];
 
 type ModifierKind = "static" | "dynamic";
@@ -28,79 +22,57 @@ Item structure requirements:
 - Dynamic tooltip: (scalingFactor: number) => +${value * scalingFactor} to Life (+1 per Character Level)
 */
 
-class ItemModifier {
+export interface ItemModifier {
 	id: string;
 	modifierKind: ModifierKind;
 	description: string;
 	rolls?: [number, number];
-	private value: number;
-
-	constructor(
-		id: string,
-		modifierKind: ModifierKind,
-		description: string,
-		value: ModifierValue,
-		private tooltipTemplate?: string
-	) {
-		const isRange = Array.isArray(value);
-
-		this.id = id;
-		this.modifierKind = modifierKind;
-		this.description = description;
-		this.rolls = isRange ? value : undefined;
-		this.value = isRange ? this.midRoll(value) : value;
-	}
-
-	getValue(scalingFactor: number = 1): number {
-		if (this.modifierKind === "dynamic") {
-			return this.value * scalingFactor;
-		}
-		return this.value;
-	}
-
-	getTooltip(scalingFactor: number = 1): string {
-		if (this.tooltipTemplate) {
-			return this.tooltipTemplate.replace(/{}/g, () => this.getValue(scalingFactor).toString());
-		}
-		return this.description;
-	}
-
-	private midRoll(range: [number, number]): number {
-		return Math.ceil((range[0] + range[1]) / 2);
-	}
+	_value: number;
+	tooltipTemplate?: string;
 }
 
-class HybridItemModifier {
-	id: string;
-	modifiers: [ItemModifier, ItemModifier];
-
-	constructor(id: string, modifiers: [ItemModifier, ItemModifier]) {
-		this.id = id;
-		this.modifiers = modifiers;
+export function getModifierValue(modifier: ItemModifier, scalingFactor: number = 1): number {
+	if (modifier.modifierKind === "dynamic") {
+		return modifier._value * scalingFactor;
 	}
+	return modifier._value;
+}
 
-	getTooltip(scalingFactor: number = 1) {
-		return (
-			this.modifiers[0].getTooltip(scalingFactor) +
-			",\n" +
-			this.modifiers[1].getTooltip(scalingFactor)
+export function getModifierTooltip(modifier: ItemModifier, scalingFactor: number = 1): string {
+	if (modifier.tooltipTemplate) {
+		return modifier.tooltipTemplate.replace(/{}/g, () =>
+			getModifierValue(modifier, scalingFactor).toString()
 		);
 	}
+	return modifier.description;
 }
 
-function hybridEnhancedDamageAccuracyModifier(
-	enhancedDamageValue: ModifierValue,
-	accuracyValue: ModifierValue
-): HybridItemModifier {
-	return new HybridItemModifier("hybrid_enhanced_damage_accuracy", [
-		enhancedDamageModifier(enhancedDamageValue),
-		attackRatingModifier(accuracyValue),
-	]);
+function midRoll(range: [number, number]): number {
+	return Math.ceil((range[0] + range[1]) / 2);
 }
 
-function lifePerCharacterLevelModifier(valuePerLevel: number) {
+function createItemModifier(
+	id: string,
+	modifierKind: ModifierKind,
+	description: string,
+	value: ModifierValue,
+	tooltipTemplate?: string
+): ItemModifier {
+	const isRange = Array.isArray(value);
+
+	return {
+		id: id,
+		modifierKind: modifierKind,
+		description: description,
+		rolls: isRange ? value : undefined,
+		_value: isRange ? midRoll(value) : value,
+		tooltipTemplate,
+	};
+}
+
+export function lifePerLevelModifier(valuePerLevel: number): ItemModifier {
 	const template = `[${valuePerLevel}-${valuePerLevel * 99}`;
-	return new ItemModifier(
+	return createItemModifier(
 		"life_per_level",
 		"dynamic",
 		`+${template} to Life (+${valuePerLevel} per Character Level)`,
@@ -109,10 +81,45 @@ function lifePerCharacterLevelModifier(valuePerLevel: number) {
 	);
 }
 
-function allSkillsModifier(value: ModifierValue): ItemModifier {
+export function manaPerLevelModifier(valuePerLevel: number): ItemModifier {
+	const template = `[${valuePerLevel}-${valuePerLevel * 99}`;
+	return createItemModifier(
+		"mana_per_level",
+		"dynamic",
+		`+${template} to Mana (+${valuePerLevel} per Character Level)`,
+		valuePerLevel,
+		"+{} to Mana (+1 per Character Level)"
+	);
+}
+
+export function physicalDamageReducedModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
 	const template = isRange ? `[${value[0]}-${value[1]}` : `${value}`;
-	return new ItemModifier(
+	return createItemModifier(
+		"physical_damage_reduced",
+		"static",
+		`Physical Damage Taken Reduced by ${template}%`,
+		value,
+		"Physical Damage Taken Reduced by {}%"
+	);
+}
+
+export function magicFindModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `[${value[0]}-${value[1]}` : `${value}`;
+	return createItemModifier(
+		"magic_find",
+		"static",
+		`${template}% Better Chance of Getting Magic Items`,
+		value,
+		"{}% Better Chance of Getting Magic Items"
+	);
+}
+
+export function allSkillsModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `[${value[0]}-${value[1]}` : `${value}`;
+	return createItemModifier(
 		"all_skills",
 		"static",
 		`+${template} to All Skills`,
@@ -121,10 +128,22 @@ function allSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-function attackRatingModifier(value: ModifierValue) {
+export function allAttributesModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
 	const template = isRange ? `[${value[0]}-${value[1]}` : `${value}`;
-	return new ItemModifier(
+	return createItemModifier(
+		"all_attributes",
+		"static",
+		`+${template} to All Attributes`,
+		value,
+		"+{} to All Attributes"
+	);
+}
+
+export function attackRatingModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `[${value[0]}-${value[1]}` : `${value}`;
+	return createItemModifier(
 		"attack_rating",
 		"static",
 		`+${template} to Attack Rating`,
@@ -133,10 +152,10 @@ function attackRatingModifier(value: ModifierValue) {
 	);
 }
 
-function enhancedDamageModifier(value: ModifierValue) {
+export function enhancedDamageModifier(value: ModifierValue): ItemModifier {
 	const isRange = Array.isArray(value);
 	const template = isRange ? `[${value[0]}-${value[1]}` : `${value}`;
-	return new ItemModifier(
+	return createItemModifier(
 		"enhanced_damage",
 		"static",
 		`+${template}% Enhanced Damage`,
@@ -144,3 +163,115 @@ function enhancedDamageModifier(value: ModifierValue) {
 		"+{}% Enhanced Damage"
 	);
 }
+
+export function enemyColdResistanceModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `-[${value[0]}-${value[1]}]` : `-${value}`;
+	return createItemModifier(
+		"enemy_cold_resistance",
+		"static",
+		`${template}% to Enemy Cold Resistance`,
+		value,
+		"{}% to Enemy Cold Resistance"
+	);
+}
+
+export function coldSkillDamageModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	return createItemModifier(
+		"cold_skill_damage",
+		"static",
+		`${template}% to Cold Skill Damage`,
+		value,
+		"+{}% to Cold Skill Damage"
+	);
+}
+
+export function enhancedDefenseModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	return createItemModifier(
+		"enhanced_defense",
+		"static",
+		`${template}% Enhanced Defense`,
+		value,
+		"+{}% Enhanced Defense"
+	);
+}
+
+export function dexterityModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	return createItemModifier(
+		"dexterity",
+		"static",
+		`+${template} to Dexterity`,
+		value,
+		"+{} to Dexterity"
+	);
+}
+
+export function coldAbsorbModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `+[${value[0]}-${value[1]}]` : `+${value}`;
+	return createItemModifier(
+		"cold_absorb",
+		"static",
+		`+${template} Cold Absorb`,
+		value,
+		"+{} Cold Absorb"
+	);
+}
+
+export function halfFreezeDurationModifier(): ItemModifier {
+	return createItemModifier("freeze_duration", "static", "Half Freeze Duration", 0.5);
+}
+
+export function requirementsModifier(value: ModifierValue): ItemModifier {
+	const isRange = Array.isArray(value);
+	const template = isRange ? `-${value[0]}-${value[1]}` : `-${value}`;
+	return createItemModifier(
+		"requirements",
+		"static",
+		`Requirements -${template}%`,
+		value,
+		"Requirements -{}%"
+	);
+}
+
+// { "-[5-10]% to Enemy Cold Resistance" },
+// { "+[10-15]% to Cold Skill Damage" },
+// { "+[90-120]% Enhanced Defense" },
+// { "+[10-20] to Dexterity" },
+// { "+[5-9] Cold Absorb" },
+// { "Half Freeze Duration" },
+// { "Requirements -50% " },
+
+// class HybridItemModifier {
+// 	id: string;
+// 	modifiers: [ItemModifier, ItemModifier];
+
+// 	constructor(id: string, modifiers: [ItemModifier, ItemModifier]) {
+// 		this.id = id;
+// 		this.modifiers = modifiers;
+// 	}
+
+// 	getTooltip(scalingFactor: number = 1) {
+// 		return (
+// 			this.modifiers[0].getTooltip(scalingFactor) +
+// 			",\n" +
+// 			this.modifiers[1].getTooltip(scalingFactor)
+// 		);
+// 	}
+// }
+
+// export function hybridEnhancedDamageAccuracyModifier(
+// 	enhancedDamageValue: ModifierValue,
+// 	accuracyValue: ModifierValue
+// ): HybridItemModifier {
+// 	return new HybridItemModifier("hybrid_enhanced_damage_accuracy", [
+// 		enhancedDamageModifier(enhancedDamageValue),
+// 		attackRatingModifier(accuracyValue),
+// 	]);
+// }

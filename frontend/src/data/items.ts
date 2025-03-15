@@ -1,5 +1,20 @@
 import { toRaw } from "vue";
-import { type Modifier } from "./modifiers";
+import {
+	allAttributesModifier,
+	allSkillsModifier,
+	coldAbsorbModifier,
+	coldSkillDamageModifier,
+	dexterityModifier,
+	enemyColdResistanceModifier,
+	enhancedDefenseModifier,
+	halfFreezeDurationModifier,
+	lifePerLevelModifier,
+	magicFindModifier,
+	manaPerLevelModifier,
+	physicalDamageReducedModifier,
+	requirementsModifier,
+	type ItemModifier,
+} from "./modifiers";
 
 export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
 export type Slot =
@@ -20,19 +35,19 @@ export interface Item {
 	baseName: string;
 	slot: Slot;
 	rarity: Rarity;
-	modifiers: Modifier[];
+	modifiers: ItemModifier[];
 	requiredLevel: number;
 	requiredStrength: number;
 	requiredDexterity: number;
 	sockets: number;
 	corrupted: boolean;
-	corruptedModifier?: Modifier;
+	corruptedModifier?: ItemModifier;
 	ethereal: boolean;
 	defense?: [number, number];
 }
 
 interface ItemOptions {
-	corruptedModifier?: Modifier;
+	corruptedModifier?: ItemModifier;
 	defense?: [number, number];
 	requiredLevel?: number;
 	requiredStrength?: number;
@@ -42,7 +57,7 @@ interface ItemOptions {
 	ethereal?: boolean;
 }
 
-export function createItemCopy(item: Item) {
+export function createItemCopy(item: Item): Item {
 	const copy = structuredClone(toRaw(item));
 	copy.id = crypto.randomUUID();
 	return copy;
@@ -53,7 +68,7 @@ function createItem(
 	baseName: string,
 	slot: Slot,
 	rarity: Rarity,
-	modifiers: Modifier[],
+	modifiers: ItemModifier[],
 	options?: ItemOptions
 ): Item {
 	return {
@@ -80,12 +95,12 @@ const HarlequinCrest = createItem(
 	"helmet",
 	"unique",
 	[
-		// { description: "+2 to All Skills" },
-		// { description: "+2 to All Attributes" },
-		// { description: "+[1-99] to Life (+1 per Character Level)" },
-		// { description: "+[1-99] to Mana (+1 per Character Level)" },
-		// { description: "Physical Damage Taken Reduced by [3-5]%" },
-		// { description: "[25-50]% Better Chance of Getting Magic Items" },
+		allSkillsModifier(2),
+		allAttributesModifier(2),
+		lifePerLevelModifier(1),
+		manaPerLevelModifier(1),
+		physicalDamageReducedModifier([3, 5]),
+		magicFindModifier([25, 50]),
 	],
 	{
 		requiredLevel: 62,
@@ -100,14 +115,14 @@ const NightwingsVeil = createItem(
 	"helmet",
 	"unique",
 	[
-		// { description: "+2 to All Skills" },
-		// { description: "-[5-10]% to Enemy Cold Resistance" },
-		// { description: "+[10-15]% to Cold Skill Damage" },
-		// { description: "+[90-120]% Enhanced Defense" },
-		// { description: "+[10-20] to Dexterity" },
-		// { description: "+[5-9] Cold Absorb" },
-		// { description: "Half Freeze Duration" },
-		// { description: "Requirements -50% " },
+		allSkillsModifier(2),
+		enemyColdResistanceModifier([5, 10]),
+		coldSkillDamageModifier([10, 15]),
+		enhancedDefenseModifier([90, 120]),
+		dexterityModifier([10, 20]),
+		coldAbsorbModifier([5, 9]),
+		halfFreezeDurationModifier(),
+		requirementsModifier(50),
 	],
 	{
 		requiredLevel: 67,

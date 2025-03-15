@@ -69,27 +69,27 @@ const selectedTab = ref<Tab>("items");
 
 		<div class="container">
 			<div class="stat-panel">
-				<p class="green">Chain Lightning</p>
-				<p>Damage: 1-3873</p>
+				<p class="green">Skill Name</p>
+				<p>Damage: 0-0</p>
 				<br />
-				<p>Life: 69</p>
-				<p>Mana: 69</p>
+				<p>Life: 0</p>
+				<p>Mana: 0</p>
 				<br />
-				<p>Fire Res: 95 (75)</p>
-				<p>Cold Res: 86 (75)</p>
-				<p>Lightning Res: 86 (79)</p>
-				<p>Poison Res: 76 (75)</p>
+				<p>Fire Res: 0 (0)</p>
+				<p>Cold Res: 0 (0)</p>
+				<p>Lightning Res: 0 (0)</p>
+				<p>Poison Res: 0 (0)</p>
 				<br />
-				<p>IAS: 0 (13)</p>
-				<p>FCR: 200 (11)</p>
+				<p>IAS: 0 (0)</p>
+				<p>FCR: 0 (0)</p>
 				<br />
-				<p>Defense: 3127</p>
-				<p>FHR: 83 (6)</p>
+				<p>Defense: 0</p>
+				<p>FHR: 0 (0)</p>
 				<p>Block: 0%</p>
-				<p>FBR: 0 (17)</p>
+				<p>FBR: 0 (0)</p>
 				<br />
-				<p>FRW: 100 (60%)</p>
-				<p>MF: 200</p>
+				<p>FRW: 0 (0%)</p>
+				<p>MF: 0</p>
 			</div>
 
 			<div class="main">

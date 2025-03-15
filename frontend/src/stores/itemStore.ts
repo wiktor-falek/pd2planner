@@ -47,6 +47,7 @@ export const useItemStore = defineStore("items", () => {
 	function addSelectedItemToBuild() {
 		if (selectedItem.value === null) return;
 
+		const gowno = selectedItem.value;
 		const itemCopy = createItemCopy(selectedItem.value);
 		items.value.push(itemCopy);
 		selectedItem.value = itemCopy;
