@@ -1,5 +1,5 @@
 import { toRaw } from "vue";
-import { allSkillsModifier, type Modifier } from "./modifiers";
+import { type Modifier } from "./modifiers";
 
 export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
 export type Slot =
@@ -80,7 +80,6 @@ const HarlequinCrest = createItem(
 	"helmet",
 	"unique",
 	[
-		allSkillsModifier(2),
 		// { description: "+2 to All Skills" },
 		// { description: "+2 to All Attributes" },
 		// { description: "+[1-99] to Life (+1 per Character Level)" },
