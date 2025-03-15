@@ -1,8 +1,5 @@
 import { toRaw } from "vue";
-
-export interface Modifier {
-	description: string;
-}
+import { allSkillsModifier, type Modifier } from "./modifiers";
 
 export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
 export type Slot =
@@ -56,7 +53,7 @@ function createItem(
 	baseName: string,
 	slot: Slot,
 	rarity: Rarity,
-	modifiers: Modifier[] = [],
+	modifiers: Modifier[],
 	options?: ItemOptions
 ): Item {
 	return {
@@ -83,12 +80,13 @@ const HarlequinCrest = createItem(
 	"helmet",
 	"unique",
 	[
-		{ description: "+2 to All Skills" },
-		{ description: "+2 to All Attributes" },
-		{ description: "+[1-99] to Life (+1 per Character Level)" },
-		{ description: "+[1-99] to Mana (+1 per Character Level)" },
-		{ description: "Physical Damage Taken Reduced by [3-5]%" },
-		{ description: "[25-50]% Better Chance of Getting Magic Items" },
+		allSkillsModifier(2),
+		// { description: "+2 to All Skills" },
+		// { description: "+2 to All Attributes" },
+		// { description: "+[1-99] to Life (+1 per Character Level)" },
+		// { description: "+[1-99] to Mana (+1 per Character Level)" },
+		// { description: "Physical Damage Taken Reduced by [3-5]%" },
+		// { description: "[25-50]% Better Chance of Getting Magic Items" },
 	],
 	{
 		requiredLevel: 62,
@@ -103,14 +101,14 @@ const NightwingsVeil = createItem(
 	"helmet",
 	"unique",
 	[
-		{ description: "+2 to All Skills" },
-		{ description: "-[5-10]% to Enemy Cold Resistance" },
-		{ description: "+[10-15]% to Cold Skill Damage" },
-		{ description: "+[90-120]% Enhanced Defense" },
-		{ description: "+[10-20] to Dexterity" },
-		{ description: "+[5-9] Cold Absorb" },
-		{ description: "Half Freeze Duration" },
-		{ description: "Requirements -50% " },
+		// { description: "+2 to All Skills" },
+		// { description: "-[5-10]% to Enemy Cold Resistance" },
+		// { description: "+[10-15]% to Cold Skill Damage" },
+		// { description: "+[90-120]% Enhanced Defense" },
+		// { description: "+[10-20] to Dexterity" },
+		// { description: "+[5-9] Cold Absorb" },
+		// { description: "Half Freeze Duration" },
+		// { description: "Requirements -50% " },
 	],
 	{
 		requiredLevel: 67,
