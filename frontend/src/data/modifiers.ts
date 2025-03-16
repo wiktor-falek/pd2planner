@@ -30,9 +30,10 @@ export interface ItemModifier {
 	tooltipTemplate?: string;
 }
 
-// export interface HybridItemModifier {
-// 	modifiers: [ItemModifier, ItemModifier];
-// }
+export interface HybridItemModifier {
+	id: string;
+	modifiers: [ItemModifier, ItemModifier];
+}
 
 export function getModifierValue(modifier: ItemModifier, scalingFactor: number = 1): number {
 	if (modifier.modifierKind === "dynamic") {
@@ -41,7 +42,18 @@ export function getModifierValue(modifier: ItemModifier, scalingFactor: number =
 	return modifier._value;
 }
 
-export function getModifierTooltip(modifier: ItemModifier, scalingFactor: number = 1): string {
+export function getModifierTooltip(
+	modifier: ItemModifier | HybridItemModifier,
+	scalingFactor: number = 1
+): string {
+	if ("modifiers" in modifier) {
+		return (
+			getModifierTooltip(modifier.modifiers[0], scalingFactor) +
+			",\n" +
+			getModifierTooltip(modifier.modifiers[1], scalingFactor)
+		);
+	}
+
 	if (modifier.tooltipTemplate) {
 		return modifier.tooltipTemplate.replace(/{}/g, () =>
 			getModifierValue(modifier, scalingFactor).toString()
@@ -71,6 +83,16 @@ function createItemModifier(
 		rolls: isRange ? value : undefined,
 		_value: isRange ? midRoll(value) : value,
 		tooltipTemplate,
+	};
+}
+
+function createHybridItemModifier(
+	id: string,
+	modifiers: [ItemModifier, ItemModifier]
+): HybridItemModifier {
+	return {
+		id,
+		modifiers,
 	};
 }
 
@@ -171,30 +193,12 @@ export function requirementsModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("requirements", "static", value, "Requirements -{}%");
 }
 
-// class HybridItemModifier {
-// 	id: string;
-// 	modifiers: [ItemModifier, ItemModifier];
-
-// 	constructor(id: string, modifiers: [ItemModifier, ItemModifier]) {
-// 		this.id = id;
-// 		this.modifiers = modifiers;
-// 	}
-
-// 	getTooltip(scalingFactor: number = 1) {
-// 		return (
-// 			this.modifiers[0].getTooltip(scalingFactor) +
-// 			",\n" +
-// 			this.modifiers[1].getTooltip(scalingFactor)
-// 		);
-// 	}
-// }
-
-// export function hybridEnhancedDamageAccuracyModifier(
-// 	enhancedDamageValue: ModifierValue,
-// 	accuracyValue: ModifierValue
-// ): HybridItemModifier {
-// 	return new HybridItemModifier("hybrid_enhanced_damage_accuracy", [
-// 		enhancedDamageModifier(enhancedDamageValue),
-// 		attackRatingModifier(accuracyValue),
-// 	]);
-// }
+export function hybridEnhancedDamageAttackRatingModifier(
+	enhancedDamageValue: ModifierValue,
+	attackRatingValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItemModifier("hybrid_enhanced_damage_attack_rating", [
+		enhancedDamageModifier(enhancedDamageValue),
+		attackRatingModifier(enhancedDamageValue),
+	]);
+}
