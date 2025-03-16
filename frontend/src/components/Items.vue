@@ -16,8 +16,8 @@ function selectEquippedItem(e: Event, slot: Slot) {
 
 const rollableModifiers = computed<ItemModifier[] | null>(
 	() =>
-		itemStore.selectedItem?.modifiers
-			.concat(itemStore.selectedItem?.baseModifiers)
+		itemStore.selectedItem?.baseModifiers
+			.concat(itemStore.selectedItem?.modifiers)
 			.filter((mod) => mod.rolls) ?? null
 );
 const selectedModifier = ref<ItemModifier | null>(null);
@@ -385,7 +385,7 @@ const modifierRangeInput = ref<HTMLInputElement>();
 					<div class="label-input">
 						<select v-if="rollableModifiers?.length" v-model="selectedModifier" name="" id="">
 							<option :value="modifier" v-for="modifier in rollableModifiers" :key="modifier.id">
-								{{ getModifierTooltip(modifier) }}
+								{{ modifier.description }}
 							</option>
 						</select>
 
