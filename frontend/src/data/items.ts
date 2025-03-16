@@ -50,7 +50,6 @@ export interface Item {
 
 interface ItemOptions {
 	corruptedModifier?: ItemModifier;
-	// defense?: ItemModifier;
 	requiredLevel?: number;
 	requiredStrength?: number;
 	requiredDexterity?: number;
@@ -82,7 +81,6 @@ function createItem(
 		rarity,
 		baseModifiers,
 		modifiers,
-		// defense: options?.defense,
 		corruptedModifier: options?.corruptedModifier,
 		requiredLevel: options?.requiredLevel ?? 0,
 		requiredStrength: options?.requiredStrength ?? 0,
