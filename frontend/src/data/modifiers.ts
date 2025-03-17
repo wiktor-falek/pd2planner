@@ -258,9 +258,13 @@ export function requirementsModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("requirements", "static", value, "Requirements -{}%");
 }
 
-export function lightningThornsModifier(value: ModifierValue): ItemModifier {
+export function thornsModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("thorns", "static", value, "Attacker Takes Damage of {}");
+}
+
+export function thornsLightningModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier(
-		"lightning_thorns",
+		"thorns_lightning",
 		"static",
 		value,
 		"Attacker Takes Lightning Damage of {}"
@@ -548,19 +552,43 @@ export function poisonDamageOverSixSecondsModifier(value: ModifierValue): ItemMo
 }
 
 export function lifeStolenPerHitModifier(value: ModifierValue): ItemModifier {
-	return createItemModifier("life_stolen_per_hit", "static", value, "{}% Life Stolen per Hit ");
+	return createItemModifier("life_stolen_per_hit", "static", value, "{}% Life Stolen per Hit");
 }
 
 export function manaStolenPerHitModifier(value: ModifierValue): ItemModifier {
-	return createItemModifier("mana_stolen_per_hit", "static", value, "{}% Mana Stolen per Hit ");
+	return createItemModifier("mana_stolen_per_hit", "static", value, "{}% Mana Stolen per Hit");
 }
 
-export function hybridEnhancedDamageAttackRatingModifier(
-	enhancedDamageValue: ModifierValue,
-	attackRatingValue: ModifierValue
-): HybridItemModifier {
-	return createHybridItemModifier("hybrid_enhanced_damage_attack_rating", [
-		enhancedDamageModifier(enhancedDamageValue),
-		attackRatingModifier(attackRatingValue),
-	]);
+// TODO: multiple values
+
+export function howlLevelFiveOnStrikingModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"howl_level_five_on_striking",
+		"static",
+		value,
+		"{}% Chance to Cast Level 5 Howl on Striking"
+	);
 }
+
+export function attackSpeedModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("attack_speed", "static", value, "+{}% Increased Attack Speed ");
+}
+
+export function damageTakenGainedAsManaModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"damage_taken_gained_as_mana",
+		"static",
+		value,
+		"{}% Damage Taken Gained as Mana when Hit"
+	);
+}
+
+// export function hybridEnhancedDamageAttackRatingModifier(
+// 	enhancedDamageValue: ModifierValue,
+// 	attackRatingValue: ModifierValue
+// ): HybridItemModifier {
+// 	return createHybridItemModifier("hybrid_enhanced_damage_attack_rating", [
+// 		enhancedDamageModifier(enhancedDamageValue),
+// 		attackRatingModifier(attackRatingValue),
+// 	]);
+// }

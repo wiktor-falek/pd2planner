@@ -24,7 +24,7 @@ import {
 	lifePerLevelModifier,
 	lifeStolenPerHitModifier,
 	lightningResistModifier,
-	lightningThornsModifier,
+	thornsLightningModifier,
 	lightRadiusModifier,
 	magicFindModifier,
 	manaAfterEachKillModifier,
@@ -39,6 +39,11 @@ import {
 	requirementsModifier,
 	strengthModifier,
 	type ItemModifier,
+	howlLevelFiveOnStrikingModifier,
+	attackSpeedModifier,
+	flatMagicDamageReducedModifier,
+	thornsModifier,
+	damageTakenGainedAsManaModifier,
 } from "./modifiers";
 
 export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
@@ -206,7 +211,7 @@ const CoifOfGlory = createItem(
 		defenseVsMissileModifier(100),
 		lightningResistModifier(15),
 		lifeAfterEachKillModifier([2, 3]),
-		lightningThornsModifier(17),
+		thornsLightningModifier(17),
 	],
 	{
 		requiredLevel: 14,
@@ -273,20 +278,25 @@ const Wormskull = createItem(
 	}
 );
 
-// const Template = createItem(
-// 	"UniqueName",
-// 	"BaseName",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([0, 0])],
-// 	[
-// 	],
-// 	{
-// requiredLevel: 0,
-// requiredStrength: 0,
-// requiredDexterity: 0,
-// 	}
-// );
+const Howltusk = createItem(
+	"Howltusk",
+	"Great Helm",
+	"helmet",
+	"unique",
+	[baseDefenseModifier([30, 35])],
+	[
+		howlLevelFiveOnStrikingModifier(10),
+		attackSpeedModifier(20),
+		enhancedDefenseModifier(80),
+		flatMagicDamageReducedModifier(2),
+		thornsModifier(30),
+		damageTakenGainedAsManaModifier(35),
+	],
+	{
+		requiredLevel: 25,
+		requiredStrength: 63,
+	}
+);
 
 // const Template = createItem(
 // 	"UniqueName",
@@ -324,8 +334,9 @@ export const uniques = {
 		Tarnhelm: Tarnhelm,
 		"Coif of Glory": CoifOfGlory,
 		Duskdeep: Duskdeep,
-		Wormskull: Wormskull,
 		"The Face of Horror": TheFaceOfHorror,
+		Wormskull: Wormskull,
+		Howltusk: Howltusk,
 		"Harlequin Crest": HarlequinCrest,
 		"Nightwing's Veil": NightwingsVeil,
 	},
