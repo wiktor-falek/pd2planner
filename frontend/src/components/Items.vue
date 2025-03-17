@@ -286,14 +286,15 @@ const modifierRangeInput = ref<HTMLInputElement>();
 					</div>
 
 					<div class="label-input">
-						<select v-if="rollableModifiers?.length" v-model="selectedModifier" name="" id="">
+						<select v-if="rollableModifiers?.length" v-model="selectedModifier" class="rollable-modifier"
+							name="" id="">
 							<option :value="modifier" v-for="modifier in rollableModifiers" :key="modifier.id">
 								{{ modifier.description }}
 							</option>
 						</select>
 
-						<input v-if="selectedModifier?.rolls" ref="modifierRangeInput" id="modifier-range" type="range"
-							v-model="selectedModifier._value" :min="selectedModifier.rolls[0]"
+						<input v-if="selectedModifier?.rolls" ref="modifierRangeInput" class="rollable-modifier-range"
+							type="range" v-model="selectedModifier._value" :min="selectedModifier.rolls[0]"
 							:max="selectedModifier.rolls[1]"
 							@input="selectedModifier._value = parseInt(($event.target as HTMLInputElement).value)" />
 					</div>
@@ -403,4 +404,12 @@ button {
 }
 
 .selected-item-text {}
+
+.rollable-modifier {
+	max-width: 240px;
+}
+
+.rollable-modifier-range {
+	max-width: 120px;
+}
 </style>
