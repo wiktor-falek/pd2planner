@@ -114,7 +114,18 @@ export function manaPerLevelModifier(valuePerLevel: number): ItemModifier {
 		"mana_per_level",
 		"dynamic",
 		valuePerLevel,
-		"+{} to Mana (+1 per Character Level)",
+		`+{} to Mana (+${valuePerLevel} per Character Level)`,
+		templateValue
+	);
+}
+
+export function defensePerLevelModifier(valuePerLevel: number): ItemModifier {
+	const templateValue = `[${valuePerLevel}-${valuePerLevel * 99}`;
+	return createItemModifier(
+		"defense_per_level",
+		"dynamic",
+		valuePerLevel,
+		`+{} Defense (+${valuePerLevel} per Character Level) `,
 		templateValue
 	);
 }
@@ -133,6 +144,27 @@ export function fireResistModifier(value: ModifierValue): ItemModifier {
 
 export function coldResistModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("cold_resist", "static", value, "Cold Resist +{}%");
+}
+
+export function maxFireResistModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("max_fire_resist", "static", value, "+{}% to Maximum Fire Resist");
+}
+
+export function maxColdResistModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("max_cold_resist", "static", value, "+{}% to Maximum Cold Resist");
+}
+
+export function maxLightningResistModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"max_lightning_resist",
+		"static",
+		value,
+		"+{}% to Maximum Lightning Resist"
+	);
+}
+
+export function maxPoisonResistModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("max_poison_resist", "static", value, "+{}% to Maximum Poison Resist");
 }
 
 export function lightningResistModifier(value: ModifierValue): ItemModifier {
@@ -189,6 +221,24 @@ export function attackRatingModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("attack_rating", "static", value, "+{} to Attack Rating");
 }
 
+export function attackRatingAgainstUndeadModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"attack_rating_against Undead",
+		"static",
+		value,
+		"+{} to Attack Rating against Undead"
+	);
+}
+
+export function attackRatingAgainstDemonsModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"attack_rating_against Demons",
+		"static",
+		value,
+		"+{} to Attack Rating against Demons"
+	);
+}
+
 export function enhancedDamageModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("enhanced_damage", "static", value, "+{}% Enhanced Damage");
 }
@@ -238,12 +288,24 @@ export function energyModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("energy", "static", value, "+{} to Energy");
 }
 
+export function fireAbsorbModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("fire_absorb", "static", value, "+{} Fire Absorb");
+}
+
 export function coldAbsorbModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("cold_absorb", "static", value, "+{} Cold Absorb");
 }
 
+export function lightningAbsorbModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("lightning_absorb", "static", value, "+{} Lightning Absorb");
+}
+
 export function halfFreezeDurationModifier(): ItemModifier {
 	return createItemModifier("freeze_duration", "static", 0.5, "Half Freeze Duration");
+}
+
+export function cannotBeFrozenModifier(): ItemModifier {
+	return createItemModifier("freeze_duration", "static", 1, "Cannot be Frozen");
 }
 
 export function hitBlindsTargetModifier(): ItemModifier {
@@ -478,6 +540,7 @@ export function shadowDisciplineSkillsModifier(value: ModifierValue): ItemModifi
 		"+{} to Shadow Discipline Skills (Assassin Only)"
 	);
 }
+
 export function necromancerSkillsModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("necromancer_skills", "static", value, "+{} to Necromancer Skills");
 }
@@ -504,6 +567,28 @@ export function druidSkillsModifier(value: ModifierValue): ItemModifier {
 
 export function assassinSkillsModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("assassin_skills", "static", value, "+{} to Assassin Skills");
+}
+
+export function skeletonMasteryModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"skeleton_mastery",
+		"static",
+		value,
+		"+{} to Skeleton Mastery (Necromancer Only)"
+	);
+}
+
+export function raiseSkeletonModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"raise_skeleton",
+		"static",
+		value,
+		"+{} to Raise Skeleton (Necromancer Only)"
+	);
+}
+
+export function cloakOfShadowsModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("cloak_of_shadows", "static", value, "+{} to Cloak of Shadows");
 }
 
 export function poisonDamageOverTwoSecondsModifier(value: ModifierValue): ItemModifier {
@@ -570,6 +655,15 @@ export function howlLevelFiveOnStrikingModifier(value: ModifierValue): ItemModif
 	);
 }
 
+export function dimVisionLevelThreeWhenStruckModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"dim_vision_level_three_when_struck",
+		"static",
+		value,
+		"{}% Chance to Cast Level 3 Dim Vision when Struck"
+	);
+}
+
 export function attackSpeedModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("attack_speed", "static", value, "+{}% Increased Attack Speed ");
 }
@@ -580,6 +674,83 @@ export function damageTakenGainedAsManaModifier(value: ModifierValue): ItemModif
 		"static",
 		value,
 		"{}% Damage Taken Gained as Mana when Hit"
+	);
+}
+
+export function replenishLifeModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("replenish_life", "static", value, "Replenish Life +{}");
+}
+
+export function fasterHitRecoveryModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("faster_hit_recovery", "static", value, "+{}% Faster Hit Recovery");
+}
+
+export function fasterCastRateModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("faster_cast_rate", "static", value, "+{}% Faster Cast Rate");
+}
+
+export function fasterBlockRateModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("faster_block_rate", "static", value, "+{}% Faster Block Rate");
+}
+
+export function increasedChanceOfBlockingModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier(
+		"increased_block_chance",
+		"static",
+		value,
+		"{}% Increased Chance of Blocking"
+	);
+}
+
+export function fasterRunWalkModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("faster_run_walk", "static", value, "+{}% Faster Run/Walk");
+}
+
+export function preventMonsterHealModifier(): ItemModifier {
+	return createItemModifier("prevent_monster_heal", "static", 1, "Prevent Monster Heal");
+}
+
+export function slowTargetModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("slow_target", "static", value, "Slows Target by {}%");
+}
+
+export function slowerStaminaDrainModifier(value: ModifierValue): ItemModifier {
+	return createItemModifier("slower_stamina_drain", "static", value, "{}% Slower Stamina Drain");
+}
+
+export function addsFireDamageModifier(min: number, max: number): ItemModifier {
+	// TODO: two values
+	const templateValue = `[${min}-${max}]`;
+	return createItemModifier(
+		"adds_fire_damage",
+		"static",
+		min,
+		"Adds {} Fire Damage ",
+		templateValue
+	);
+}
+
+export function addsColdDamageModifier(min: number, max: number): ItemModifier {
+	// TODO: two values
+	const templateValue = `[${min}-${max}]`;
+	return createItemModifier(
+		"adds_cold_damage",
+		"static",
+		min,
+		"Adds {} Cold Damage ",
+		templateValue
+	);
+}
+
+export function addsLightningDamageModifier(min: number, max: number): ItemModifier {
+	// TODO: two values
+	const templateValue = `[${min}-${max}]`;
+	return createItemModifier(
+		"adds_lightning_damage",
+		"static",
+		min,
+		"Adds {} Lightning Damage ",
+		templateValue
 	);
 }
 
