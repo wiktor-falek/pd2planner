@@ -1,116 +1,8 @@
 import { toRaw } from "vue";
-import {
-	allAttributesModifier,
-	allResistModifier,
-	allSkillsModifier,
-	attackRatingModifier,
-	baseDefenseModifier,
-	chanceToFleeModifier,
-	coldAbsorbModifier,
-	coldSkillDamageModifier,
-	damageToUndeadModifier,
-	defenseModifier,
-	defenseVsMissileModifier,
-	dexterityModifier,
-	enemyColdResistanceModifier,
-	enhancedDamageModifier,
-	enhancedDefenseModifier,
-	flatPhysicalDamageReducedModifier,
-	goldFindModifier,
-	halfFreezeDurationModifier,
-	hitBlindsTargetModifier,
-	lifeAfterEachKillModifier,
-	lifeModifier,
-	lifePerLevelModifier,
-	lifeStolenPerHitModifier,
-	lightningResistModifier,
-	thornsLightningModifier,
-	lightRadiusModifier,
-	magicFindModifier,
-	manaAfterEachKillModifier,
-	manaModifier,
-	manaPerLevelModifier,
-	maximumDamageModifier,
-	necromancerSkillsModifier,
-	physicalDamageReducedModifier,
-	poisonAndBoneSkillsModifier,
-	poisonDamageOverTwoSecondsModifier,
-	poisonResistModifier,
-	requirementsModifier,
-	strengthModifier,
-	type ItemModifier,
-	howlLevelFiveOnStrikingModifier,
-	attackSpeedModifier,
-	flatMagicDamageReducedModifier,
-	thornsModifier,
-	damageTakenGainedAsManaModifier,
-	attackRatingAgainstUndeadModifier,
-	skeletonMasteryModifier,
-	raiseSkeletonModifier,
-	fasterRunWalkModifier,
-	vitalityModifier,
-	energyModifier,
-	replenishLifeModifier,
-	fasterHitRecoveryModifier,
-	coldResistModifier,
-	fireResistModifier,
-	manaStolenPerHitModifier,
-	dimVisionLevelThreeWhenStruckModifier,
-	defensePerLevelModifier,
-	cannotBeFrozenModifier,
-	cloakOfShadowsModifier,
-	preventMonsterHealModifier,
-	slowTargetModifier,
-	maxLightningResistModifier,
-	lightningAbsorbModifier,
-	addsColdDamageModifier,
-	slowerStaminaDrainModifier,
-	amazonSkillsModifier,
-	fasterBlockRateModifier,
-	increasedChanceOfBlockingModifier,
-	fireAbsorbModifier,
-} from "./modifiers";
-
-export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
-export type Slot =
-	| "weapon-1"
-	| "weapon-2"
-	| "helmet"
-	| "chest"
-	| "gloves"
-	| "boots"
-	| "amulet"
-	| "ring-1"
-	| "ring-2"
-	| "belt";
-
-export interface Item {
-	id: string;
-	name: string;
-	baseName: string;
-	slot: Slot;
-	rarity: Rarity;
-	modifiers: ItemModifier[];
-	baseModifiers: ItemModifier[];
-	requiredLevel: number;
-	requiredStrength: number;
-	requiredDexterity: number;
-	sockets: number;
-	corrupted: boolean;
-	corruptedModifier?: ItemModifier;
-	ethereal: boolean;
-	defense?: ItemModifier;
-}
-
-interface ItemOptions {
-	corruptedModifier?: ItemModifier;
-	requiredLevel?: number;
-	requiredStrength?: number;
-	requiredDexterity?: number;
-	sockets?: number;
-	corrupted?: boolean;
-	ethereal?: boolean;
-}
+import * as modifiers from "./modifiers";
+import type { ItemModifier } from "./modifiers";
+import { bases } from "./bases";
+import type { Item, ItemOptions } from "./bases";
 
 export function createItemCopy(item: Item): Item {
 	const copy = structuredClone(toRaw(item));
@@ -118,549 +10,503 @@ export function createItemCopy(item: Item): Item {
 	return copy;
 }
 
-function createItem(
+function baseToUnique(
+	base: Item,
 	name: string,
-	baseName: string,
-	slot: Slot,
-	rarity: Rarity,
-	baseModifiers: ItemModifier[],
-	modifiers: ItemModifier[],
+	affixes: ItemModifier[],
 	options?: ItemOptions
 ): Item {
-	return {
-		id: crypto.randomUUID(),
-		name,
-		baseName,
-		slot,
-		rarity,
-		baseModifiers,
-		modifiers,
-		corruptedModifier: options?.corruptedModifier,
-		requiredLevel: options?.requiredLevel ?? 0,
-		requiredStrength: options?.requiredStrength ?? 0,
-		requiredDexterity: options?.requiredDexterity ?? 0,
-		sockets: options?.sockets ?? 0,
-		corrupted: options?.corrupted ?? false,
-		ethereal: options?.ethereal ?? false,
-	};
+	return { ...base, name, rarity: "unique", affixes, ...options };
 }
 
 // Normal Unique Helms
 
-const BigginsBonnet = createItem(
+const BigginsBonnet = baseToUnique(
+	bases.helmets.Cap,
 	"Biggin's Bonnet",
-	"Cap",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([3, 5])],
 	[
-		enhancedDamageModifier([30, 50]),
-		attackRatingModifier([30, 50]),
-		defenseModifier(14),
-		lifeModifier(15),
-		manaModifier(15),
-		defenseModifier(15),
+		modifiers.enhancedDamageModifier([30, 50]),
+		modifiers.attackRatingModifier([30, 50]),
+		modifiers.defenseModifier(14),
+		modifiers.lifeModifier(15),
+		modifiers.manaModifier(15),
+		modifiers.defenseModifier(15),
 	],
 	{
-		requiredLevel: 3,
+		requirements: { level: 3 },
 	}
 );
 
-const Tarnhelm = createItem(
+const Tarnhelm = baseToUnique(
+	bases.helmets.SkullCap,
 	"Tarnhelm",
-	"Skull Cap",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([8, 11])],
 	[
-		allSkillsModifier(1),
-		manaAfterEachKillModifier([2, 3]),
-		goldFindModifier(75),
-		magicFindModifier([25, 50]),
+		modifiers.allSkillsModifier(1),
+		modifiers.manaAfterEachKillModifier([2, 3]),
+		modifiers.goldFindModifier(75),
+		modifiers.magicFindModifier([25, 50]),
 	],
 	{
-		requiredLevel: 15,
-		requiredStrength: 15,
+		requirements: {
+			level: 15,
+			strength: 15,
+		},
 	}
 );
 
-const CoifOfGlory = createItem(
+const CoifOfGlory = baseToUnique(
+	bases.helmets.Helm,
 	"Coif of Glory",
-	"Helm",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([15, 18])],
 	[
-		hitBlindsTargetModifier(),
-		defenseModifier(10),
-		defenseVsMissileModifier(100),
-		lightningResistModifier(15),
-		lifeAfterEachKillModifier([2, 3]),
-		thornsLightningModifier(17),
+		modifiers.hitBlindsTargetModifier(),
+		modifiers.defenseModifier(10),
+		modifiers.defenseVsMissileModifier(100),
+		modifiers.lightningResistModifier(15),
+		modifiers.lifeAfterEachKillModifier([2, 3]),
+		modifiers.thornsLightningModifier(17),
 	],
 	{
-		requiredLevel: 14,
-		requiredStrength: 26,
+		requirements: {
+			level: 14,
+			strength: 26,
+		},
 	}
 );
 
-const Duskdeep = createItem(
+const Duskdeep = baseToUnique(
+	bases.helmets.FullHelm,
 	"Duskdeep",
-	"Full Helm",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([23, 26])],
 	[
-		maximumDamageModifier([10, 15]),
-		enhancedDefenseModifier([30, 50]),
-		defenseModifier([10, 20]),
-		allResistModifier(15),
-		flatPhysicalDamageReducedModifier(7),
-		lightRadiusModifier(-2),
+		modifiers.maximumDamageModifier([10, 15]),
+		modifiers.enhancedDefenseModifier([30, 50]),
+		modifiers.defenseModifier([10, 20]),
+		modifiers.allResistModifier(15),
+		modifiers.flatPhysicalDamageReducedModifier(7),
+		modifiers.lightRadiusModifier(-2),
 	],
 	{
-		requiredLevel: 17,
-		requiredStrength: 41,
+		requirements: {
+			level: 17,
+			strength: 41,
+		},
 	}
 );
 
-const TheFaceOfHorror = createItem(
+const TheFaceOfHorror = baseToUnique(
+	bases.helmets.Mask,
 	"The Face of Horror",
-	"Mask",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([9, 27])],
 	[
-		damageToUndeadModifier(50),
-		chanceToFleeModifier(50),
-		defenseModifier(25),
-		strengthModifier(20),
-		allResistModifier([15, 20]),
+		modifiers.damageToUndeadModifier(50),
+		modifiers.chanceToFleeModifier(50),
+		modifiers.defenseModifier(25),
+		modifiers.strengthModifier(20),
+		modifiers.allResistModifier([15, 20]),
 	],
 	{
-		requiredLevel: 20,
-		requiredStrength: 23,
+		requirements: {
+			level: 20,
+			strength: 23,
+		},
 	}
 );
 
-const Wormskull = createItem(
+const Wormskull = baseToUnique(
+	bases.helmets.BoneHelm,
 	"Wormskull",
-	"Bone Helm",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([33, 36])],
 	[
-		poisonAndBoneSkillsModifier(1),
-		necromancerSkillsModifier(1),
-		poisonDamageOverTwoSecondsModifier(60),
-		lifeStolenPerHitModifier(5),
-		manaModifier(10),
-		poisonResistModifier(25),
+		modifiers.poisonAndBoneSkillsModifier(1),
+		modifiers.necromancerSkillsModifier(1),
+		modifiers.poisonDamageOverTwoSecondsModifier(60),
+		modifiers.lifeStolenPerHitModifier(5),
+		modifiers.manaModifier(10),
+		modifiers.poisonResistModifier(25),
 	],
 	{
-		requiredLevel: 21,
-		requiredStrength: 25,
+		requirements: {
+			level: 21,
+			strength: 25,
+		},
 	}
 );
 
-const Howltusk = createItem(
+const Howltusk = baseToUnique(
+	bases.helmets.GreatHelm,
 	"Howltusk",
-	"Great Helm",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([30, 35])],
 	[
-		howlLevelFiveOnStrikingModifier(10),
-		attackSpeedModifier(20),
-		enhancedDefenseModifier(80),
-		flatMagicDamageReducedModifier(2),
-		thornsModifier(30),
-		damageTakenGainedAsManaModifier(35),
+		modifiers.howlLevelFiveOnStrikingModifier(10),
+		modifiers.attackSpeedModifier(20),
+		modifiers.enhancedDefenseModifier(80),
+		modifiers.flatMagicDamageReducedModifier(2),
+		modifiers.thornsModifier(30),
+		modifiers.damageTakenGainedAsManaModifier(35),
 	],
 	{
-		requiredLevel: 25,
-		requiredStrength: 63,
+		requirements: {
+			level: 25,
+			strength: 63,
+		},
 	}
 );
 
-const UndeadCrown = createItem(
+const UndeadCrown = baseToUnique(
+	bases.helmets.Crown,
 	"Undead Crown",
-	"Crown",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([25, 45])],
 	[
-		damageToUndeadModifier(50),
-		attackRatingAgainstUndeadModifier([50, 100]),
-		lifeStolenPerHitModifier(5),
-		skeletonMasteryModifier([2, 3]),
-		raiseSkeletonModifier([2, 3]),
-		defenseModifier(40),
-		poisonResistModifier(50),
-		halfFreezeDurationModifier(),
+		modifiers.damageToUndeadModifier(50),
+		modifiers.attackRatingAgainstUndeadModifier([50, 100]),
+		modifiers.lifeStolenPerHitModifier(5),
+		modifiers.skeletonMasteryModifier([2, 3]),
+		modifiers.raiseSkeletonModifier([2, 3]),
+		modifiers.defenseModifier(40),
+		modifiers.poisonResistModifier(50),
+		modifiers.halfFreezeDurationModifier(),
 	],
 	{
-		requiredLevel: 29,
-		requiredStrength: 55,
+		requirements: {
+			level: 29,
+			strength: 55,
+		},
 	}
 );
 
 // Exceptional Helms
 
-const PeasantCrown = createItem(
+const PeasantCrown = baseToUnique(
+	bases.helmets.WarHat,
 	"Peasant Crown",
-	"War Hat",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([45, 53])],
 	[
-		allSkillsModifier(1),
-		fasterRunWalkModifier(20),
-		enhancedDefenseModifier(100),
-		vitalityModifier(20),
-		energyModifier(20),
-		replenishLifeModifier([6, 12]),
+		modifiers.allSkillsModifier(1),
+		modifiers.fasterRunWalkModifier(20),
+		modifiers.enhancedDefenseModifier(100),
+		modifiers.vitalityModifier(20),
+		modifiers.energyModifier(20),
+		modifiers.replenishLifeModifier([6, 12]),
 	],
 	{
-		requiredLevel: 28,
-		requiredStrength: 20,
+		requirements: {
+			level: 28,
+			strength: 20,
+		},
 	}
 );
 
-const Rockstopper = createItem(
+const Rockstopper = baseToUnique(
+	bases.helmets.Sallet,
 	"Rockstopper",
-	"Sallet",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([52, 62])],
 	[
-		fasterHitRecoveryModifier(30),
-		enhancedDefenseModifier([160, 220]),
-		vitalityModifier(15),
-		coldResistModifier([20, 40]),
-		fireResistModifier([20, 40]),
-		lightningResistModifier([20, 40]),
-		physicalDamageReducedModifier(10),
+		modifiers.fasterHitRecoveryModifier(30),
+		modifiers.enhancedDefenseModifier([160, 220]),
+		modifiers.vitalityModifier(15),
+		modifiers.coldResistModifier([20, 40]),
+		modifiers.fireResistModifier([20, 40]),
+		modifiers.lightningResistModifier([20, 40]),
+		modifiers.physicalDamageReducedModifier(10),
 	],
 	{
-		requiredLevel: 31,
-		requiredStrength: 43,
+		requirements: {
+			level: 31,
+			strength: 43,
+		},
 	}
 );
 
-const Stealskull = createItem(
+const Stealskull = baseToUnique(
+	bases.helmets.Casque,
 	"Stealskull",
-	"Casque",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([63, 72])],
 	[
-		attackSpeedModifier(20),
-		fasterHitRecoveryModifier(20),
-		manaStolenPerHitModifier([3, 5]),
-		lifeStolenPerHitModifier([3, 5]),
-		enhancedDefenseModifier([200, 240]),
-		magicFindModifier([30, 50]),
+		modifiers.attackSpeedModifier(20),
+		modifiers.fasterHitRecoveryModifier(20),
+		modifiers.manaStolenPerHitModifier([3, 5]),
+		modifiers.lifeStolenPerHitModifier([3, 5]),
+		modifiers.enhancedDefenseModifier([200, 240]),
+		modifiers.magicFindModifier([30, 50]),
 	],
 	{
-		requiredLevel: 35,
-		requiredStrength: 59,
+		requirements: {
+			level: 35,
+			strength: 59,
+		},
 	}
 );
 
-const DarksightHelm = createItem(
+const DarksightHelm = baseToUnique(
+	bases.helmets.Basinet,
 	"Darksight Helm",
-	"Basinet",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([0, 0])],
 	[
-		dimVisionLevelThreeWhenStruckModifier(16),
-		manaStolenPerHitModifier(5),
-		hitBlindsTargetModifier(),
-		defensePerLevelModifier(3),
-		fireResistModifier([20, 40]),
-		cannotBeFrozenModifier(),
-		lightRadiusModifier(-4),
-		cloakOfShadowsModifier(1),
+		modifiers.dimVisionLevelThreeWhenStruckModifier(16),
+		modifiers.manaStolenPerHitModifier(5),
+		modifiers.hitBlindsTargetModifier(),
+		modifiers.defensePerLevelModifier(3),
+		modifiers.fireResistModifier([20, 40]),
+		modifiers.cannotBeFrozenModifier(),
+		modifiers.lightRadiusModifier(-4),
+		modifiers.cloakOfShadowsModifier(1),
 	],
 	{
-		requiredLevel: 38,
-		requiredStrength: 82,
+		requirements: {
+			level: 38,
+			strength: 82,
+		},
 	}
 );
 
-const BlackhornsFace = createItem(
+const BlackhornsFace = baseToUnique(
+	bases.helmets.DeathMask,
 	"Blackhorn's Face",
-	"Death Mask",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([54, 86])],
 	[
-		preventMonsterHealModifier(),
-		slowTargetModifier(20),
-		enhancedDefenseModifier([180, 220]),
-		maxLightningResistModifier(5),
-		lightningResistModifier([20, 30]),
-		lightningAbsorbModifier([10, 20]),
-		thornsLightningModifier([225, 325]),
+		modifiers.preventMonsterHealModifier(),
+		modifiers.slowTargetModifier(20),
+		modifiers.enhancedDefenseModifier([180, 220]),
+		modifiers.maxLightningResistModifier(5),
+		modifiers.lightningResistModifier([20, 30]),
+		modifiers.lightningAbsorbModifier([10, 20]),
+		modifiers.thornsLightningModifier([225, 325]),
 	],
 	{
-		requiredLevel: 41,
-		requiredStrength: 55,
+		requirements: {
+			level: 41,
+			strength: 55,
+		},
 	}
 );
 
-const VampireGaze = createItem(
+const VampireGaze = baseToUnique(
+	bases.helmets.GrimHelm,
 	"Vampire Gaze",
-	"Grim Helm",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([60, 125])],
 	[
-		addsColdDamageModifier(30, 60),
-		manaStolenPerHitModifier([6, 10]),
-		lifeStolenPerHitModifier([6, 10]),
-		enhancedDefenseModifier(100),
-		slowerStaminaDrainModifier(15),
-		physicalDamageReducedModifier([15, 25]),
-		flatMagicDamageReducedModifier([10, 15]),
+		modifiers.addsColdDamageModifier(30, 60),
+		modifiers.manaStolenPerHitModifier([6, 10]),
+		modifiers.lifeStolenPerHitModifier([6, 10]),
+		modifiers.enhancedDefenseModifier(100),
+		modifiers.slowerStaminaDrainModifier(15),
+		modifiers.physicalDamageReducedModifier([15, 25]),
+		modifiers.flatMagicDamageReducedModifier([10, 15]),
 	],
 	{
-		requiredLevel: 41,
-		requiredStrength: 58,
+		requirements: {
+			level: 41,
+			strength: 58,
+		},
 	}
 );
 
-const ValkyrieWing = createItem(
+const ValkyrieWing = baseToUnique(
+	bases.helmets.WingedHelm,
 	"Valkyrie Wing",
-	"Winged Helm",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([85, 98])],
 	[
-		amazonSkillsModifier([1, 2]),
-		fasterRunWalkModifier(30),
-		fasterHitRecoveryModifier(30),
-		enhancedDamageModifier([40, 60]),
-		enhancedDefenseModifier([150, 200]),
-		manaAfterEachKillModifier([3, 6]),
+		modifiers.amazonSkillsModifier([1, 2]),
+		modifiers.fasterRunWalkModifier(30),
+		modifiers.fasterHitRecoveryModifier(30),
+		modifiers.enhancedDamageModifier([40, 60]),
+		modifiers.enhancedDefenseModifier([150, 200]),
+		modifiers.manaAfterEachKillModifier([3, 6]),
 	],
 	{
-		requiredLevel: 44,
-		requiredStrength: 115,
+		requirements: {
+			level: 44,
+			strength: 115,
+		},
 	}
 );
 
-const CrownOfThieves = createItem(
+const CrownOfThieves = baseToUnique(
+	bases.helmets.GrandCrown,
 	"Crown of Thieves",
-	"Grand Crown",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([78, 113])],
 	[
-		lifeStolenPerHitModifier([5, 10]),
-		enhancedDefenseModifier([160, 200]),
-		dexterityModifier(25),
-		lifeModifier(50),
-		fireResistModifier(33),
-		goldFindModifier([80, 100]),
-		magicFindModifier([40, 65]),
+		modifiers.lifeStolenPerHitModifier([5, 10]),
+		modifiers.enhancedDefenseModifier([160, 200]),
+		modifiers.dexterityModifier(25),
+		modifiers.lifeModifier(50),
+		modifiers.fireResistModifier(33),
+		modifiers.goldFindModifier([80, 100]),
+		modifiers.magicFindModifier([40, 65]),
 	],
 	{
-		requiredLevel: 49,
-		requiredStrength: 103,
+		requirements: {
+			level: 49,
+			strength: 103,
+		},
 	}
 );
 
 // Elite Helms
-const HarlequinCrest = createItem(
+const HarlequinCrest = baseToUnique(
+	bases.helmets.Shako,
 	"Harlequin Crest",
-	"Shako",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([98, 141])],
 	[
-		allSkillsModifier(2),
-		allAttributesModifier(2),
-		lifePerLevelModifier(1),
-		manaPerLevelModifier(1),
-		physicalDamageReducedModifier([3, 5]),
-		magicFindModifier([25, 50]),
+		modifiers.allSkillsModifier(2),
+		modifiers.allAttributesModifier(2),
+		modifiers.lifePerLevelModifier(1),
+		modifiers.manaPerLevelModifier(1),
+		modifiers.physicalDamageReducedModifier([3, 5]),
+		modifiers.magicFindModifier([25, 50]),
 	],
 	{
-		requiredLevel: 62,
-		requiredStrength: 50,
+		requirements: {
+			level: 62,
+			strength: 50,
+		},
 	}
 );
 
-const SteelShade = createItem(
+const SteelShade = baseToUnique(
+	bases.helmets.Armet,
 	"Steel Shade",
-	"Armet",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([105, 149])],
 	[
-		allSkillsModifier(2),
-		fasterBlockRateModifier(20),
-		increasedChanceOfBlockingModifier(20),
-		manaStolenPerHitModifier([4, 8]),
-		enhancedDefenseModifier([100, 130]),
-		replenishLifeModifier([30, 48]),
-		fireAbsorbModifier([4, 6]),
-		goldFindModifier([60, 80]),
+		modifiers.allSkillsModifier(2),
+		modifiers.fasterBlockRateModifier(20),
+		modifiers.increasedChanceOfBlockingModifier(20),
+		modifiers.manaStolenPerHitModifier([4, 8]),
+		modifiers.enhancedDefenseModifier([100, 130]),
+		modifiers.replenishLifeModifier([30, 48]),
+		modifiers.fireAbsorbModifier([4, 6]),
+		modifiers.goldFindModifier([60, 80]),
 	],
 	{
-		requiredLevel: 62,
-		requiredStrength: 109,
+		requirements: {
+			level: 62,
+			strength: 109,
+		},
 	}
 );
 
-// const AndarielsVisage = createItem(
-// 	"Andariel's Visage",
-// 	"Demonhead",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([101, 154])],
-// 	[],
-// 	{
-// 		requiredLevel: 83,
-// 		requiredStrength: 102,
-// 	}
-// );
+// // const AndarielsVisage = baseToUnique(
+// // 	"Demonhead",
+// // 	"Andariel's Visage",
+// // 	[],
+// // 	{
+//      requirements: {
+// // 		level: 83,
+// // 		strength: 102,
+// }
+// // 	}
+// // );
 
-// const Template = createItem(
-// 	"",
-// 	"",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([])],
+// // const Template = baseToUnique(
+// // 	"",
+// // 	"",
+// // 	[
+// // 	],
+// // 	{
+//      requirements: {
+// // 		level: 0,
+// // 		strength: 0,
+// }
+// // 		requiredDexterity: 0,
+// // 	}
+// // );
+
+// // const Template = baseToUnique(
+// // 	"",
+// // 	"",
+// // 	[
+// // 	],
+// // 	{
+//      requirements: {
+// // 		level: 0,
+// // 		strength: 0,
+// }
+// // 		requiredDexterity: 0,
+// // 	}
+// // );
+
+// // const Template = baseToUnique(
+// // 	"",
+// // 	"",
+// // 	[
+// // 	],
+// // 	{
+//      requirements: {
+// // 		level: 0,
+// // 		strength: 0,
+// }
+// // 		requiredDexterity: 0,
+// // 	}
+// // );
+
+// // const Template = baseToUnique(
+// // 	"",
+// // 	"",
+// // 	[
+// // 	],
+// // 	{
+//      requirements: {
+// // 		level: 0,
+// // 		strength: 0,
+// }
+// // 		requiredDexterity: 0,
+// // 	}
+// // );
+
+// // const Template = baseToUnique(
+// // 	"",
+// // 	"",
+// // 	[
+// // 	],
+// // 	{
+//      requirements: {
+// // 		level: 0,
+// // 		strength: 0,
+// }
+// // 		requiredDexterity: 0,
+// // 	}
+// // );
+
+// // const Template = baseToUnique(
+// // 	"",
+// // 	"",
+// // 	[
+// // 	],
+// // 	{
+//      requirements: {
+// // 		level: 0,
+// // 		strength: 0,
+// }
+// // 		requiredDexterity: 0,
+// // 	}
+// // );
+
+// const NightwingsVeil = baseToUnique(
+// 	"Spired Helm",
+// 	"Nightwing's Veil",
 // 	[
+// 		modifiers.allSkillsModifier(2),
+// 		modifiers.enemyColdResistanceModifier([5, 10]),
+// 		modifiers.coldSkillDamageModifier([10, 15]),
+// 		modifiers.enhancedDefenseModifier([90, 120]),
+// 		modifiers.dexterityModifier([10, 20]),
+// 		modifiers.coldAbsorbModifier([5, 9]),
+// 		modifiers.halfFreezeDurationModifier(),
+// 		modifiers.requirementsModifier(50),
 // 	],
 // 	{
-// 		requiredLevel: 0,
-// 		requiredStrength: 0,
-// 		requiredDexterity: 0,
+//      requirements: {
+// 		level: 67,
+// 		strength: 96,
+// }
 // 	}
 // );
-
-// const Template = createItem(
-// 	"",
-// 	"",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([])],
-// 	[
-// 	],
-// 	{
-// 		requiredLevel: 0,
-// 		requiredStrength: 0,
-// 		requiredDexterity: 0,
-// 	}
-// );
-
-// const Template = createItem(
-// 	"",
-// 	"",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([])],
-// 	[
-// 	],
-// 	{
-// 		requiredLevel: 0,
-// 		requiredStrength: 0,
-// 		requiredDexterity: 0,
-// 	}
-// );
-
-// const Template = createItem(
-// 	"",
-// 	"",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([])],
-// 	[
-// 	],
-// 	{
-// 		requiredLevel: 0,
-// 		requiredStrength: 0,
-// 		requiredDexterity: 0,
-// 	}
-// );
-
-// const Template = createItem(
-// 	"",
-// 	"",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([])],
-// 	[
-// 	],
-// 	{
-// 		requiredLevel: 0,
-// 		requiredStrength: 0,
-// 		requiredDexterity: 0,
-// 	}
-// );
-
-// const Template = createItem(
-// 	"",
-// 	"",
-// 	"helmet",
-// 	"unique",
-// 	[baseDefenseModifier([])],
-// 	[
-// 	],
-// 	{
-// 		requiredLevel: 0,
-// 		requiredStrength: 0,
-// 		requiredDexterity: 0,
-// 	}
-// );
-
-const NightwingsVeil = createItem(
-	"Nightwing's Veil",
-	"Spired Helm",
-	"helmet",
-	"unique",
-	[baseDefenseModifier([304, 352])],
-	[
-		allSkillsModifier(2),
-		enemyColdResistanceModifier([5, 10]),
-		coldSkillDamageModifier([10, 15]),
-		enhancedDefenseModifier([90, 120]),
-		dexterityModifier([10, 20]),
-		coldAbsorbModifier([5, 9]),
-		halfFreezeDurationModifier(),
-		requirementsModifier(50),
-	],
-	{
-		requiredLevel: 67,
-		requiredStrength: 96,
-	}
-);
 
 export const uniques = {
 	helmets: {
-		"Biggin's Bonnet": BigginsBonnet,
-		Tarnhelm: Tarnhelm,
-		"Coif of Glory": CoifOfGlory,
-		Duskdeep: Duskdeep,
-		"The Face of Horror": TheFaceOfHorror,
-		Wormskull: Wormskull,
-		Howltusk: Howltusk,
-		"Undead Crown": UndeadCrown,
-		"Peasant Crown": PeasantCrown,
-		Rockstopper: Rockstopper,
-		Stealskull: Stealskull,
-		"Darksight Helm": DarksightHelm,
-		"Blackhorn's Face": BlackhornsFace,
-		"Vampire Gaze": VampireGaze,
-		"Valkyrie Wing": ValkyrieWing,
-		"Crown of Thieves": CrownOfThieves,
-		"Harlequin Crest": HarlequinCrest,
-		"Steel Shade": SteelShade,
-		// "Nightwing's Veil": NightwingsVeil,
+		BigginsBonnet,
+		Tarnhelm,
+		CoifOfGlory,
+		Duskdeep,
+		TheFaceOfHorror,
+		Wormskull,
+		Howltusk,
+		UndeadCrown,
+		PeasantCrown,
+		Rockstopper,
+		Stealskull,
+		DarksightHelm,
+		BlackhornsFace,
+		VampireGaze,
+		ValkyrieWing,
+		CrownOfThieves,
+		HarlequinCrest,
+		SteelShade,
+		// NightwingsVeil,
 	},
 } as const;

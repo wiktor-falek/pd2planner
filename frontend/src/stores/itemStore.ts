@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
 import { loadFromStorage, saveToStorage } from "../persistence";
-import { createItemCopy, type Item, type Slot } from "../data/items";
+import { createItemCopy } from "../data/items";
+import type { Slot } from "../types";
+import type { Item } from "../data/bases";
 
 type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
 

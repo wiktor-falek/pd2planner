@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from "vue";
-import { uniques, type Slot } from "../data/items";
+import { uniques } from "../data/items";
 import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
 import { useItemStore } from "../stores/itemStore";
+import type { Slot } from "../types";
+import { useAttributeStore } from "../stores/attributeStore";
+import { attributeInfo } from "../data/attributes";
 
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();
+const attributeStore = useAttributeStore();
 
 function selectEquippedItem(e: Event, slot: Slot) {
 	const selectElement = e.target as HTMLSelectElement;
@@ -16,8 +20,8 @@ function selectEquippedItem(e: Event, slot: Slot) {
 
 const rollableModifiers = computed<ItemModifier[] | null>(
 	() =>
-		itemStore.selectedItem?.baseModifiers
-			.concat(itemStore.selectedItem?.modifiers)
+		itemStore.selectedItem?.basemods
+			.concat(itemStore.selectedItem?.affixes)
 			.filter((mod) => mod.rolls) ?? null
 );
 const selectedModifier = ref<ItemModifier | null>(null);
@@ -257,14 +261,35 @@ const modifierRangeInput = ref<HTMLInputElement>();
 							{{ itemStore.selectedItem.baseName }}
 						</p>
 
-						<!-- TODO: base modifiers list -->
-						<p v-for="baseModifier in itemStore.selectedItem.baseModifiers">
-							{{ getModifierTooltip(baseModifier) }}
+						<br>
+
+						<p v-if="itemStore.selectedItem.requirements.level" :class="{
+							'red': itemStore.selectedItem.requirements.level > characterStore.characterLevel
+						}">
+							Requires Level: {{
+								itemStore.selectedItem.requirements.level }}</p>
+
+						<p v-if="itemStore.selectedItem.requirements.strength" :class="{
+							'red': itemStore.selectedItem.requirements.strength > (attributeInfo[characterStore.characterClass].strength.base + attributeStore.attributes.strength)
+						}">
+							Requires {{
+								itemStore.selectedItem.requirements.strength }} Strength</p>
+
+						<p v-if="itemStore.selectedItem.requirements.dexterity" :class="{
+							'red': itemStore.selectedItem.requirements.dexterity > (attributeInfo[characterStore.characterClass].dexterity.base + attributeStore.attributes.dexterity)
+						}">
+							Requires {{
+								itemStore.selectedItem.requirements.dexterity }} Dexterity</p>
+
+						<br>
+
+						<p v-for="basemod in itemStore.selectedItem.basemods">
+							{{ getModifierTooltip(basemod) }}
 						</p>
 
 						<p class="corrupted">{{ itemStore.selectedItem.corrupted ? "Corrupted" : "&nbsp;" }}</p>
-						<p class="magic" v-for="modifier in itemStore.selectedItem.modifiers">
-							{{ getModifierTooltip(modifier, characterStore.characterLevel) }}
+						<p class="magic" v-for="affix in itemStore.selectedItem.affixes">
+							{{ getModifierTooltip(affix, characterStore.characterLevel) }}
 						</p>
 						<p class="ethereal">
 							{{ itemStore.selectedItem.ethereal ? "Ethereal (Cannot Be Repaired)" : "&nbsp;" }}
@@ -273,7 +298,8 @@ const modifierRangeInput = ref<HTMLInputElement>();
 					<div class="label-input">
 						<label for="ethereal">Sockets</label>
 						<select name="" id="" v-model="itemStore.selectedItem.sockets">
-							<option v-for="i in 7" :value="i - 1">{{ i - 1 }}</option>
+							<option v-for="i in itemStore.selectedItem.maxSockets + 1" :value="i - 1">{{ i - 1 }}
+							</option>
 						</select>
 					</div>
 					<div class="label-input">
@@ -328,7 +354,6 @@ const modifierRangeInput = ref<HTMLInputElement>();
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	/* border: 1px solid gray; */
 }
 
 .equipped-items {
@@ -367,7 +392,7 @@ const modifierRangeInput = ref<HTMLInputElement>();
 
 .unique-and-set-item-list {
 	border: 1px solid gray;
-	height: 204px;
+	height: 207px;
 	overflow-y: auto;
 }
 

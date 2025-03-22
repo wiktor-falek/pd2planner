@@ -15,3 +15,19 @@ export type Attributes = {
 };
 
 export type Attribute = "strength" | "dexterity" | "vitality" | "energy";
+
+export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
+
+export type Slot =
+	| "weapon-1"
+	| "weapon-2"
+	| "helmet"
+	| "chest"
+	| "gloves"
+	| "boots"
+	| "amulet"
+	| "ring-1"
+	| "ring-2"
+	| "belt";
+
+export type Tier = "normal" | "exceptional" | "elite";
