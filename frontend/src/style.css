@@ -13,7 +13,7 @@
 :root {
 	--font-color: rgba(255, 255, 255, 0.87);
 
-	font-family: "ExocetHeavy";
+	font-family: "ExocetHeavy", "Inter", "Roboto", sans-serif;
 	text-transform: uppercase;
 	line-height: 1.5;
 	font-weight: 400;
@@ -69,7 +69,7 @@ body {
 }
 
 .rare {
-	color: rgb(196, 196, 24);
+	color: #f8e53e;
 }
 
 .set {
@@ -77,7 +77,6 @@ body {
 }
 
 .unique {
-	/* color: rgb(227, 108, 39); */
 	color: #e9c69c;
 }
 
@@ -113,22 +112,22 @@ button:hover {
 	gap: 4px;
 }
 
-option {
-	all: unset;
-	font-family: "ExocetHeavy";
-	text-transform: uppercase;
-}
-
 select,
 input {
-	/* why does firefox always have to be retarded with its styling? do i just fucking switch to chromium? */
 	background-color: #282836;
 	border: 1px solid gray;
 	border-radius: 4px;
 	color: var(--font-color);
-	font-family: "ExocetHeavy";
-	text-transform: uppercase;
+	font-family: "ExocetHeavy", "Inter", "Roboto", sans-serif;
 	padding: 2px;
+}
+
+/* fuck you */
+@supports not (-moz-appearance: none) {
+	select,
+	input {
+		text-transform: uppercase;
+	}
 }
 
 select:focus,
