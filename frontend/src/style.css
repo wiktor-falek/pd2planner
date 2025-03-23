@@ -119,15 +119,8 @@ input {
 	border-radius: 4px;
 	color: var(--font-color);
 	font-family: "ExocetHeavy", "Inter", "Roboto", sans-serif;
+	text-transform: uppercase;
 	padding: 2px;
-}
-
-/* fuck you */
-@supports not (-moz-appearance: none) {
-	select,
-	input {
-		text-transform: uppercase;
-	}
 }
 
 select:focus,
