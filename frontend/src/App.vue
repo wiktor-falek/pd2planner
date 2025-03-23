@@ -20,7 +20,7 @@ const selectedTab = ref<Tab>("items");
 	<div class="app" @contextmenu.prevent>
 		<header>
 			<div class="label-input">
-				<label for="character-class">Class&nbsp;</label>
+				<label for="character-class">Class:</label>
 				<select id="character-class" name="character-class" :value="characterStore.characterClass" @change="
 					characterStore.setCharacterClass(
 						($event.target as HTMLSelectElement).value as CharacterClass
@@ -37,15 +37,15 @@ const selectedTab = ref<Tab>("items");
 			</div>
 
 			<div class="label-input">
-				<label for="character-level">Level&nbsp;</label>
+				<label for="character-level">Level</label>
 				<input id="character-level" type="number" min="1" max="99" :value="characterStore.characterLevel"
 					@change="
 						characterStore.setCharacterLevel(parseInt(($event.target as HTMLInputElement).value))
 						" />
 			</div>
 
-			<div>
-				<label for="skill-points">Skill Points:&nbsp;</label>
+			<div class="label-input">
+				<label for="skill-points">Skill Points:</label>
 				<span id="skill-points">
 					<span :class="{
 						red: skillStore.allocatedSkillPoints > skillStore.totalSkillPoints,
@@ -55,8 +55,8 @@ const selectedTab = ref<Tab>("items");
 				</span>
 			</div>
 
-			<div>
-				<label for="attribute-points">Attribute Points:&nbsp;</label>
+			<div class="label-input">
+				<label for="attribute-points">Attribute Points:</label>
 				<span id="attribute-points">
 					<span :class="{
 						red: attributeStore.allocatedAttributePoints > attributeStore.totalAttributePoints,

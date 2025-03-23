@@ -11,7 +11,8 @@
 }
 
 :root {
-	/* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
+	--font-color: rgba(255, 255, 255, 0.87);
+
 	font-family: "ExocetHeavy";
 	text-transform: uppercase;
 	line-height: 1.5;
@@ -19,7 +20,7 @@
 	font-size: 14px;
 
 	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
+	color: var(--font-color);
 	background-color: #1d1d1d;
 
 	font-synthesis: none;
@@ -48,7 +49,7 @@ body {
 }
 
 .red {
-	color: rgb(223, 103, 103);
+	color: rgb(243, 90, 90);
 }
 
 .green {
@@ -64,7 +65,7 @@ body {
 }
 
 .magic {
-	color: rgb(108, 108, 245);
+	color: rgb(138, 138, 250);
 }
 
 .rare {
@@ -72,20 +73,20 @@ body {
 }
 
 .set {
-	color: #3ead3e;
+	color: #45c245;
 }
 
 .unique {
 	/* color: rgb(227, 108, 39); */
-	color: #dbbd98;
+	color: #e9c69c;
 }
 
 .corrupted {
-	color: #e44f29;
+	color: #e15a38;
 }
 
 .ethereal {
-	color: rgb(158, 154, 154);
+	color: rgb(189, 184, 184);
 }
 
 button {
@@ -109,4 +110,28 @@ button:hover {
 .label-input {
 	display: flex;
 	align-items: center;
+	gap: 4px;
+}
+
+option {
+	all: unset;
+	font-family: "ExocetHeavy";
+	text-transform: uppercase;
+}
+
+select,
+input {
+	/* why does firefox always have to be retarded with its styling? do i just fucking switch to chromium? */
+	background-color: #282836;
+	border: 1px solid gray;
+	border-radius: 4px;
+	color: var(--font-color);
+	font-family: "ExocetHeavy";
+	text-transform: uppercase;
+	padding: 2px;
+}
+
+select:focus,
+input:focus {
+	outline: none;
 }
