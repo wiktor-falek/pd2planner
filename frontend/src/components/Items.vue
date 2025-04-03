@@ -4,7 +4,7 @@ import { uniques } from "../data/items";
 import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
 import { useItemStore } from "../stores/itemStore";
-import { ALL_SLOTS, type CraftableRarity, type Slot } from "../types";
+import { ALL_ITEM_BASE_TYPES, type CraftableRarity, type ItemBaseType, type Slot } from "../types";
 import { useAttributeStore } from "../stores/attributeStore";
 import { attributeInfo } from "../data/attributes";
 import Modal from "./reusable/Modal.vue";
@@ -29,7 +29,11 @@ const rollableModifiers = computed<ItemModifier[] | null>(
 const selectedModifier = ref<ItemModifier | null>(null);
 
 watch(rollableModifiers, (newModifiers) => {
-	selectedModifier.value = newModifiers?.length ? newModifiers[0] : null;
+	if (newModifiers === null) {
+		selectedModifier.value = null;
+	} else {
+		selectedModifier.value = newModifiers[0] ?? null;
+	}
 });
 
 onMounted(() => {
@@ -50,24 +54,31 @@ watch(selectedModifier, async (newSelectedModifier) => {
 const modifierRangeInput = ref<HTMLInputElement>();
 
 const modalIsOpen = ref(false);
-const craftingItem = ref<{ name: string; rarity: CraftableRarity; slot: Slot; baseName: string }>({
+
+const baseIndex = ref(0);
+const craftingItem = ref<{ name: string; rarity: CraftableRarity; type: ItemBaseType; baseName: string }>({
 	name: "New Item",
 	rarity: "rare",
-	slot: "helmet",
-	baseName: "Cap", // TODO: how to select first element from the bases?
+	type: "helmet",
+	baseName: Object.values(bases.helmet)[0]!.baseName,
 });
 
 function craftItem() {
-	const { name, rarity, slot, baseName } = craftingItem.value;
+	baseIndex.value = 0;
 
-	if (!(baseName in bases.helmets)) {
+	const { name, rarity, type, baseName } = craftingItem.value;
+
+	if (!(baseName in bases[type])) {
 		console.error(`Item base '${baseName}' not found.`);
 		return;
 	}
 
-	const base: Item = bases.helmets[baseName as keyof typeof bases.helmets];
+	const typeBases = bases[type];
+	const base = typeBases[baseName as keyof typeof typeBases] as Item;
 
-	const item: Item = { ...base, name, rarity, slot, baseName };
+	const item: Item = {
+		...base, name, rarity, type, baseName
+	};
 
 	itemStore.selectItem(item);
 
@@ -92,13 +103,14 @@ function craftItem() {
 						<option value="normal">Normal</option>
 						<option value="magic">Magic</option>
 						<option value="rare">Rare</option>
+						<option value="crafted">Crafted</option>
 					</select>
 				</div>
 
 				<div class="label-input">
 					<label for="">Slot:</label>
-					<select name="" id="" v-model="craftingItem.slot">
-						<option v-for="slot in ALL_SLOTS" :value="slot">{{ slot }}</option>
+					<select name="" id="" v-model="craftingItem.type">
+						<option v-for="type in ALL_ITEM_BASE_TYPES" :value="type">{{ type }}</option>
 					</select>
 				</div>
 
@@ -107,8 +119,8 @@ function craftItem() {
 				<div class="label-input">
 					<label for="">Base:</label>
 					<select name="" id="" v-model="craftingItem.baseName">
-						<option v-for="helmet in bases.helmets" :value="helmet.baseName">
-							{{ helmet.baseName }}
+						<option v-for="base in Object.values(bases[craftingItem.type])" :value="base.baseName">
+							{{ base.baseName }}
 						</option>
 					</select>
 				</div>
@@ -339,6 +351,7 @@ function craftItem() {
 					</div>
 
 					<div v-if="itemStore.selectedItem.rarity === 'rare' || itemStore.selectedItem.rarity === 'magic'">
+						<!-- TODO: crafted rarity having 1 crafted affix + 4 affixes, 3 prefixes 3 suffixes at most -->
 						<div class="label-input" v-for="n in (itemStore.selectedItem.rarity === 'rare' ? 3 : 1)"
 							:key="'prefix-' + n">
 							<label>Prefix:</label>

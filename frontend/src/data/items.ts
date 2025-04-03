@@ -22,7 +22,7 @@ function baseToUnique(
 // Normal Unique Helms
 
 const BigginsBonnet = baseToUnique(
-	bases.helmets["Cap"],
+	bases.helmet["Cap"]!,
 	"Biggin's Bonnet",
 	[
 		modifiers.enhancedDamageModifier([30, 50]),
@@ -38,7 +38,7 @@ const BigginsBonnet = baseToUnique(
 );
 
 const Tarnhelm = baseToUnique(
-	bases.helmets["Skull Cap"],
+	bases.helmet["Skull Cap"]!,
 	"Tarnhelm",
 	[
 		modifiers.allSkillsModifier(1),
@@ -55,7 +55,7 @@ const Tarnhelm = baseToUnique(
 );
 
 const CoifOfGlory = baseToUnique(
-	bases.helmets["Helm"],
+	bases.helmet["Helm"]!,
 	"Coif of Glory",
 	[
 		modifiers.hitBlindsTargetModifier(),
@@ -74,7 +74,7 @@ const CoifOfGlory = baseToUnique(
 );
 
 const Duskdeep = baseToUnique(
-	bases.helmets["Full Helm"],
+	bases.helmet["Full Helm"]!,
 	"Duskdeep",
 	[
 		modifiers.maximumDamageModifier([10, 15]),
@@ -93,7 +93,7 @@ const Duskdeep = baseToUnique(
 );
 
 const TheFaceOfHorror = baseToUnique(
-	bases.helmets["Mask"],
+	bases.helmet["Mask"]!,
 	"The Face of Horror",
 	[
 		modifiers.damageToUndeadModifier(50),
@@ -111,7 +111,7 @@ const TheFaceOfHorror = baseToUnique(
 );
 
 const Wormskull = baseToUnique(
-	bases.helmets["Bone Helm"],
+	bases.helmet["Bone Helm"]!,
 	"Wormskull",
 	[
 		modifiers.poisonAndBoneSkillsModifier(1),
@@ -130,7 +130,7 @@ const Wormskull = baseToUnique(
 );
 
 const Howltusk = baseToUnique(
-	bases.helmets["Great Helm"],
+	bases.helmet["Great Helm"]!,
 	"Howltusk",
 	[
 		modifiers.howlLevelFiveOnStrikingModifier(10),
@@ -149,7 +149,7 @@ const Howltusk = baseToUnique(
 );
 
 const UndeadCrown = baseToUnique(
-	bases.helmets["Crown"],
+	bases.helmet["Crown"]!,
 	"Undead Crown",
 	[
 		modifiers.damageToUndeadModifier(50),
@@ -172,7 +172,7 @@ const UndeadCrown = baseToUnique(
 // Exceptional Helms
 
 const PeasantCrown = baseToUnique(
-	bases.helmets["War Hat"],
+	bases.helmet["War Hat"]!,
 	"Peasant Crown",
 	[
 		modifiers.allSkillsModifier(1),
@@ -191,7 +191,7 @@ const PeasantCrown = baseToUnique(
 );
 
 const Rockstopper = baseToUnique(
-	bases.helmets["Sallet"],
+	bases.helmet["Sallet"]!,
 	"Rockstopper",
 	[
 		modifiers.fasterHitRecoveryModifier(30),
@@ -211,7 +211,7 @@ const Rockstopper = baseToUnique(
 );
 
 const Stealskull = baseToUnique(
-	bases.helmets["Casque"],
+	bases.helmet["Casque"]!,
 	"Stealskull",
 	[
 		modifiers.attackSpeedModifier(20),
@@ -230,7 +230,7 @@ const Stealskull = baseToUnique(
 );
 
 const DarksightHelm = baseToUnique(
-	bases.helmets["Basinet"],
+	bases.helmet["Basinet"]!,
 	"Darksight Helm",
 	[
 		modifiers.dimVisionLevelThreeWhenStruckModifier(16),
@@ -251,7 +251,7 @@ const DarksightHelm = baseToUnique(
 );
 
 const BlackhornsFace = baseToUnique(
-	bases.helmets["Death Mask"],
+	bases.helmet["Death Mask"]!,
 	"Blackhorn's Face",
 	[
 		modifiers.preventMonsterHealModifier(),
@@ -271,7 +271,7 @@ const BlackhornsFace = baseToUnique(
 );
 
 const VampireGaze = baseToUnique(
-	bases.helmets["Grim Helm"],
+	bases.helmet["Grim Helm"]!,
 	"Vampire Gaze",
 	[
 		modifiers.addsColdDamageModifier(30, 60),
@@ -291,7 +291,7 @@ const VampireGaze = baseToUnique(
 );
 
 const ValkyrieWing = baseToUnique(
-	bases.helmets["Winged Helm"],
+	bases.helmet["Winged Helm"]!,
 	"Valkyrie Wing",
 	[
 		modifiers.amazonSkillsModifier([1, 2]),
@@ -310,7 +310,7 @@ const ValkyrieWing = baseToUnique(
 );
 
 const CrownOfThieves = baseToUnique(
-	bases.helmets["Grand Crown"],
+	bases.helmet["Grand Crown"]!,
 	"Crown of Thieves",
 	[
 		modifiers.lifeStolenPerHitModifier([5, 10]),
@@ -331,7 +331,7 @@ const CrownOfThieves = baseToUnique(
 
 // Elite Helms
 const HarlequinCrest = baseToUnique(
-	bases.helmets["Shako"],
+	bases.helmet["Shako"]!,
 	"Harlequin Crest",
 	[
 		modifiers.allSkillsModifier(2),
@@ -350,7 +350,7 @@ const HarlequinCrest = baseToUnique(
 );
 
 const SteelShade = baseToUnique(
-	bases.helmets["Armet"],
+	bases.helmet["Armet"]!,
 	"Steel Shade",
 	[
 		modifiers.allSkillsModifier(2),

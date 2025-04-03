@@ -16,10 +16,10 @@ export type Attributes = {
 
 export type Attribute = "strength" | "dexterity" | "vitality" | "energy";
 
-export type Rarity = "normal" | "magic" | "rare" | "set" | "unique";
-export type CraftableRarity = "normal" | "magic" | "rare";
+export type Rarity = "normal" | "magic" | "rare" | "crafted" | "set" | "unique";
+export type CraftableRarity = "normal" | "magic" | "rare" | "crafted";
 
-export const ALL_RARITIES: Rarity[] = ["normal", "magic", "rare", "set", "unique"];
+export const ALL_RARITIES: Rarity[] = ["normal", "magic", "rare", "crafted", "set", "unique"];
 
 export type Slot =
 	| "weapon-1"
@@ -43,6 +43,27 @@ export const ALL_SLOTS: Slot[] = [
 	"amulet",
 	"ring-1",
 	"ring-2",
+	"belt",
+];
+
+export type ItemBaseType =
+	| "weapon"
+	| "helmet"
+	| "chest"
+	| "gloves"
+	| "boots"
+	| "amulet"
+	| "ring"
+	| "belt";
+
+export const ALL_ITEM_BASE_TYPES = [
+	"weapon",
+	"helmet",
+	"chest",
+	"gloves",
+	"boots",
+	"amulet",
+	"ring",
 	"belt",
 ];
 

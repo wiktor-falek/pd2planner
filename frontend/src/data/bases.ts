@@ -1,11 +1,16 @@
-import type { CharacterClass, Rarity, Slot, Tier } from "../types";
+import type { CharacterClass, ItemBaseType, Rarity, Slot, Tier } from "../types";
 import { baseDefenseModifier, type ItemModifier } from "./modifiers";
+
+export function itemBaseTypeToSlot(itemType: ItemBaseType): Slot {
+	
+} 
 
 export interface Item {
 	id: string;
 	name: string;
 	baseName: string;
-	slot: Slot;
+	type: ItemBaseType;
+	// slot: Slot;
 	rarity: Rarity;
 	tier: Tier;
 	basemods: ItemModifier[];
@@ -35,12 +40,17 @@ export interface ItemOptions {
 	basemods?: ItemModifier[];
 }
 
-function createItemBase(baseName: string, slot: Slot, tier: Tier, options?: ItemOptions): Item {
+function createItemBase(
+	baseName: string,
+	type: ItemBaseType,
+	tier: Tier,
+	options?: ItemOptions
+): Item {
 	return {
 		id: crypto.randomUUID(),
 		name: "New Item",
 		baseName,
-		slot,
+		type,
 		rarity: "normal",
 		tier,
 		requirements: options?.requirements ?? {},
@@ -55,7 +65,10 @@ function createItemBase(baseName: string, slot: Slot, tier: Tier, options?: Item
 }
 
 // prettier-ignore
-const helmets = {
+const weapon = {};
+
+// prettier-ignore
+const helmet = {
 	// normal
 	"Cap": createItemBase("Cap", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([3, 5])] }),
   	"Skull Cap": createItemBase("Skull Cap", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([8, 11])], requirements: { strength: 15 } }),
@@ -119,6 +132,31 @@ const helmets = {
   	"Guardian Crown": createItemBase("Guardian Crown", "helmet", "elite", { maxSockets: 3, basemods: [baseDefenseModifier([117, 168])], requirements: { strength: 196, level: 65 } })
 };
 
+// prettier-ignore
+const chest = {};
+
+// prettier-ignore
+const gloves = {};
+
+// prettier-ignore
+const boots = {};
+
+// prettier-ignore
+const amulet = {};
+
+// prettier-ignore
+const ring = {};
+
+// prettier-ignore
+const belt = {};
+
 export const bases = {
-	helmets,
-} as const;
+	weapon,
+	helmet,
+	chest,
+	gloves,
+	boots,
+	amulet,
+	ring,
+	belt,
+} as const satisfies Record<ItemBaseType, Record<string, Item>>;
