@@ -58,8 +58,8 @@ const modalIsOpen = ref(false);
 const craftingItem = ref<{ name: string; rarity: CraftableRarity; type: ItemBaseType; baseName: string }>({
 	name: "New Item",
 	rarity: "rare",
-	type: "helmet",
-	baseName: Object.values(bases.helmet)[0]!.baseName,
+	type: "weapon",
+	baseName: Object.values(bases.weapon)[0]!.baseName,
 });
 
 watch(() => craftingItem.value.type, (newType) => {
@@ -100,7 +100,7 @@ function craftItem() {
 
 				<div class="label-input">
 					<label for="">Name:</label>
-					<input type="text" :value="craftingItem.name" />
+					<input type="text" v-model="craftingItem.name" />
 				</div>
 
 				<div class="label-input">
@@ -143,20 +143,22 @@ function craftItem() {
 				<div class="equipped-items">
 					<div class="equipped-item label-input">
 						<label for="">Weapon 1:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'weapon-1')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['weapon-1'].items"
-								:value="index + 1" :selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:value="index + 1"
+								:selected="itemStore.equippedItems['weapon-1'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
 					</div>
 					<div class="equipped-item label-input">
 						<label for="">Weapon 2:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'weapon-2')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['weapon-2'].items"
-								:value="index + 1" :selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:value="index + 1"
+								:selected="itemStore.equippedItems['weapon-2'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -175,10 +177,10 @@ function craftItem() {
 
 					<div class="equipped-item label-input">
 						<label for="">Chest:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'chest')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['chest'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:selected="itemStore.equippedItems['chest'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -186,10 +188,10 @@ function craftItem() {
 
 					<div class="equipped-item label-input">
 						<label for="">Gloves:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'gloves')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['gloves'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:selected="itemStore.equippedItems['gloves'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -197,10 +199,10 @@ function craftItem() {
 
 					<div class="equipped-item label-input">
 						<label for="">Boots:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'boots')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['boots'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:selected="itemStore.equippedItems['boots'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -208,10 +210,10 @@ function craftItem() {
 
 					<div class="equipped-item label-input">
 						<label for="">Amulet:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'amulet')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['amulet'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:selected="itemStore.equippedItems['amulet'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -219,10 +221,10 @@ function craftItem() {
 
 					<div class="equipped-item label-input">
 						<label for="">Ring 1:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'ring-1')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['ring-1'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:selected="itemStore.equippedItems['ring-1'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -230,10 +232,10 @@ function craftItem() {
 
 					<div class="equipped-item label-input">
 						<label for="">Ring 2:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'ring-2')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['ring-2'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:selected="itemStore.equippedItems['ring-2'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -241,10 +243,10 @@ function craftItem() {
 
 					<div class="equipped-item label-input">
 						<label for="">Belt:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'belt')">
 							<option value="0">None</option>
 							<option v-for="(item, index) in itemStore.equippedItems['belt'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+								:selected="itemStore.equippedItems['belt'].selected === index + 1">
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>

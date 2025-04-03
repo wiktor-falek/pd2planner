@@ -67,10 +67,19 @@ export const useItemStore = defineStore("items", () => {
 		selectedItem.value.type;
 
 		const slots = itemTypeToEquippableSlots(selectedItem.value.type);
+
+		let wasAlreadySelected = false;
 		for (let i = 0; i < slots.length; i++) {
 			const slot = slots[i]!;
-			const isNoneSelected = equippedItems.value[slot].items.length === 0;
-			_equipItem(selectedItem.value, slot, isNoneSelected);
+
+			const isNoneSelected = equippedItems.value[slot].selected === 0;
+			const shouldEquip = isNoneSelected && !wasAlreadySelected;
+
+			_equipItem(selectedItem.value, slot, shouldEquip);
+
+			if (shouldEquip) {
+				wasAlreadySelected = true;
+			}
 		}
 	}
 
