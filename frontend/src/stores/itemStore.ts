@@ -2,10 +2,21 @@ import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
 import { loadFromStorage, saveToStorage } from "../persistence";
 import { createItemCopy } from "../data/items";
-import type { Slot } from "../types";
+import type { ItemBaseType, Slot } from "../types";
 import type { Item } from "../data/bases";
 
 type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
+
+function itemTypeToEquippableSlots(type: ItemBaseType): Slot[] {
+	switch (type) {
+		case "weapon":
+			return ["weapon-1", "weapon-2"];
+		case "ring":
+			return ["ring-1", "ring-2"];
+		default:
+			return [type as Slot];
+	}
+}
 
 function getDefaultEquippedItems(): EquippedItems {
 	return {
@@ -53,8 +64,14 @@ export const useItemStore = defineStore("items", () => {
 		items.value.push(itemCopy);
 		selectedItem.value = itemCopy;
 
-		const isNoneSelected = equippedItems.value[selectedItem.value.slot].items.length === 0;
-		_equipItem(selectedItem.value, isNoneSelected);
+		selectedItem.value.type;
+
+		const slots = itemTypeToEquippableSlots(selectedItem.value.type);
+		for (let i = 0; i < slots.length; i++) {
+			const slot = slots[i]!;
+			const isNoneSelected = equippedItems.value[slot].items.length === 0;
+			_equipItem(selectedItem.value, slot, isNoneSelected);
+		}
 	}
 
 	function removeSelectedItemFromBuild() {
@@ -63,31 +80,39 @@ export const useItemStore = defineStore("items", () => {
 		const index = items.value.findIndex((i) => i.id === selectedItem.value!.id);
 		if (index !== -1) items.value.splice(index, 1);
 
-		// selectItem(null);
-		_unequipItem(selectedItem.value);
+		const slots = itemTypeToEquippableSlots(selectedItem.value.type);
+		for (let i = 0; i < slots.length; i++) {
+			const slot = slots[i]!;
+			_unequipItem(selectedItem.value, slot);
+		}
+
+		selectItem(null);
 	}
 
-	function _equipItem(item: Item, select: boolean = false) {
-		const equippedSlot = equippedItems.value[item.slot];
+	function _equipItem(item: Item, slot: Slot, select: boolean = false) {
+		const equippedItemsSlot = equippedItems.value[slot];
 
-		equippedSlot.items.push(item);
+		equippedItemsSlot.items.push(item);
 		if (select) {
-			equippedSlot.selected = equippedSlot.items.length;
+			equippedItemsSlot.selected = equippedItemsSlot.items.length;
 		}
 	}
 
-	function _unequipItem(item: Item) {
-		const equippedSlot = equippedItems.value[item.slot];
-		const originalSize = equippedSlot.items.length;
+	function _unequipItem(item: Item, slot: Slot) {
+		// this shit dont work
+		console.log({ item, slot });
 
-		const index = equippedSlot.items.findIndex((i) => i.id === item.id);
+		const equippedItemsSlot = equippedItems.value[slot];
+		const originalSize = equippedItemsSlot.items.length;
+
+		const index = equippedItemsSlot.items.findIndex((i) => i.id === item.id);
 		if (index === -1) return;
 
-		equippedSlot.items.splice(index, 1);
+		equippedItemsSlot.items.splice(index, 1);
 
-		const wasLastItem = equippedSlot.selected === originalSize;
+		const wasLastItem = equippedItemsSlot.selected === originalSize;
 		if (wasLastItem) {
-			equippedSlot.selected--;
+			equippedItemsSlot.selected--;
 		}
 	}
 

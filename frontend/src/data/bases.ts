@@ -1,10 +1,6 @@
 import type { CharacterClass, ItemBaseType, Rarity, Slot, Tier } from "../types";
 import { baseDefenseModifier, type ItemModifier } from "./modifiers";
 
-export function itemBaseTypeToSlot(itemType: ItemBaseType): Slot {
-	
-} 
-
 export interface Item {
 	id: string;
 	name: string;
