@@ -48,6 +48,7 @@ export const ALL_SLOTS: Slot[] = [
 
 export type ItemBaseType =
 	| "weapon"
+	| "shield"
 	| "helmet"
 	| "chest"
 	| "gloves"
@@ -58,6 +59,7 @@ export type ItemBaseType =
 
 export const ALL_ITEM_BASE_TYPES = [
 	"weapon",
+	"shield",
 	"helmet",
 	"chest",
 	"gloves",

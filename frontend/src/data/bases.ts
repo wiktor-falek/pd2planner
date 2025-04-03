@@ -63,7 +63,10 @@ function createItemBase(
 // prettier-ignore
 const weapon = {
 	"Test Weapon": createItemBase("Test Weapon", "weapon", "normal", { maxSockets: 2, basemods: [] }),
+};
 
+const shield = {
+	"Test Shield": createItemBase("Test Shield", "shield", "normal", { maxSockets: 2, basemods: [] }),
 };
 
 // prettier-ignore
@@ -132,25 +135,136 @@ const helmet = {
 };
 
 // prettier-ignore
-const chest = {};
+const chest = {
+	// normal
+	"Quilted Armor": createItemBase("Quilted Armor", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([9, 11])] }),
+	"Leather Armor": createItemBase("Leather Armor", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([15, 17])] }),
+	"Hard Leather Armor": createItemBase("Hard Leather Armor", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([23, 25])] }),
+	"Studded Leather": createItemBase("Studded Leather", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([35, 37])] }),
+	"Ring Mail": createItemBase("Ring Mail", "helmet", "normal", { maxSockets: 3, basemods: [baseDefenseModifier([49, 51])] }),
+	"Scale Mail": createItemBase("Scale Mail", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([61, 63])] }),
+	"Chain Mail": createItemBase("Chain Mail", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([70, 71])] }),
+	"Breast Plate": createItemBase("Breast Plate", "helmet", "normal", { maxSockets: 3, basemods: [baseDefenseModifier([56, 58])] }),
+	"Splint Mail": createItemBase("Splint Mail", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([81, 84])] }),
+	"Plate Mail": createItemBase("Plate Mail", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([103, 108])] }),
+	"Field Plate": createItemBase("Field Plate", "helmet", "normal", { maxSockets: 2, basemods: [baseDefenseModifier([100, 102])] }),
+	"Gothic Plate": createItemBase("Gothic Plate", "helmet", "normal", { maxSockets: 4, basemods: [baseDefenseModifier([124, 128])] }),
+	"Light Plate": createItemBase("Light Plate", "helmet", "normal", { maxSockets: 3, basemods: [baseDefenseModifier([93, 99])] }),
+	"Full Plate Mail": createItemBase("Full Plate Mail", "helmet", "normal", { maxSockets: 4, basemods: [baseDefenseModifier([145, 150])] }),
+	"Ancient Armor": createItemBase("Ancient Armor", "helmet", "normal", { maxSockets: 4, basemods: [baseDefenseModifier([178, 185])] }),
+	// exceptional
+	"Ghost Armor": createItemBase("Ghost Armor", "helmet", "exceptional", { maxSockets: 2, basemods: [baseDefenseModifier([106, 112])] }),
+	"Serpentskin Armor": createItemBase("Serpentskin Armor", "helmet", "exceptional", { maxSockets: 2, basemods: [baseDefenseModifier([116, 122])] }),
+	"Demonhide Armor": createItemBase("Demonhide Armor", "helmet", "exceptional", { maxSockets: 2, basemods: [baseDefenseModifier([128, 134])] }),
+	"Trellised Armor": createItemBase("Trellised Armor", "helmet", "exceptional", { maxSockets: 2, basemods: [baseDefenseModifier([148, 156])] }),
+	"Linked Mail": createItemBase("Linked Mail", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([172, 180])] }),
+	"Tigulated Mail": createItemBase("Tigulated Mail", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([193, 202])] }),
+	"Mesh Armor": createItemBase("Mesh Armor", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([207, 216])] }),
+	"Cuirass": createItemBase("Cuirass", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([170, 176])] }),
+	"Russet Armor": createItemBase("Russet Armor", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([223, 233])] }),
+	"Templar Coat": createItemBase("Templar Coat", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([264, 278])] }),
+	"Sharktooth Armor": createItemBase("Sharktooth Armor", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([246, 255])] }),
+	"Embossed Plate": createItemBase("Embossed Plate", "helmet", "exceptional", { maxSockets: 4, basemods: [baseDefenseModifier([291, 304])] }),
+	"Mage Plate": createItemBase("Mage Plate", "helmet", "exceptional", { maxSockets: 3, basemods: [baseDefenseModifier([178, 187])] }),
+	"Chaos Armor": createItemBase("Chaos Armor", "helmet", "exceptional", { maxSockets: 4, basemods: [baseDefenseModifier([323, 340])] }),
+	"Ornate Plate": createItemBase("Ornate Plate", "helmet", "exceptional", { maxSockets: 4, basemods: [baseDefenseModifier([423, 444])] }),
+	// elite
+	"Dusk Shroud": createItemBase("Dusk Shroud", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([270, 302])] }),
+	"Wyrmhide": createItemBase("Wyrmhide", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([287, 322])] }),
+	"Scarab Husk": createItemBase("Scarab Husk", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([309, 349])] }),
+	"Wire Fleece": createItemBase("Wire Fleece", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([343, 391])] }),
+	"Diamond Mail": createItemBase("Diamond Mail", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([388, 445])] }),
+	"Loricated Mail": createItemBase("Loricated Mail", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([428, 495])] }),
+	"Boneweave": createItemBase("Boneweave", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([419, 489])] }),
+	"Great Hauberk": createItemBase("Great Hauberk", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([371, 420])] }),
+	"Balrog Skin": createItemBase("Balrog Skin", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([469, 541])] }),
+	"Hellforge Plate": createItemBase("Hellforge Plate", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([536, 625])] }),
+	"Kraken Shell": createItemBase("Kraken Shell", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([501, 576])] }),
+	"Lacquered Plate": createItemBase("Lacquered Plate", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([573, 664])] }),
+	"Archon Plate": createItemBase("Archon Plate", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([364, 407])] }),
+	"Shadow Plate": createItemBase("Shadow Plate", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([599, 696])] }),
+	"Sacred Armor": createItemBase("Sacred Armor", "helmet", "elite", { maxSockets: 4, basemods: [baseDefenseModifier([633, 730])] }),
+};
 
 // prettier-ignore
-const gloves = {};
+const gloves = {
+	// normal
+	"Gloves": createItemBase("Gloves", "gloves", "normal", { basemods: [baseDefenseModifier([2, 3])] }),
+	"Heavy Gloves": createItemBase("Heavy Gloves", "gloves", "normal", { basemods: [baseDefenseModifier([5, 6])] }),
+	"Chain Gloves": createItemBase("Chain Gloves", "gloves", "normal", { basemods: [baseDefenseModifier([8, 9])] }),
+	"Light Gauntlets": createItemBase("Light Gauntlets", "gloves", "normal", { basemods: [baseDefenseModifier([9, 11])] }),
+	"Gaunlets": createItemBase("Gaunlets", "gloves", "normal", { basemods: [baseDefenseModifier([12, 15])] }),
+	// exceptional
+	"Demonhide Gloves": createItemBase("Demonhide Gloves", "gloves", "exceptional", { basemods: [baseDefenseModifier([28, 35])] }),
+	"Sharkskin Gloves": createItemBase("Sharkskin Gloves", "gloves", "exceptional", { basemods: [baseDefenseModifier([33, 39])] }),
+	"Heavy Bracers": createItemBase("Heavy Bracers", "gloves", "exceptional", { basemods: [baseDefenseModifier([37, 44])] }),
+	"Battle Gauntlets": createItemBase("Battle Gauntlets", "gloves", "exceptional", { basemods: [baseDefenseModifier([39, 47])] }),
+	"War Gauntlets": createItemBase("War Gauntlets", "gloves", "exceptional", { basemods: [baseDefenseModifier([43, 53])] }),
+	// elite
+	"Bramble Mitts": createItemBase("Bramble Mitts", "gloves", "elite", { basemods: [baseDefenseModifier([54, 62])] }),
+	"Vampirebone Gloves": createItemBase("Vampirebone Gloves", "gloves", "elite", { basemods: [baseDefenseModifier([56, 65])] }),
+	"Vambraces": createItemBase("Vambraces", "gloves", "elite", { basemods: [baseDefenseModifier([59, 67])] }),
+	"Crusader Gauntlets": createItemBase("Crusader Gauntlets", "gloves", "elite", { basemods: [baseDefenseModifier([59, 68])] }),
+	"Ogre Gauntlets": createItemBase("Ogre Gauntlets", "gloves", "elite", { basemods: [baseDefenseModifier([62, 71])] }),
+};
 
 // prettier-ignore
-const boots = {};
+const boots = {
+	// normal
+	"Boots": createItemBase("Boots", "boots", "normal", { basemods: [baseDefenseModifier([2, 3])] }),
+	"Heavy Boots": createItemBase("Heavy Boots", "boots", "normal", { basemods: [baseDefenseModifier([5, 6])] }),
+	"Chain Boots": createItemBase("Chain Boots", "boots", "normal", { basemods: [baseDefenseModifier([8, 9])] }),
+	"Light Plated Boots": createItemBase("Light Plated Boots", "boots", "normal", { basemods: [baseDefenseModifier([9, 11])] }),
+	"Greaves": createItemBase("Greaves", "boots", "normal", { basemods: [baseDefenseModifier([12, 15])] }),
+	// exceptional
+	"Demonhide Boots": createItemBase("Demonhide Boots", "boots", "exceptional", { basemods: [baseDefenseModifier([28, 35])] }),
+	"Sharkskin Boots": createItemBase("Sharkskin Boots", "boots", "exceptional", { basemods: [baseDefenseModifier([33, 39])] }),
+	"Mesh Boots": createItemBase("Mesh Boots", "boots", "exceptional", { basemods: [baseDefenseModifier([37, 44])] }),
+	"Battle Boots": createItemBase("Battle Boots", "boots", "exceptional", { basemods: [baseDefenseModifier([39, 47])] }),
+	"War Boots": createItemBase("War Boots", "boots", "exceptional", { basemods: [baseDefenseModifier([43, 53])] }),
+	// elite
+	"Wyrmhide Boots": createItemBase("Wyrmhide Boots", "boots", "elite", { basemods: [baseDefenseModifier([54, 62])] }),
+	"Scarabshell Boots": createItemBase("Scarabshell Boots", "boots", "elite", { basemods: [baseDefenseModifier([56, 65])] }),
+	"Boneweave Boots": createItemBase("Boneweave Boots", "boots", "elite", { basemods: [baseDefenseModifier([59, 67])] }),
+	"Mirrored Boots": createItemBase("Mirrored Boots", "boots", "elite", { basemods: [baseDefenseModifier([59, 68])] }),
+	"Myrmidon Greaves": createItemBase("Myrmidon Greaves", "boots", "elite", { basemods: [baseDefenseModifier([62, 71])] }),
+};
 
 // prettier-ignore
-const amulet = {};
+const amulet = {
+	"Amulet": createItemBase("Amulet", "amulet", "normal")
+};
 
 // prettier-ignore
-const ring = {};
+const ring = {
+	"Ring": createItemBase("Ring", "amulet", "normal")
+};
 
 // prettier-ignore
-const belt = {};
+const belt = {
+	// normal
+	"Sash": createItemBase("Sash", "belt", "normal", { basemods: [baseDefenseModifier([2, 2])] }),
+	"Light Belt": createItemBase("Light Belt", "belt", "normal", { basemods: [baseDefenseModifier([3, 3])] }),
+	"Belt": createItemBase("Belt", "belt", "normal", { basemods: [baseDefenseModifier([5, 5])] }),
+	"Heavy Belt": createItemBase("Heavy Belt", "belt", "normal", { basemods: [baseDefenseModifier([6, 6])] }),
+	"Plated Belt": createItemBase("Plated Belt", "belt", "normal", { basemods: [baseDefenseModifier([8, 11])] }),
+	// exceptional
+	"Demonhide Sash": createItemBase("Demonhide Sash", "belt", "exceptional", { basemods: [baseDefenseModifier([29, 34])] }),
+	"Sharkskin Belt": createItemBase("Sharkskin Belt", "belt", "exceptional", { basemods: [baseDefenseModifier([31, 36])] }),
+	"Mesh Belt": createItemBase("Mesh Belt", "belt", "exceptional", { basemods: [baseDefenseModifier([35, 40])] }),
+	"Battle Belt": createItemBase("Battle Belt", "belt", "exceptional", { basemods: [baseDefenseModifier([37, 42])] }),
+	"War Belt": createItemBase("War Belt", "belt", "exceptional", { basemods: [baseDefenseModifier([41, 52])] }),
+	// elite
+	"Spiderweb Sash": createItemBase("Spiderweb Sash", "belt", "elite", { basemods: [baseDefenseModifier([55, 62])] }),
+	"Vampirefang Belt": createItemBase("Vampirefang Belt", "belt", "elite", { basemods: [baseDefenseModifier([56, 63])] }),
+	"Mithril Coil": createItemBase("Mithril Coil", "belt", "elite", { basemods: [baseDefenseModifier([58, 65])] }),
+	"Troll Belt": createItemBase("Troll Belt", "belt", "elite", { basemods: [baseDefenseModifier([59, 66])] }),
+	"Colossus Girdle": createItemBase("Colossus Girdle", "belt", "elite", { basemods: [baseDefenseModifier([61, 71])] }),
+};
 
 export const bases = {
 	weapon,
+	shield,
 	helmet,
 	chest,
 	gloves,
