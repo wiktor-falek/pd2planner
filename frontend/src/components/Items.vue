@@ -55,7 +55,6 @@ const modifierRangeInput = ref<HTMLInputElement>();
 
 const modalIsOpen = ref(false);
 
-const baseIndex = ref(0);
 const craftingItem = ref<{ name: string; rarity: CraftableRarity; type: ItemBaseType; baseName: string }>({
 	name: "New Item",
 	rarity: "rare",
@@ -63,9 +62,16 @@ const craftingItem = ref<{ name: string; rarity: CraftableRarity; type: ItemBase
 	baseName: Object.values(bases.helmet)[0]!.baseName,
 });
 
-function craftItem() {
-	baseIndex.value = 0;
+watch(() => craftingItem.value.type, (newType) => {
+	const firstDropdownItem = Object.values(bases[newType])[0];
+	if (firstDropdownItem === undefined) {
+		craftingItem.value.baseName = "";
+	} else {
+		craftingItem.value.baseName = firstDropdownItem.baseName;
+	}
+})
 
+function craftItem() {
 	const { name, rarity, type, baseName } = craftingItem.value;
 
 	if (!(baseName in bases[type])) {

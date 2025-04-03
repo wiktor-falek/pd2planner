@@ -61,7 +61,10 @@ function createItemBase(
 }
 
 // prettier-ignore
-const weapon = {};
+const weapon = {
+	"Test Weapon": createItemBase("Test Weapon", "weapon", "normal", { maxSockets: 2, basemods: [] }),
+
+};
 
 // prettier-ignore
 const helmet = {
