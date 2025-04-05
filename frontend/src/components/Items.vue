@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { uniques } from "../data/items";
 import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
@@ -90,13 +90,29 @@ function craftItem() {
 
 	modalIsOpen.value = false;
 }
+
+function handleEscKey(event: KeyboardEvent) {
+	if (event.key === "Escape") {
+		modalIsOpen.value = false;
+	}
+}
+
+onMounted(() => {
+	window.addEventListener("keydown", handleEscKey);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("keydown", handleEscKey);
+});
 </script>
 
 <template>
 	<div class="items">
 		<Modal :is-open="modalIsOpen" @close="modalIsOpen = false">
 			<div class="modal">
-				<p>Craft Item</p>
+				<div class="modal__titlebar">
+					<p class="modal__titlebar__title">Craft Item</p>
+				</div>
 
 				<div class="label-input">
 					<label for="">Name:</label>
@@ -131,7 +147,7 @@ function craftItem() {
 					</select>
 				</div>
 
-				<div class="">
+				<div class="modal__buttons">
 					<button @click="craftItem()">Create</button>
 					<button @click="modalIsOpen = false">Close</button>
 				</div>
@@ -542,7 +558,6 @@ button {
 	color: white;
 	border: 1px solid gray;
 	font-size: 12px;
-	padding: 2px 8px;
 }
 
 .label {
@@ -560,7 +575,44 @@ button {
 }
 
 .modal {
-	padding: 8px;
+	position: relative;
 	border: 1px solid gray;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 12px;
+	padding-top: 24px;
+}
+
+.modal__titlebar {
+	position: absolute;
+	top: -15px;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+}
+
+.modal__titlebar__title {
+	background-color: black;
+	border: 1px solid gray;
+	padding: 2px 8px;
+	margin: 0;
+}
+
+.modal>.label-input>label {
+	margin-left: auto;
+}
+
+.modal>.label-input>input,
+.modal>.label-input>select {
+	box-sizing: border-box;
+	width: 200px;
+}
+
+.modal__buttons {
+	margin-top: 12px;
+	display: flex;
+	justify-content: space-around;
 }
 </style>

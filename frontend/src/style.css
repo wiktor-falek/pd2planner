@@ -94,12 +94,13 @@ button {
 	align-items: center;
 	justify-content: center;
 	margin: 0;
-	padding: 2px 16px;
+	padding: 2px 8px;
 	background-color: #a7811a;
 	color: black;
 	border-radius: 4px;
 	cursor: pointer;
 	width: fit-content;
+	min-width: 56px;
 }
 
 button:hover {
@@ -126,4 +127,14 @@ input {
 select:focus,
 input:focus {
 	outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	font-size: 1rem;
 }
