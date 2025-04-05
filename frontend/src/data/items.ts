@@ -3,6 +3,7 @@ import * as modifiers from "./modifiers";
 import type { ItemModifier } from "./modifiers";
 import { bases } from "./bases";
 import type { Item, ItemOptions } from "./bases";
+import type { ItemBaseType } from "../types";
 
 export function createItemCopy(item: Item): Item {
 	const copy = structuredClone(toRaw(item));
@@ -22,7 +23,7 @@ function baseToUnique(
 // Normal Unique Helms
 
 const BigginsBonnet = baseToUnique(
-	bases.helmet["Cap"]!,
+	bases.helmet["Cap"],
 	"Biggin's Bonnet",
 	[
 		modifiers.enhancedDamageModifier([30, 50]),
@@ -38,7 +39,7 @@ const BigginsBonnet = baseToUnique(
 );
 
 const Tarnhelm = baseToUnique(
-	bases.helmet["Skull Cap"]!,
+	bases.helmet["Skull Cap"],
 	"Tarnhelm",
 	[
 		modifiers.allSkillsModifier(1),
@@ -55,7 +56,7 @@ const Tarnhelm = baseToUnique(
 );
 
 const CoifOfGlory = baseToUnique(
-	bases.helmet["Helm"]!,
+	bases.helmet["Helm"],
 	"Coif of Glory",
 	[
 		modifiers.hitBlindsTargetModifier(),
@@ -74,7 +75,7 @@ const CoifOfGlory = baseToUnique(
 );
 
 const Duskdeep = baseToUnique(
-	bases.helmet["Full Helm"]!,
+	bases.helmet["Full Helm"],
 	"Duskdeep",
 	[
 		modifiers.maximumDamageModifier([10, 15]),
@@ -93,7 +94,7 @@ const Duskdeep = baseToUnique(
 );
 
 const TheFaceOfHorror = baseToUnique(
-	bases.helmet["Mask"]!,
+	bases.helmet["Mask"],
 	"The Face of Horror",
 	[
 		modifiers.damageToUndeadModifier(50),
@@ -111,7 +112,7 @@ const TheFaceOfHorror = baseToUnique(
 );
 
 const Wormskull = baseToUnique(
-	bases.helmet["Bone Helm"]!,
+	bases.helmet["Bone Helm"],
 	"Wormskull",
 	[
 		modifiers.poisonAndBoneSkillsModifier(1),
@@ -130,7 +131,7 @@ const Wormskull = baseToUnique(
 );
 
 const Howltusk = baseToUnique(
-	bases.helmet["Great Helm"]!,
+	bases.helmet["Great Helm"],
 	"Howltusk",
 	[
 		modifiers.howlLevelFiveOnStrikingModifier(10),
@@ -149,7 +150,7 @@ const Howltusk = baseToUnique(
 );
 
 const UndeadCrown = baseToUnique(
-	bases.helmet["Crown"]!,
+	bases.helmet["Crown"],
 	"Undead Crown",
 	[
 		modifiers.damageToUndeadModifier(50),
@@ -172,7 +173,7 @@ const UndeadCrown = baseToUnique(
 // Exceptional Helms
 
 const PeasantCrown = baseToUnique(
-	bases.helmet["War Hat"]!,
+	bases.helmet["War Hat"],
 	"Peasant Crown",
 	[
 		modifiers.allSkillsModifier(1),
@@ -191,7 +192,7 @@ const PeasantCrown = baseToUnique(
 );
 
 const Rockstopper = baseToUnique(
-	bases.helmet["Sallet"]!,
+	bases.helmet["Sallet"],
 	"Rockstopper",
 	[
 		modifiers.fasterHitRecoveryModifier(30),
@@ -211,7 +212,7 @@ const Rockstopper = baseToUnique(
 );
 
 const Stealskull = baseToUnique(
-	bases.helmet["Casque"]!,
+	bases.helmet["Casque"],
 	"Stealskull",
 	[
 		modifiers.attackSpeedModifier(20),
@@ -230,7 +231,7 @@ const Stealskull = baseToUnique(
 );
 
 const DarksightHelm = baseToUnique(
-	bases.helmet["Basinet"]!,
+	bases.helmet["Basinet"],
 	"Darksight Helm",
 	[
 		modifiers.dimVisionLevelThreeWhenStruckModifier(16),
@@ -251,7 +252,7 @@ const DarksightHelm = baseToUnique(
 );
 
 const BlackhornsFace = baseToUnique(
-	bases.helmet["Death Mask"]!,
+	bases.helmet["Death Mask"],
 	"Blackhorn's Face",
 	[
 		modifiers.preventMonsterHealModifier(),
@@ -271,7 +272,7 @@ const BlackhornsFace = baseToUnique(
 );
 
 const VampireGaze = baseToUnique(
-	bases.helmet["Grim Helm"]!,
+	bases.helmet["Grim Helm"],
 	"Vampire Gaze",
 	[
 		modifiers.addsColdDamageModifier(30, 60),
@@ -291,7 +292,7 @@ const VampireGaze = baseToUnique(
 );
 
 const ValkyrieWing = baseToUnique(
-	bases.helmet["Winged Helm"]!,
+	bases.helmet["Winged Helm"],
 	"Valkyrie Wing",
 	[
 		modifiers.amazonSkillsModifier([1, 2]),
@@ -310,7 +311,7 @@ const ValkyrieWing = baseToUnique(
 );
 
 const CrownOfThieves = baseToUnique(
-	bases.helmet["Grand Crown"]!,
+	bases.helmet["Grand Crown"],
 	"Crown of Thieves",
 	[
 		modifiers.lifeStolenPerHitModifier([5, 10]),
@@ -331,7 +332,7 @@ const CrownOfThieves = baseToUnique(
 
 // Elite Helms
 const HarlequinCrest = baseToUnique(
-	bases.helmet["Shako"]!,
+	bases.helmet["Shako"],
 	"Harlequin Crest",
 	[
 		modifiers.allSkillsModifier(2),
@@ -350,7 +351,7 @@ const HarlequinCrest = baseToUnique(
 );
 
 const SteelShade = baseToUnique(
-	bases.helmet["Armet"]!,
+	bases.helmet["Armet"],
 	"Steel Shade",
 	[
 		modifiers.allSkillsModifier(2),
@@ -488,7 +489,9 @@ const SteelShade = baseToUnique(
 // );
 
 export const uniques = {
-	helmets: {
+	weapon: {},
+	shield: {},
+	helmet: {
 		BigginsBonnet,
 		Tarnhelm,
 		CoifOfGlory,
@@ -509,4 +512,10 @@ export const uniques = {
 		SteelShade,
 		// NightwingsVeil,
 	},
-} as const;
+	chest: {},
+	gloves: {},
+	boots: {},
+	amulet: {},
+	ring: {},
+	belt: {},
+} as const satisfies Record<ItemBaseType, Record<string, Item>>;

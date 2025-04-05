@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref } from "vue";
 import { uniques } from "../data/items";
 import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
@@ -104,6 +104,19 @@ onMounted(() => {
 onUnmounted(() => {
 	window.removeEventListener("keydown", handleEscKey);
 });
+
+const query = ref("");
+
+const itemList: Item[] = Object.values(uniques).flatMap(slotItems => Object.values(slotItems));
+const filteredItemList = ref<Item[]>(itemList);
+
+watch(query, (newQuery) => {
+	if (newQuery === "") {
+		filteredItemList.value = itemList;
+	} else {
+		filteredItemList.value = itemList.filter(item => `${item.name}, ${item.baseName}`.toLowerCase().indexOf(newQuery.toLowerCase()) !== -1)
+	}
+})
 </script>
 
 <template>
@@ -330,10 +343,9 @@ onUnmounted(() => {
 				</div>
 			</div>
 			<div>
-				<input class="search" type="text" placeholder="Search" />
+				<input class="search" type="text" placeholder="Search" v-model.trim="query" />
 				<div class="unique-and-set-item-list">
-					<div class="item-listing" v-for="item in Object.values(uniques.helmets)"
-						@click="itemStore.selectItem(item)">
+					<div class="item-listing" v-for="item in filteredItemList" @click="itemStore.selectItem(item)">
 						<p :class="{
 							[item.rarity]: true,
 						}">
