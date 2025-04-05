@@ -79,5 +79,7 @@ function handleMouseDown(event: MouseEvent, attribute: Attribute) {
 	padding: 0;
 	width: 32px;
 	height: 32px;
+	min-width: 0px;
+	background-color: #ba4943;
 }
 </style>

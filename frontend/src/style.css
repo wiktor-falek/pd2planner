@@ -95,16 +95,11 @@ button {
 	justify-content: center;
 	margin: 0;
 	padding: 2px 8px;
-	background-color: #a7811a;
 	color: black;
 	border-radius: 4px;
 	cursor: pointer;
 	width: fit-content;
 	min-width: 56px;
-}
-
-button:hover {
-	background-color: #cc9e20;
 }
 
 .label-input {

@@ -159,6 +159,12 @@ header {
 .navigation-panel button {
 	width: auto;
 	text-align: center;
+	padding: 4px 0;
+	background-color: #868585;
+}
+
+.navigation-panel button:hover {
+	background-color: #a19f9d;
 }
 
 .main {
