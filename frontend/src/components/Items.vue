@@ -362,16 +362,19 @@ function craftItem() {
 						<!-- TODO: crafted rarity having 1 crafted affix + 4 affixes, 3 prefixes 3 suffixes at most -->
 						<div class="label-input" v-for="n in (itemStore.selectedItem.rarity === 'rare' ? 3 : 1)"
 							:key="'prefix-' + n">
-							<label>Prefix:</label>
+							<label>Prefix: </label>
+							<!-- v-model="itemStore.selectedItem.affixes[n - 1]" -->
 							<select>
 								<option value="">None</option>
+								<!-- TODO: render and bind actual modifiers -->
 								<option value="life">Life</option>
 								<option value="mana">Mana</option>
 							</select>
 						</div>
 						<div class="label-input" v-for="n in (itemStore.selectedItem.rarity === 'rare' ? 3 : 1)"
 							:key="'suffix-' + n">
-							<label>Suffix:</label>
+							<label>Suffix: </label>
+							<!-- v-model="itemStore.selectedItem.affixes[n - 1 + OFFSET]"> -->
 							<select>
 								<option value="">None</option>
 								<option value="life">Life</option>

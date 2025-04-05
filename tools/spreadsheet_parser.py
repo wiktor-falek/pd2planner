@@ -1,11 +1,26 @@
 def parse_entry(entry: str, slot: str, quality: str):
+    # data = entry.split("\t")
+    # [name, _, _, lvl_req, str_req, min, max, soc, *_] = data
+
+    # if soc:
+    #     return f'\t"{name}": createItemBase("{name}", "{slot}", "{quality}", {{ maxSockets: {soc}, basemods: [baseDefenseModifier([{min}, {max}])] }}),'
+
+    # return f'\t"{name}": createItemBase("{name}", "{slot}", "{quality}", {{ basemods: [baseDefenseModifier([{min}, {max}])] }}),'
     data = entry.split("\t")
     [name, _, _, lvl_req, str_req, min, max, soc, *_] = data
 
-    if soc:
-        return f'\t"{name}": createItemBase("{name}", "{slot}", "{quality}", {{ maxSockets: {soc}, basemods: [baseDefenseModifier([{min}, {max}])] }}),'
+    base = f'\t"{name}": createItemBase("{name}", "{slot}", "{quality}", {{'
+    mods = f"basemods: [baseDefenseModifier([{min}, {max}])]"
+    sockets = f"maxSockets: {soc}, " if soc else ""
 
-    return f'\t"{name}": createItemBase("{name}", "{slot}", "{quality}", {{ basemods: [baseDefenseModifier([{min}, {max}])] }}),'
+    reqs = []
+    if int(str_req) > 0:
+        reqs.append(f"strength: {str_req}")
+    if int(lvl_req) > 0:
+        reqs.append(f"level: {lvl_req}")
+    requirements = f", requirements: {{ {', '.join(reqs)} }}" if reqs else ""
+
+    return f"{base} {sockets}{mods}{requirements} }}),"
 
 
 def parse_data(data: str, slot: str, quality: str) -> None:
@@ -15,11 +30,11 @@ def parse_data(data: str, slot: str, quality: str) -> None:
 
 
 entries = """
-Wyrmhide Boots	ulb	60	45	50	54	62		87.5		12
-Scarabshell Boots	uvb	66	49	91	56	65		90		14
-Boneweave Boots	umb	72	54	118	59	67		102.5		16
-Mirrored Boots	utb	81	60	163	59	68		108		18
-Myrmidon Greaves	uhb	85	65	208	62	71		119		24
+Spiderweb Sash	ulc	61	46	50	55	62				12
+Vampirefang Belt	uvc	68	51	50	56	63				14
+Mithril Coil	umc	75	56	106	58	65				16
+Troll Belt	utc	82	62	151	59	66				18
+Colossus Girdle	uhc	85	67	185	61	71				24
 """
 
-parse_data(entries, "boots", "elite")
+parse_data(entries, "belt", "elite")
