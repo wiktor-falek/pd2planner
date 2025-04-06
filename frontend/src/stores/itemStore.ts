@@ -64,8 +64,6 @@ export const useItemStore = defineStore("items", () => {
 		items.value.push(itemCopy);
 		selectedItem.value = itemCopy;
 
-		selectedItem.value.type;
-
 		const slots = itemTypeToEquippableSlots(selectedItem.value.type);
 
 		let wasAlreadySelected = false;

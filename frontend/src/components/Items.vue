@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref } from "vue";
-import { uniques } from "../data/items";
+import { createItemCopy, uniques } from "../data/items";
 import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
 import { useItemStore } from "../stores/itemStore";
@@ -345,7 +345,8 @@ watch(query, (newQuery) => {
 			<div>
 				<input class="search" type="text" placeholder="Search" v-model.trim="query" />
 				<div class="unique-and-set-item-list">
-					<div class="item-listing" v-for="item in filteredItemList" @click="itemStore.selectItem(item)">
+					<div class="item-listing" v-for="item in filteredItemList"
+						@click="itemStore.selectItem(createItemCopy(item))">
 						<p :class="{
 							[item.rarity]: true,
 						}">
