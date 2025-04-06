@@ -108,9 +108,6 @@ export const useItemStore = defineStore("items", () => {
 	}
 
 	function _unequipItem(item: Item, slot: Slot) {
-		// this shit dont work
-		console.log({ item, slot });
-
 		const equippedItemsSlot = equippedItems.value[slot];
 		const originalSize = equippedItemsSlot.items.length;
 

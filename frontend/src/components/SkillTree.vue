@@ -44,7 +44,7 @@ function setSkillTooltip(skillName: string | null, x: number | null = null, y: n
 		return;
 	}
 
-	skillTooltip.value = { name: skillName, x: x ?? 0, y: y ?? 0, ...skillDetails[characterStore.characterClass][skillName] };
+	skillTooltip.value = { name: skillName, x: x ?? 0, y: y ?? 0, ...skillDetails[characterStore.characterClass][skillName]! };
 }
 
 const skillTooltipData = computed(() => {
@@ -106,17 +106,17 @@ const getSkillPoints = (skillName: string) => skillStore.skillTreeState[skillNam
 			<!-- TODO: optimize -->
 			<p>
 				<span class="green">{{ skillTooltipData.name }}</span><br />
-				{{ skillDetails[characterStore.characterClass][skillTooltipData.name].description }}<br />
+				{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.description }}<br />
 				<span>Required Level: {{
-					skillDetails[characterStore.characterClass][skillTooltipData.name].levelRequirement
+					skillDetails[characterStore.characterClass][skillTooltipData.name]!.levelRequirement
 				}}</span>
 			</p>
-			<p v-if="skillDetails[characterStore.characterClass][skillTooltipData.name].mechanics.length > 0">
-				{{ skillDetails[characterStore.characterClass][skillTooltipData.name].mechanics }}
+			<p v-if="skillDetails[characterStore.characterClass][skillTooltipData.name]!.mechanics.length > 0">
+				{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.mechanics }}
 			</p>
-			<div v-if="skillDetails[characterStore.characterClass][skillTooltipData.name].synergies.length > 0">
+			<div v-if="skillDetails[characterStore.characterClass][skillTooltipData.name]!.synergies.length > 0">
 				<p class="green">{{ skillTooltipData.name }} Receives Bonuses From:</p>
-				<p>{{ skillDetails[characterStore.characterClass][skillTooltipData.name].synergies }}</p>
+				<p>{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.synergies }}</p>
 			</div>
 		</div>
 

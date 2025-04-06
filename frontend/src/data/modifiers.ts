@@ -96,7 +96,6 @@ function createHybridItemModifier(
 	};
 }
 
-// TODO: ModifierValue - template
 export function lifePerLevelModifier(valuePerLevel: number): ItemModifier {
 	const templateValue = `[${valuePerLevel}-${valuePerLevel * 99}]`;
 	return createItemModifier(
