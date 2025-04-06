@@ -57,6 +57,8 @@ export type ItemBaseType =
 	| "ring"
 	| "belt";
 
+export type RunewordBaseType = "weapon" | "shield" | "helmet" | "chest";
+
 export const ALL_ITEM_BASE_TYPES = [
 	"weapon",
 	"shield",
