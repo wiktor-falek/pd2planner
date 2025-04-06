@@ -11,7 +11,7 @@
 }
 
 :root {
-	--font-color: rgba(255, 255, 255, 0.87);
+	--font-color: #eee;
 
 	font-family: "ExocetHeavy", "Inter", "Roboto", sans-serif;
 	text-transform: uppercase;
@@ -100,6 +100,11 @@ button {
 	cursor: pointer;
 	width: fit-content;
 	min-width: 56px;
+	border: 1px solid gray;
+}
+
+button:hover {
+	border: 1px solid rgb(233, 233, 233) !important;
 }
 
 .label-input {
