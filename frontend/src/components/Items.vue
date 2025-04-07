@@ -9,6 +9,7 @@ import { useAttributeStore } from "../stores/attributeStore";
 import { attributeInfo } from "../data/attributes";
 import Modal from "./reusable/Modal.vue";
 import { bases, type Item } from "../data/bases";
+import { createRuneword, runewordsData, type RunewordData } from "../data/runewords";
 
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();
@@ -105,18 +106,31 @@ onUnmounted(() => {
 	window.removeEventListener("keydown", handleEscKey);
 });
 
-const query = ref("");
+const filterQuery = ref("");
 
-const itemList: Item[] = Object.values(uniques).flatMap(slotItems => Object.values(slotItems));
-const filteredItemList = ref<Item[]>(itemList);
+const allUniques = Object.values(uniques).flatMap(slotItems => Object.values(slotItems));
+const allRunewords = Object.values(runewordsData);
+const itemList = [...allUniques, ...allRunewords];
+const filteredItemList = ref<(Item | RunewordData)[]>(itemList);
 
-watch(query, (newQuery) => {
-	if (newQuery === "") {
+watch(filterQuery, (newFilterQuery) => {
+	if (newFilterQuery === "") {
 		filteredItemList.value = itemList;
 	} else {
-		filteredItemList.value = itemList.filter(item => `${item.name}, ${item.baseName}`.toLowerCase().indexOf(newQuery.toLowerCase()) !== -1)
+		filteredItemList.value = itemList.filter(entry => {
+			const queryable = "baseName" in entry ? `${entry.name}, ${entry.baseName}` : `${entry.name}, Runeword ${entry.requirements.baseType}`;
+			return queryable.toLowerCase().indexOf(newFilterQuery.toLowerCase()) !== -1;
+		})
 	}
 })
+
+function selectEntry(entry: Item | RunewordData) {
+	if ('baseName' in entry) {
+		itemStore.selectItem(createItemCopy(entry))
+	} else {
+		itemStore.selectItem(createRuneword(bases.helmet.Cap, entry));
+	}
+}
 </script>
 
 <template>
@@ -343,14 +357,14 @@ watch(query, (newQuery) => {
 				</div>
 			</div>
 			<div>
-				<input class="search" type="text" placeholder="Search" v-model.trim="query" />
+				<input class="search" type="text" placeholder="Search" v-model.trim="filterQuery" />
 				<div class="unique-and-set-item-list">
-					<div class="item-listing" v-for="item in filteredItemList"
-						@click="itemStore.selectItem(createItemCopy(item))">
+					<div class="item-listing" v-for="entry in filteredItemList" @click="selectEntry(entry)">
 						<p :class="{
-							[item.rarity]: true,
+							[entry.rarity]: true,
 						}">
-							{{ item.name }}, {{ item.baseName }}
+							{{ entry.name }}, {{ 'baseName' in entry ? `${entry.baseName}` : `Runeword
+							${entry.requirements.baseType}` }}
 						</p>
 					</div>
 				</div>
@@ -432,6 +446,7 @@ watch(query, (newQuery) => {
 							{{ itemStore.selectedItem.name }}
 							<span v-if="itemStore.selectedItem.sockets">[{{ itemStore.selectedItem.sockets }}]</span>
 						</p>
+
 						<p :class="{ [itemStore.selectedItem.rarity]: true }">
 							{{ itemStore.selectedItem.baseName }}
 						</p>

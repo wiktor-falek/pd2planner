@@ -42,6 +42,7 @@ export interface RunewordData {
 		level: number;
 		sockets: number;
 	};
+	rarity: "runeword";
 	affixes: ItemModifier[];
 }
 
@@ -60,11 +61,12 @@ function createRunewordData(
 			level: requiredLevel,
 			sockets: runes.length,
 		},
+		rarity: "runeword",
 		affixes,
 	};
 }
 
-const runewords = {
+export const runewordsData = {
 	Lore: createRunewordData("Lore", "helmet", ["Ort", "Sol"], 27, [
 		modifiers.allSkillsModifier(1),
 		modifiers.energyModifier([5, 10]),
@@ -75,14 +77,14 @@ const runewords = {
 	]),
 } as const satisfies Record<string, RunewordData>;
 
-function createRuneWord(base: Item, runewordData: RunewordData): Item {
+export function createRuneword(base: Item, runewordData: RunewordData): Item {
 	console.assert(
 		base.type === runewordData.requirements.baseType,
 		`Runeword '${runewordData.name}' requires '${base.type}' base type`
 	);
 
 	console.assert(
-		base.maxSockets < runewordData.requirements.sockets,
+		base.maxSockets >= runewordData.requirements.sockets,
 		`Base doesn't meet socket requirements for '${runewordData.name}' runeword`
 	);
 
@@ -93,6 +95,7 @@ function createRuneWord(base: Item, runewordData: RunewordData): Item {
 		requirements: {
 			level: Math.max(base.requirements.level ?? 0, runewordData.requirements.level),
 		},
+		rarity: "runeword"
 	};
 	return runeword;
 }
