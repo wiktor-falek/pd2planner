@@ -18,7 +18,12 @@ const attributeStore = useAttributeStore();
 
 function selectItem(item: Item | null) {
 	itemStore.selectedItem = item;
-	selectedCorruptedModifier.value = null;
+
+	if (item === null) {
+		selectedCorruptedModifier.value = null;
+	} else {
+		selectedCorruptedModifier.value = item.corruptedModifier;
+	}
 }
 
 function selectEquippedItem(e: Event, slot: Slot) {
@@ -32,7 +37,7 @@ const rollableModifiers = computed<ItemModifier[] | null>(
 		itemStore.selectedItem?.basemods
 			.concat(itemStore.selectedItem?.affixes)
 			.concat(itemStore.selectedItem.corruptedModifier ?? [])
-			.filter((affix) => affix.valueData.some((valueData) => valueData.rolls)) ?? null
+			.filter((affix) => affix.values.some((value) => value.rolls)) ?? null
 );
 const selectedModifier = ref<ItemModifier | null>(null);
 
@@ -55,7 +60,7 @@ watch(selectedModifier, async (newSelectedModifier) => {
 	if (newSelectedModifier) {
 		await nextTick();
 		if (modifierRangeInput.value) {
-			modifierRangeInput.value.value = newSelectedModifier.valueData[0]!._value.toString();
+			modifierRangeInput.value.value = newSelectedModifier.values[0]!._value.toString();
 		}
 	}
 });
@@ -593,7 +598,7 @@ function selectSockets(item: Item, amount: number) {
 							</option>
 						</select>
 
-						<div v-for="value in selectedModifier?.valueData">
+						<div v-for="value in selectedModifier?.values">
 							<input
 								v-if="value.rolls"
 								ref="modifierRangeInput"

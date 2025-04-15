@@ -30,7 +30,7 @@ interface ModifierValueData {
 export interface ItemModifier {
 	id: string;
 	description: string;
-	valueData: ModifierValueData[];
+	values: ModifierValueData[];
 	tooltipTemplate?: string;
 }
 
@@ -40,7 +40,7 @@ export interface HybridItemModifier {
 }
 
 export function getModifierValues(modifier: ItemModifier, scalingFactor: number = 1): number[] {
-	return modifier.valueData.map((value) => {
+	return modifier.values.map((value) => {
 		if (value.kind === "dynamic") {
 			return value._value * scalingFactor;
 		}
@@ -97,7 +97,7 @@ function createItemModifier(
 
 	let i = 0;
 	const description = tooltipTemplate.replace(/{}/g, () => _templates[i++]!);
-	const valueData = values.map((value) => {
+	const _values = values.map((value) => {
 		const isRange = Array.isArray(value);
 		return {
 			_value: isRange ? midRoll(value) : value,
@@ -109,7 +109,7 @@ function createItemModifier(
 	return {
 		id: id,
 		description,
-		valueData,
+		values: _values,
 		tooltipTemplate,
 	};
 }
