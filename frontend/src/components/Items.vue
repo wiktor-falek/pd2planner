@@ -24,7 +24,7 @@ const rollableModifiers = computed<ItemModifier[] | null>(
 	() =>
 		itemStore.selectedItem?.basemods
 			.concat(itemStore.selectedItem?.affixes)
-			.filter((mod) => mod.rolls) ?? null
+			.filter((mod) => mod.valueData.rolls) ?? null
 );
 const selectedModifier = ref<ItemModifier | null>(null);
 
@@ -46,7 +46,7 @@ watch(selectedModifier, async (newSelectedModifier) => {
 	if (newSelectedModifier) {
 		await nextTick();
 		if (modifierRangeInput.value) {
-			modifierRangeInput.value.value = newSelectedModifier._value.toString();
+			modifierRangeInput.value.value = newSelectedModifier.valueData._value.toString();
 		}
 	}
 });
@@ -55,21 +55,29 @@ const modifierRangeInput = ref<HTMLInputElement>();
 
 const modalIsOpen = ref(false);
 
-const craftingItem = ref<{ name: string; rarity: CraftableRarity; type: ItemBaseType; baseName: string }>({
+const craftingItem = ref<{
+	name: string;
+	rarity: CraftableRarity;
+	type: ItemBaseType;
+	baseName: string;
+}>({
 	name: "New Item",
 	rarity: "rare",
 	type: "weapon",
 	baseName: Object.values(bases.weapon)[0]!.baseName,
 });
 
-watch(() => craftingItem.value.type, (newType) => {
-	const firstDropdownItem = Object.values(bases[newType])[0];
-	if (firstDropdownItem === undefined) {
-		craftingItem.value.baseName = "";
-	} else {
-		craftingItem.value.baseName = firstDropdownItem.baseName;
+watch(
+	() => craftingItem.value.type,
+	(newType) => {
+		const firstDropdownItem = Object.values(bases[newType])[0];
+		if (firstDropdownItem === undefined) {
+			craftingItem.value.baseName = "";
+		} else {
+			craftingItem.value.baseName = firstDropdownItem.baseName;
+		}
 	}
-})
+);
 
 function craftItem() {
 	const { name, rarity, type, baseName } = craftingItem.value;
@@ -83,7 +91,11 @@ function craftItem() {
 	const base = typeBases[baseName as keyof typeof typeBases] as Item;
 
 	const item: Item = {
-		...base, name, rarity, type, baseName
+		...base,
+		name,
+		rarity,
+		type,
+		baseName,
 	};
 
 	itemStore.selectItem(item);
@@ -107,16 +119,19 @@ onUnmounted(() => {
 
 const query = ref("");
 
-const itemList: Item[] = Object.values(uniques).flatMap(slotItems => Object.values(slotItems));
+const itemList: Item[] = Object.values(uniques).flatMap((slotItems) => Object.values(slotItems));
 const filteredItemList = ref<Item[]>(itemList);
 
 watch(query, (newQuery) => {
 	if (newQuery === "") {
 		filteredItemList.value = itemList;
 	} else {
-		filteredItemList.value = itemList.filter(item => `${item.name}, ${item.baseName}`.toLowerCase().indexOf(newQuery.toLowerCase()) !== -1)
+		filteredItemList.value = itemList.filter(
+			(item) =>
+				`${item.name}, ${item.baseName}`.toLowerCase().indexOf(newQuery.toLowerCase()) !== -1
+		);
 	}
-})
+});
 </script>
 
 <template>
@@ -172,22 +187,36 @@ watch(query, (newQuery) => {
 				<div class="equipped-items">
 					<div class="equipped-item label-input">
 						<label for="">Weapon 1:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'weapon-1')">
+						<select
+							name=""
+							id=""
+							class="item-select"
+							@change="selectEquippedItem($event, 'weapon-1')"
+						>
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['weapon-1'].items"
+							<option
+								v-for="(item, index) in itemStore.equippedItems['weapon-1'].items"
 								:value="index + 1"
-								:selected="itemStore.equippedItems['weapon-1'].selected === index + 1">
+								:selected="itemStore.equippedItems['weapon-1'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
 					</div>
 					<div class="equipped-item label-input">
 						<label for="">Weapon 2:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'weapon-2')">
+						<select
+							name=""
+							id=""
+							class="item-select"
+							@change="selectEquippedItem($event, 'weapon-2')"
+						>
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['weapon-2'].items"
+							<option
+								v-for="(item, index) in itemStore.equippedItems['weapon-2'].items"
 								:value="index + 1"
-								:selected="itemStore.equippedItems['weapon-2'].selected === index + 1">
+								:selected="itemStore.equippedItems['weapon-2'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -195,10 +224,18 @@ watch(query, (newQuery) => {
 
 					<div class="equipped-item label-input">
 						<label for="">Helmet:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'helmet')">
+						<select
+							name=""
+							id=""
+							class="item-select"
+							@change="selectEquippedItem($event, 'helmet')"
+						>
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['helmet'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['helmet'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['helmet'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['helmet'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -208,8 +245,11 @@ watch(query, (newQuery) => {
 						<label for="">Chest:</label>
 						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'chest')">
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['chest'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['chest'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['chest'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['chest'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -217,10 +257,18 @@ watch(query, (newQuery) => {
 
 					<div class="equipped-item label-input">
 						<label for="">Gloves:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'gloves')">
+						<select
+							name=""
+							id=""
+							class="item-select"
+							@change="selectEquippedItem($event, 'gloves')"
+						>
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['gloves'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['gloves'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['gloves'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['gloves'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -230,8 +278,11 @@ watch(query, (newQuery) => {
 						<label for="">Boots:</label>
 						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'boots')">
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['boots'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['boots'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['boots'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['boots'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -239,10 +290,18 @@ watch(query, (newQuery) => {
 
 					<div class="equipped-item label-input">
 						<label for="">Amulet:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'amulet')">
+						<select
+							name=""
+							id=""
+							class="item-select"
+							@change="selectEquippedItem($event, 'amulet')"
+						>
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['amulet'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['amulet'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['amulet'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['amulet'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -250,10 +309,18 @@ watch(query, (newQuery) => {
 
 					<div class="equipped-item label-input">
 						<label for="">Ring 1:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'ring-1')">
+						<select
+							name=""
+							id=""
+							class="item-select"
+							@change="selectEquippedItem($event, 'ring-1')"
+						>
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['ring-1'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['ring-1'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['ring-1'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['ring-1'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -261,10 +328,18 @@ watch(query, (newQuery) => {
 
 					<div class="equipped-item label-input">
 						<label for="">Ring 2:</label>
-						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'ring-2')">
+						<select
+							name=""
+							id=""
+							class="item-select"
+							@change="selectEquippedItem($event, 'ring-2')"
+						>
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['ring-2'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['ring-2'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['ring-2'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['ring-2'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -274,8 +349,11 @@ watch(query, (newQuery) => {
 						<label for="">Belt:</label>
 						<select name="" id="" class="item-select" @change="selectEquippedItem($event, 'belt')">
 							<option value="0">None</option>
-							<option v-for="(item, index) in itemStore.equippedItems['belt'].items" :value="index + 1"
-								:selected="itemStore.equippedItems['belt'].selected === index + 1">
+							<option
+								v-for="(item, index) in itemStore.equippedItems['belt'].items"
+								:value="index + 1"
+								:selected="itemStore.equippedItems['belt'].selected === index + 1"
+							>
 								{{ item.name }}, {{ item.baseName }}
 							</option>
 						</select>
@@ -332,11 +410,16 @@ watch(query, (newQuery) => {
 			<div>
 				<p for="" class="label">All Items:</p>
 				<div class="all-items">
-					<div class="item-listing" v-for="item in itemStore.items.values()"
-						@click="itemStore.selectItem(item)">
-						<p :class="{
-							[item.rarity]: true,
-						}">
+					<div
+						class="item-listing"
+						v-for="item in itemStore.items.values()"
+						@click="itemStore.selectItem(item)"
+					>
+						<p
+							:class="{
+								[item.rarity]: true,
+							}"
+						>
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
@@ -345,11 +428,16 @@ watch(query, (newQuery) => {
 			<div>
 				<input class="search" type="text" placeholder="Search" v-model.trim="query" />
 				<div class="unique-and-set-item-list">
-					<div class="item-listing" v-for="item in filteredItemList"
-						@click="itemStore.selectItem(createItemCopy(item))">
-						<p :class="{
-							[item.rarity]: true,
-						}">
+					<div
+						class="item-listing"
+						v-for="item in filteredItemList"
+						@click="itemStore.selectItem(createItemCopy(item))"
+					>
+						<p
+							:class="{
+								[item.rarity]: true,
+							}"
+						>
 							{{ item.name }}, {{ item.baseName }}
 						</p>
 					</div>
@@ -359,7 +447,10 @@ watch(query, (newQuery) => {
 
 		<div class="right">
 			<div class="idk" v-if="itemStore.selectedItem">
-				<button v-if="itemStore.selectedItemIsAdded" @click="itemStore.removeSelectedItemFromBuild()">
+				<button
+					v-if="itemStore.selectedItemIsAdded"
+					@click="itemStore.removeSelectedItemFromBuild()"
+				>
 					Remove
 				</button>
 				<button v-else @click="itemStore.addSelectedItemToBuild()">Add to build</button>
@@ -387,10 +478,17 @@ watch(query, (newQuery) => {
 						<input id="ethereal" type="checkbox" v-model="itemStore.selectedItem.ethereal" />
 					</div>
 
-					<div v-if="itemStore.selectedItem.rarity === 'rare' || itemStore.selectedItem.rarity === 'magic'">
+					<div
+						v-if="
+							itemStore.selectedItem.rarity === 'rare' || itemStore.selectedItem.rarity === 'magic'
+						"
+					>
 						<!-- TODO: crafted rarity having 1 crafted affix + 4 affixes, 3 prefixes 3 suffixes at most -->
-						<div class="label-input" v-for="n in (itemStore.selectedItem.rarity === 'rare' ? 3 : 1)"
-							:key="'prefix-' + n">
+						<div
+							class="label-input"
+							v-for="n in itemStore.selectedItem.rarity === 'rare' ? 3 : 1"
+							:key="'prefix-' + n"
+						>
 							<label>Prefix: </label>
 							<!-- v-model="itemStore.selectedItem.affixes[n - 1]" -->
 							<select>
@@ -400,8 +498,11 @@ watch(query, (newQuery) => {
 								<option value="mana">Mana</option>
 							</select>
 						</div>
-						<div class="label-input" v-for="n in (itemStore.selectedItem.rarity === 'rare' ? 3 : 1)"
-							:key="'suffix-' + n">
+						<div
+							class="label-input"
+							v-for="n in itemStore.selectedItem.rarity === 'rare' ? 3 : 1"
+							:key="'suffix-' + n"
+						>
 							<label>Suffix: </label>
 							<!-- v-model="itemStore.selectedItem.affixes[n - 1 + OFFSET]"> -->
 							<select>
@@ -413,53 +514,77 @@ watch(query, (newQuery) => {
 					</div>
 
 					<div class="label-input">
-						<select v-if="rollableModifiers?.length" v-model="selectedModifier" class="rollable-modifier"
-							name="" id="">
+						<select
+							v-if="rollableModifiers?.length"
+							v-model="selectedModifier"
+							class="rollable-modifier"
+							name=""
+							id=""
+						>
 							<option :value="modifier" v-for="modifier in rollableModifiers" :key="modifier.id">
 								{{ modifier.description }}
 							</option>
 						</select>
 
-						<input v-if="selectedModifier?.rolls" ref="modifierRangeInput" class="rollable-modifier-range"
-							type="range" v-model="selectedModifier._value" :min="selectedModifier.rolls[0]"
-							:max="selectedModifier.rolls[1]"
-							@input="selectedModifier._value = parseInt(($event.target as HTMLInputElement).value)" />
+						<input
+							v-if="selectedModifier?.valueData.rolls"
+							ref="modifierRangeInput"
+							class="rollable-modifier-range"
+							type="range"
+							v-model="selectedModifier.valueData._value"
+							:min="selectedModifier.valueData.rolls[0]"
+							:max="selectedModifier.valueData.rolls[1]"
+							@input="
+								selectedModifier.valueData._value = parseInt(
+									($event.target as HTMLInputElement).value
+								)
+							"
+						/>
 					</div>
-
 
 					<div class="selected-item">
 						<p :class="{ [itemStore.selectedItem.rarity]: true }">
 							{{ itemStore.selectedItem.name }}
-							<span v-if="itemStore.selectedItem.sockets">[{{ itemStore.selectedItem.sockets }}]</span>
+							<span v-if="itemStore.selectedItem.sockets"
+								>[{{ itemStore.selectedItem.sockets }}]</span
+							>
 						</p>
 						<p :class="{ [itemStore.selectedItem.rarity]: true }">
 							{{ itemStore.selectedItem.baseName }}
 						</p>
 
-						<p v-if="itemStore.selectedItem.requirements.level" :class="{
-							red: itemStore.selectedItem.requirements.level > characterStore.characterLevel,
-						}">
+						<p
+							v-if="itemStore.selectedItem.requirements.level"
+							:class="{
+								red: itemStore.selectedItem.requirements.level > characterStore.characterLevel,
+							}"
+						>
 							Requires Level: {{ itemStore.selectedItem.requirements.level }}
 						</p>
 
-						<p v-if="itemStore.selectedItem.requirements.strength" :class="{
-							red:
-								itemStore.selectedItem.requirements.strength >
-								attributeInfo[characterStore.characterClass].strength.base +
-								attributeStore.attributes.strength,
-						}">
+						<p
+							v-if="itemStore.selectedItem.requirements.strength"
+							:class="{
+								red:
+									itemStore.selectedItem.requirements.strength >
+									attributeInfo[characterStore.characterClass].strength.base +
+										attributeStore.attributes.strength,
+							}"
+						>
 							Requires {{ itemStore.selectedItem.requirements.strength }} Strength
 						</p>
 
-						<p v-if="itemStore.selectedItem.requirements.dexterity" :class="{
-							red:
-								itemStore.selectedItem.requirements.dexterity >
-								attributeInfo[characterStore.characterClass].dexterity.base +
-								attributeStore.attributes.dexterity,
-						}">
+						<p
+							v-if="itemStore.selectedItem.requirements.dexterity"
+							:class="{
+								red:
+									itemStore.selectedItem.requirements.dexterity >
+									attributeInfo[characterStore.characterClass].dexterity.base +
+										attributeStore.attributes.dexterity,
+							}"
+						>
 							Requires {{ itemStore.selectedItem.requirements.dexterity }} Dexterity
 						</p>
-
 
 						<p v-for="basemod in itemStore.selectedItem.basemods">
 							{{ getModifierTooltip(basemod) }}
@@ -577,7 +702,8 @@ button {
 	padding-bottom: 7px;
 }
 
-.selected-item-text {}
+.selected-item-text {
+}
 
 .rollable-modifier {
 	max-width: 240px;
@@ -613,12 +739,12 @@ button {
 	margin: 0;
 }
 
-.modal>.label-input>label {
+.modal > .label-input > label {
 	margin-left: auto;
 }
 
-.modal>.label-input>input,
-.modal>.label-input>select {
+.modal > .label-input > input,
+.modal > .label-input > select {
 	box-sizing: border-box;
 	width: 200px;
 }
