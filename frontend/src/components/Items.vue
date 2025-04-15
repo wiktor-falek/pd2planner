@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { createItemCopy, uniques } from "../data/items";
 import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
@@ -24,7 +24,7 @@ const rollableModifiers = computed<ItemModifier[] | null>(
 	() =>
 		itemStore.selectedItem?.basemods
 			.concat(itemStore.selectedItem?.affixes)
-			.filter((mod) => mod.valueData.rolls) ?? null
+			.filter((affix) => affix.valueData.some((valueData) => valueData.rolls)) ?? null
 );
 const selectedModifier = ref<ItemModifier | null>(null);
 
@@ -42,14 +42,14 @@ onMounted(() => {
 	}
 });
 
-watch(selectedModifier, async (newSelectedModifier) => {
-	if (newSelectedModifier) {
-		await nextTick();
-		if (modifierRangeInput.value) {
-			modifierRangeInput.value.value = newSelectedModifier.valueData._value.toString();
-		}
-	}
-});
+// watch(selectedModifier, async (newSelectedModifier) => {
+// 	if (newSelectedModifier) {
+// 		await nextTick();
+// 		if (modifierRangeInput.value) {
+// 			modifierRangeInput.value.value = newSelectedModifier.valueData._value.toString();
+// 		}
+// 	}
+// });
 
 const modifierRangeInput = ref<HTMLInputElement>();
 
@@ -526,20 +526,19 @@ watch(query, (newQuery) => {
 							</option>
 						</select>
 
-						<input
-							v-if="selectedModifier?.valueData.rolls"
-							ref="modifierRangeInput"
-							class="rollable-modifier-range"
-							type="range"
-							v-model="selectedModifier.valueData._value"
-							:min="selectedModifier.valueData.rolls[0]"
-							:max="selectedModifier.valueData.rolls[1]"
-							@input="
-								selectedModifier.valueData._value = parseInt(
-									($event.target as HTMLInputElement).value
-								)
-							"
-						/>
+						<!-- HERE -->
+						<div v-for="value in selectedModifier?.valueData">
+							<input
+								v-if="value.rolls"
+								ref="modifierRangeInput"
+								class="rollable-modifier-range"
+								type="range"
+								v-model="value._value"
+								:min="value.rolls[0]"
+								:max="value.rolls[1]"
+								@input="value._value = parseInt(($event.target as HTMLInputElement).value)"
+							/>
+						</div>
 					</div>
 
 					<div class="selected-item">
