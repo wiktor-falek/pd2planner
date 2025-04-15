@@ -31,6 +31,7 @@ const rollableModifiers = computed<ItemModifier[] | null>(
 	() =>
 		itemStore.selectedItem?.basemods
 			.concat(itemStore.selectedItem?.affixes)
+			.concat(itemStore.selectedItem.corruptedModifier ?? [])
 			.filter((affix) => affix.valueData.some((valueData) => valueData.rolls)) ?? null
 );
 const selectedModifier = ref<ItemModifier | null>(null);
@@ -592,7 +593,6 @@ function selectSockets(item: Item, amount: number) {
 							</option>
 						</select>
 
-						<!-- HERE -->
 						<div v-for="value in selectedModifier?.valueData">
 							<input
 								v-if="value.rolls"
