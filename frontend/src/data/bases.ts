@@ -12,11 +12,11 @@ export interface Item {
 	basemods: ItemModifier[];
 	automods: ItemModifier[];
 	affixes: ItemModifier[];
+	corruptedModifier: ItemModifier | null;
 	maxSockets: number;
 	sockets: number;
 	ethereal: boolean;
 	corrupted: boolean;
-	// corruptedModifier?: ItemModifier;
 	requirements: {
 		level?: number;
 		strength?: number;
@@ -53,6 +53,7 @@ function createItemBase(
 		basemods: options?.basemods ?? [],
 		automods: [], // TODO: grant to correct items
 		affixes: [],
+		corruptedModifier: null,
 		maxSockets: options?.maxSockets ?? 0,
 		sockets: 0,
 		ethereal: false,

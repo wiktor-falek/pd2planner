@@ -10,10 +10,16 @@ import { attributeInfo } from "../data/attributes";
 import Modal from "./reusable/Modal.vue";
 import { bases, type Item } from "../data/bases";
 import { createRuneword, runewordsData, type RunewordData } from "../data/runewords";
+import { corruptionModifiers } from "../data/corruptions";
 
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();
 const attributeStore = useAttributeStore();
+
+function selectItem(item: Item | null) {
+	itemStore.selectedItem = item;
+	selectedCorruptedModifier.value = null;
+}
 
 function selectEquippedItem(e: Event, slot: Slot) {
 	const selectElement = e.target as HTMLSelectElement;
@@ -100,7 +106,7 @@ function craftItem() {
 		baseName,
 	};
 
-	itemStore.selectItem(item);
+	selectItem(item);
 
 	modalIsOpen.value = false;
 }
@@ -121,7 +127,7 @@ onUnmounted(() => {
 
 const filterQuery = ref("");
 
-const allUniques = Object.values(uniques).flatMap(slotItems => Object.values(slotItems));
+const allUniques = Object.values(uniques).flatMap((slotItems) => Object.values(slotItems));
 const allRunewords = Object.values(runewordsData);
 const itemList = [...allUniques, ...allRunewords];
 const filteredItemList = ref<(Item | RunewordData)[]>(itemList);
@@ -130,19 +136,52 @@ watch(filterQuery, (newFilterQuery) => {
 	if (newFilterQuery === "") {
 		filteredItemList.value = itemList;
 	} else {
-		filteredItemList.value = itemList.filter(entry => {
-			const queryable = "baseName" in entry ? `${entry.name}, ${entry.baseName}` : `${entry.name}, Runeword ${entry.requirements.baseType}`;
+		filteredItemList.value = itemList.filter((entry) => {
+			const queryable =
+				"baseName" in entry
+					? `${entry.name}, ${entry.baseName}`
+					: `${entry.name}, Runeword ${entry.requirements.baseType}`;
 			return queryable.toLowerCase().indexOf(newFilterQuery.toLowerCase()) !== -1;
-		})
+		});
 	}
-})
+});
 
 function selectEntry(entry: Item | RunewordData) {
-	if ('baseName' in entry) {
-		itemStore.selectItem(createItemCopy(entry))
+	if ("baseName" in entry) {
+		selectItem(createItemCopy(entry));
 	} else {
-		itemStore.selectItem(createRuneword(bases.helmet.Cap, entry));
+		selectItem(createRuneword(bases.helmet.Cap, entry));
 	}
+}
+
+const selectedCorruptedModifier = ref<ItemModifier | null>(null);
+
+watch(selectedCorruptedModifier, (newSelectedCorruptedModifier) => {
+	if (itemStore.selectedItem === null) return;
+
+	selectCorruptedModifier(itemStore.selectedItem, newSelectedCorruptedModifier);
+});
+
+function selectCorruptedModifier(item: Item, modifier: ItemModifier | null) {
+	item.corruptedModifier = modifier;
+
+	if (modifier !== null && item.sockets > item.maxSockets) {
+		item.sockets = Math.min(item.sockets, item.maxSockets);
+	}
+
+	item.corrupted = !(modifier === null && item.sockets <= item.maxSockets);
+}
+
+// TODO: add additional corrupted outcome sockets to dropdown
+function selectSockets(item: Item, amount: number) {
+	// Armors (Helms, Chests, Shields) = 1-3 sockets (48% for 1, 28% for 2, 24% for 3)
+	// Weapons (One-Handed) = 2-4 sockets (48% for 2, 28% for 3, 24% for 4)
+	// Weapons (Two-Handed) = 3-6 sockets (30% for 3, 28% for 4, 24% for 5, 18% for 6)
+	// But some items like Gorgon Crossbow will still only get 4 sockets max
+	// Shako can roll 2 sockets, but can corrupt 3 on a Harlequin Crest
+	/*
+
+	*/
 }
 </script>
 
@@ -425,7 +464,7 @@ function selectEntry(entry: Item | RunewordData) {
 					<div
 						class="item-listing"
 						v-for="item in itemStore.items.values()"
-						@click="itemStore.selectItem(item)"
+						@click="selectItem(item)"
 					>
 						<p
 							:class="{
@@ -441,11 +480,18 @@ function selectEntry(entry: Item | RunewordData) {
 				<input class="search" type="text" placeholder="Search" v-model.trim="filterQuery" />
 				<div class="unique-and-set-item-list">
 					<div class="item-listing" v-for="entry in filteredItemList" @click="selectEntry(entry)">
-						<p :class="{
-							[entry.rarity]: true,
-						}">
-							{{ entry.name }}, {{ 'baseName' in entry ? `${entry.baseName}` : `Runeword
-							${entry.requirements.baseType}` }}
+						<p
+							:class="{
+								[entry.rarity]: true,
+							}"
+						>
+							{{ entry.name }},
+							{{
+								"baseName" in entry
+									? `${entry.baseName}`
+									: `Runeword
+							${entry.requirements.baseType}`
+							}}
 						</p>
 					</div>
 				</div>
@@ -461,7 +507,7 @@ function selectEntry(entry: Item | RunewordData) {
 					Remove
 				</button>
 				<button v-else @click="itemStore.addSelectedItemToBuild()">Add to build</button>
-				<button @click="itemStore.selectItem(null)">Cancel</button>
+				<button @click="selectItem(null)">Cancel</button>
 			</div>
 			<div class="idk" v-else>
 				<button @click="modalIsOpen = true">Craft Item</button>
@@ -469,17 +515,30 @@ function selectEntry(entry: Item | RunewordData) {
 			<div class="thingy">
 				<div v-if="itemStore.selectedItem">
 					<div class="label-input">
-						<label for="ethereal">Sockets</label>
+						<label for="sockets">Sockets</label>
 						<select name="" id="" v-model="itemStore.selectedItem.sockets">
 							<option v-for="i in itemStore.selectedItem.maxSockets + 1" :value="i - 1">
 								{{ i - 1 }}
 							</option>
 						</select>
 					</div>
-					<div class="label-input">
+
+					<div
+						class="label-input"
+						v-if="!['normal', 'runeword'].includes(itemStore.selectedItem.rarity)"
+					>
 						<label for="corrupted">Corrupted</label>
-						<input id="corrupted" type="checkbox" v-model="itemStore.selectedItem.corrupted" />
+						<select name="" id="" v-model="selectedCorruptedModifier">
+							<option :value="null">None</option>
+							<option
+								v-for="modifier in corruptionModifiers[itemStore.selectedItem.type]"
+								:value="modifier"
+							>
+								{{ modifier.description }}
+							</option>
+						</select>
 					</div>
+					<!-- <input id="corrupted" type="checkbox" v-model="itemStore.selectedItem.corrupted" /> -->
 					<div class="label-input">
 						<label for="ethereal">Ethereal</label>
 						<input id="ethereal" type="checkbox" v-model="itemStore.selectedItem.ethereal" />
