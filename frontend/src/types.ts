@@ -16,7 +16,7 @@ export type Attributes = {
 
 export type Attribute = "strength" | "dexterity" | "vitality" | "energy";
 
-export type Rarity = "normal" | "magic" | "rare" | "crafted" | "set" | "unique";
+export type Rarity = "normal" | "magic" | "rare" | "crafted" | "set" | "unique" | "runeword";
 export type CraftableRarity = "normal" | "magic" | "rare" | "crafted";
 
 export const ALL_RARITIES: Rarity[] = ["normal", "magic", "rare", "crafted", "set", "unique"];

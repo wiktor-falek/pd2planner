@@ -4,9 +4,10 @@ import type { ItemModifier } from "./modifiers";
 import { bases } from "./bases";
 import type { Item, ItemOptions } from "./bases";
 import type { ItemBaseType } from "../types";
+import { toRawDeep } from "../utils";
 
 export function createItemCopy(item: Item): Item {
-	const copy = structuredClone(toRaw(item));
+	const copy = structuredClone(toRawDeep(item));
 	copy.id = crypto.randomUUID();
 	return copy;
 }
