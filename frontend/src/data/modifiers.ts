@@ -79,26 +79,24 @@ function createItemModifier(
 	modifierKind: ModifierKind,
 	values: ModifierValue[],
 	tooltipTemplate: string,
-	templateValues: string[] = []
+	templates: string[] = []
 ): ItemModifier {
-	const _templateValues: string[] = [];
+	const _templates: string[] = [];
 
 	for (let i = 0; i < values.length; i++) {
-		const templateValue = templateValues[i];
+		const template = templates[i];
 		const modifierValue = values[i]!;
 
-		if (templateValue === undefined) {
+		if (template === undefined) {
 			const isRange = Array.isArray(modifierValue);
-			_templateValues.push(
-				isRange ? `[${modifierValue[0]}-${modifierValue[1]}]` : `${modifierValue}`
-			);
+			_templates.push(isRange ? `[${modifierValue[0]}-${modifierValue[1]}]` : `${modifierValue}`);
 		} else {
-			_templateValues.push(templateValue);
+			_templates.push(template);
 		}
 	}
 
 	let i = 0;
-	const description = tooltipTemplate.replace("{}", () => _templateValues[i++]!);
+	const description = tooltipTemplate.replace(/{}/g, () => _templates[i++]!);
 	const valueData = values.map((value) => {
 		const isRange = Array.isArray(value);
 		return {
@@ -127,35 +125,32 @@ function createHybridItemModifier(
 }
 
 export function lifePerLevelModifier(valuePerLevel: number): ItemModifier {
-	const templateValue = `[${valuePerLevel}-${valuePerLevel * 99}]`;
 	return createItemModifier(
 		"life_per_level",
 		"dynamic",
 		[valuePerLevel],
 		`+{} to Life (+${valuePerLevel} per Character Level)`,
-		[templateValue]
+		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
 	);
 }
 
 export function manaPerLevelModifier(valuePerLevel: number): ItemModifier {
-	const templateValue = `[${valuePerLevel}-${valuePerLevel * 99}`;
 	return createItemModifier(
 		"mana_per_level",
 		"dynamic",
 		[valuePerLevel],
 		`+{} to Mana (+${valuePerLevel} per Character Level)`,
-		[templateValue]
+		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
 	);
 }
 
 export function defensePerLevelModifier(valuePerLevel: number): ItemModifier {
-	const templateValue = `[${valuePerLevel}-${valuePerLevel * 99}`;
 	return createItemModifier(
 		"defense_per_level",
 		"dynamic",
 		[valuePerLevel],
 		`+{} Defense (+${valuePerLevel} per Character Level) `,
-		[templateValue]
+		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
 	);
 }
 
@@ -777,31 +772,20 @@ export function slowerStaminaDrainModifier(value: ModifierValue): ItemModifier {
 	return createItemModifier("slower_stamina_drain", "static", [value], "{}% Slower Stamina Drain");
 }
 
-export function addsFireDamageModifier(min: number, max: number): ItemModifier {
-	// TODO: two values
-	const templateValue = `[${min}-${max}]`;
-	return createItemModifier("adds_fire_damage", "static", [min, max], "Adds {} Fire Damage ", [
-		templateValue,
-	]);
+export function addsFireDamageModifier(min: ModifierValue, max: ModifierValue): ItemModifier {
+	return createItemModifier("adds_fire_damage", "static", [min, max], "Adds {}-{} Fire Damage ");
 }
 
-export function addsColdDamageModifier(min: number, max: number): ItemModifier {
-	// TODO: two values
-	const templateValue = `[${min}-${max}]`;
-	return createItemModifier("adds_cold_damage", "static", [min, max], "Adds {} Cold Damage ", [
-		templateValue,
-	]);
+export function addsColdDamageModifier(min: ModifierValue, max: ModifierValue): ItemModifier {
+	return createItemModifier("adds_cold_damage", "static", [min, max], "Adds {}-{} Cold Damage ");
 }
 
-export function addsLightningDamageModifier(min: number, max: number): ItemModifier {
-	// TODO: two values
-	const templateValue = `[${min}-${max}]`;
+export function addsLightningDamageModifier(min: ModifierValue, max: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"adds_lightning_damage",
 		"static",
 		[min, max],
-		"Adds {} Lightning Damage ",
-		[templateValue]
+		"Adds {}-{} Lightning Damage"
 	);
 }
 

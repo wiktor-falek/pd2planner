@@ -42,14 +42,15 @@ onMounted(() => {
 	}
 });
 
-// watch(selectedModifier, async (newSelectedModifier) => {
-// 	if (newSelectedModifier) {
-// 		await nextTick();
-// 		if (modifierRangeInput.value) {
-// 			modifierRangeInput.value.value = newSelectedModifier.valueData._value.toString();
-// 		}
-// 	}
-// });
+// TODO: fix the range slider
+watch(selectedModifier, async (newSelectedModifier) => {
+	if (newSelectedModifier) {
+		await nextTick();
+		if (modifierRangeInput.value) {
+			modifierRangeInput.value.value = newSelectedModifier.valueData[0]!._value.toString();
+		}
+	}
+});
 
 const modifierRangeInput = ref<HTMLInputElement>();
 
