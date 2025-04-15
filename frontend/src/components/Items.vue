@@ -661,6 +661,14 @@ function selectSockets(item: Item, amount: number) {
 						<p class="magic" v-for="affix in itemStore.selectedItem.affixes">
 							{{ getModifierTooltip(affix, characterStore.characterLevel) }}
 						</p>
+						<p class="magic" v-if="itemStore.selectedItem.corruptedModifier">
+							{{
+								getModifierTooltip(
+									itemStore.selectedItem.corruptedModifier,
+									characterStore.characterLevel
+								)
+							}}<span class="corrupted">*</span>
+						</p>
 						<p class="ethereal" v-if="itemStore.selectedItem.ethereal">
 							Ethereal (Cannot Be Repaired)
 						</p>
