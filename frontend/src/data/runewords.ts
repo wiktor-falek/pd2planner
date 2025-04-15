@@ -68,12 +68,12 @@ function createRunewordData(
 
 export const runewordsData = {
 	Lore: createRunewordData("Lore", "helmet", ["Ort", "Sol"], 27, [
-		modifiers.allSkillsModifier(1),
-		modifiers.energyModifier([5, 10]),
-		modifiers.lightningResistModifier(30),
-		modifiers.flatPhysicalDamageReducedModifier(7),
-		modifiers.manaAfterEachKillModifier([1, 2]),
-		modifiers.lightRadiusModifier(2),
+		modifiers.allSkills(1),
+		modifiers.energy([5, 10]),
+		modifiers.lightningResist(30),
+		modifiers.flatPhysicalDamageReduced(7),
+		modifiers.manaAfterEachKill([1, 2]),
+		modifiers.lightRadius(2),
 	]),
 } as const satisfies Record<string, RunewordData>;
 
@@ -95,7 +95,7 @@ export function createRuneword(base: Item, runewordData: RunewordData): Item {
 		requirements: {
 			level: Math.max(base.requirements.level ?? 0, runewordData.requirements.level),
 		},
-		rarity: "runeword"
+		rarity: "runeword",
 	};
 	return runeword;
 }

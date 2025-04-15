@@ -27,12 +27,12 @@ const BigginsBonnet = baseToUnique(
 	bases.helmet["Cap"],
 	"Biggin's Bonnet",
 	[
-		modifiers.enhancedDamageModifier([30, 50]),
-		modifiers.attackRatingModifier([30, 50]),
-		modifiers.defenseModifier(14),
-		modifiers.lifeModifier(15),
-		modifiers.manaModifier(15),
-		modifiers.defenseModifier(15),
+		modifiers.enhancedDamage([30, 50]),
+		modifiers.attackRating([30, 50]),
+		modifiers.defense(14),
+		modifiers.life(15),
+		modifiers.mana(15),
+		modifiers.defense(15),
 	],
 	{
 		requirements: { level: 3 },
@@ -43,10 +43,10 @@ const Tarnhelm = baseToUnique(
 	bases.helmet["Skull Cap"],
 	"Tarnhelm",
 	[
-		modifiers.allSkillsModifier(1),
-		modifiers.manaAfterEachKillModifier([2, 3]),
-		modifiers.goldFindModifier(75),
-		modifiers.magicFindModifier([25, 50]),
+		modifiers.allSkills(1),
+		modifiers.manaAfterEachKill([2, 3]),
+		modifiers.goldFind(75),
+		modifiers.magicFind([25, 50]),
 	],
 	{
 		requirements: {
@@ -60,12 +60,12 @@ const CoifOfGlory = baseToUnique(
 	bases.helmet["Helm"],
 	"Coif of Glory",
 	[
-		modifiers.hitBlindsTargetModifier(),
-		modifiers.defenseModifier(10),
-		modifiers.defenseVsMissileModifier(100),
-		modifiers.lightningResistModifier(15),
-		modifiers.lifeAfterEachKillModifier([2, 3]),
-		modifiers.thornsLightningModifier(17),
+		modifiers.hitBlindsTarget(),
+		modifiers.defense(10),
+		modifiers.defenseVsMissile(100),
+		modifiers.lightningResist(15),
+		modifiers.lifeAfterEachKill([2, 3]),
+		modifiers.thornsLightning(17),
 	],
 	{
 		requirements: {
@@ -79,12 +79,12 @@ const Duskdeep = baseToUnique(
 	bases.helmet["Full Helm"],
 	"Duskdeep",
 	[
-		modifiers.maximumDamageModifier([10, 15]),
-		modifiers.enhancedDefenseModifier([30, 50]),
-		modifiers.defenseModifier([10, 20]),
-		modifiers.allResistModifier(15),
-		modifiers.flatPhysicalDamageReducedModifier(7),
-		modifiers.lightRadiusModifier(-2),
+		modifiers.maximumDamage([10, 15]),
+		modifiers.enhancedDefense([30, 50]),
+		modifiers.defense([10, 20]),
+		modifiers.allResist(15),
+		modifiers.flatPhysicalDamageReduced(7),
+		modifiers.lightRadius(-2),
 	],
 	{
 		requirements: {
@@ -98,11 +98,11 @@ const TheFaceOfHorror = baseToUnique(
 	bases.helmet["Mask"],
 	"The Face of Horror",
 	[
-		modifiers.damageToUndeadModifier(50),
-		modifiers.chanceToFleeModifier(50),
-		modifiers.defenseModifier(25),
-		modifiers.strengthModifier(20),
-		modifiers.allResistModifier([15, 20]),
+		modifiers.damageToUndead(50),
+		modifiers.chanceToFlee(50),
+		modifiers.defense(25),
+		modifiers.strength(20),
+		modifiers.allResist([15, 20]),
 	],
 	{
 		requirements: {
@@ -116,12 +116,12 @@ const Wormskull = baseToUnique(
 	bases.helmet["Bone Helm"],
 	"Wormskull",
 	[
-		modifiers.poisonAndBoneSkillsModifier(1),
-		modifiers.necromancerSkillsModifier(1),
-		modifiers.poisonDamageOverTwoSecondsModifier(60),
-		modifiers.lifeStolenPerHitModifier(5),
-		modifiers.manaModifier(10),
-		modifiers.poisonResistModifier(25),
+		modifiers.poisonAndBoneSkills(1),
+		modifiers.necromancerSkills(1),
+		modifiers.poisonDamageOverTwoSeconds(60),
+		modifiers.lifeStolenPerHit(5),
+		modifiers.mana(10),
+		modifiers.poisonResist(25),
 	],
 	{
 		requirements: {
@@ -135,12 +135,12 @@ const Howltusk = baseToUnique(
 	bases.helmet["Great Helm"],
 	"Howltusk",
 	[
-		modifiers.howlLevelFiveOnStrikingModifier(10),
-		modifiers.attackSpeedModifier(20),
-		modifiers.enhancedDefenseModifier(80),
-		modifiers.flatMagicDamageReducedModifier(2),
-		modifiers.thornsModifier(30),
-		modifiers.damageTakenGainedAsManaModifier(35),
+		modifiers.howlLevelFiveOnStriking(10),
+		modifiers.attackSpeed(20),
+		modifiers.enhancedDefense(80),
+		modifiers.flatMagicDamageReduced(2),
+		modifiers.thorns(30),
+		modifiers.damageTakenGainedAsMana(35),
 	],
 	{
 		requirements: {
@@ -154,14 +154,14 @@ const UndeadCrown = baseToUnique(
 	bases.helmet["Crown"],
 	"Undead Crown",
 	[
-		modifiers.damageToUndeadModifier(50),
-		modifiers.attackRatingAgainstUndeadModifier([50, 100]),
-		modifiers.lifeStolenPerHitModifier(5),
-		modifiers.skeletonMasteryModifier([2, 3]),
-		modifiers.raiseSkeletonModifier([2, 3]),
-		modifiers.defenseModifier(40),
-		modifiers.poisonResistModifier(50),
-		modifiers.halfFreezeDurationModifier(),
+		modifiers.damageToUndead(50),
+		modifiers.attackRatingAgainstUndead([50, 100]),
+		modifiers.lifeStolenPerHit(5),
+		modifiers.skeletonMastery([2, 3]),
+		modifiers.raiseSkeleton([2, 3]),
+		modifiers.defense(40),
+		modifiers.poisonResist(50),
+		modifiers.halfFreezeDuration(),
 	],
 	{
 		requirements: {
@@ -177,12 +177,12 @@ const PeasantCrown = baseToUnique(
 	bases.helmet["War Hat"],
 	"Peasant Crown",
 	[
-		modifiers.allSkillsModifier(1),
-		modifiers.fasterRunWalkModifier(20),
-		modifiers.enhancedDefenseModifier(100),
-		modifiers.vitalityModifier(20),
-		modifiers.energyModifier(20),
-		modifiers.replenishLifeModifier([6, 12]),
+		modifiers.allSkills(1),
+		modifiers.fasterRunWalk(20),
+		modifiers.enhancedDefense(100),
+		modifiers.vitality(20),
+		modifiers.energy(20),
+		modifiers.replenishLife([6, 12]),
 	],
 	{
 		requirements: {
@@ -196,13 +196,13 @@ const Rockstopper = baseToUnique(
 	bases.helmet["Sallet"],
 	"Rockstopper",
 	[
-		modifiers.fasterHitRecoveryModifier(30),
-		modifiers.enhancedDefenseModifier([160, 220]),
-		modifiers.vitalityModifier(15),
-		modifiers.coldResistModifier([20, 40]),
-		modifiers.fireResistModifier([20, 40]),
-		modifiers.lightningResistModifier([20, 40]),
-		modifiers.physicalDamageReducedModifier(10),
+		modifiers.fasterHitRecovery(30),
+		modifiers.enhancedDefense([160, 220]),
+		modifiers.vitality(15),
+		modifiers.coldResist([20, 40]),
+		modifiers.fireResist([20, 40]),
+		modifiers.lightningResist([20, 40]),
+		modifiers.physicalDamageReduced(10),
 	],
 	{
 		requirements: {
@@ -216,12 +216,12 @@ const Stealskull = baseToUnique(
 	bases.helmet["Casque"],
 	"Stealskull",
 	[
-		modifiers.attackSpeedModifier(20),
-		modifiers.fasterHitRecoveryModifier(20),
-		modifiers.manaStolenPerHitModifier([3, 5]),
-		modifiers.lifeStolenPerHitModifier([3, 5]),
-		modifiers.enhancedDefenseModifier([200, 240]),
-		modifiers.magicFindModifier([30, 50]),
+		modifiers.attackSpeed(20),
+		modifiers.fasterHitRecovery(20),
+		modifiers.manaStolenPerHit([3, 5]),
+		modifiers.lifeStolenPerHit([3, 5]),
+		modifiers.enhancedDefense([200, 240]),
+		modifiers.magicFind([30, 50]),
 	],
 	{
 		requirements: {
@@ -235,14 +235,14 @@ const DarksightHelm = baseToUnique(
 	bases.helmet["Basinet"],
 	"Darksight Helm",
 	[
-		modifiers.dimVisionLevelThreeWhenStruckModifier(16),
-		modifiers.manaStolenPerHitModifier(5),
-		modifiers.hitBlindsTargetModifier(),
-		modifiers.defensePerLevelModifier(3),
-		modifiers.fireResistModifier([20, 40]),
-		modifiers.cannotBeFrozenModifier(),
-		modifiers.lightRadiusModifier(-4),
-		modifiers.cloakOfShadowsModifier(1),
+		modifiers.dimVisionLevelThreeWhenStruck(16),
+		modifiers.manaStolenPerHit(5),
+		modifiers.hitBlindsTarget(),
+		modifiers.defensePerLevel(3),
+		modifiers.fireResist([20, 40]),
+		modifiers.cannotBeFrozen(),
+		modifiers.lightRadius(-4),
+		modifiers.cloakOfShadows(1),
 	],
 	{
 		requirements: {
@@ -256,13 +256,13 @@ const BlackhornsFace = baseToUnique(
 	bases.helmet["Death Mask"],
 	"Blackhorn's Face",
 	[
-		modifiers.preventMonsterHealModifier(),
-		modifiers.slowTargetModifier(20),
-		modifiers.enhancedDefenseModifier([180, 220]),
-		modifiers.maxLightningResistModifier(5),
-		modifiers.lightningResistModifier([20, 30]),
-		modifiers.lightningAbsorbModifier([10, 20]),
-		modifiers.thornsLightningModifier([225, 325]),
+		modifiers.preventMonsterHeal(),
+		modifiers.slowTarget(20),
+		modifiers.enhancedDefense([180, 220]),
+		modifiers.maxLightningResist(5),
+		modifiers.lightningResist([20, 30]),
+		modifiers.lightningAbsorb([10, 20]),
+		modifiers.thornsLightning([225, 325]),
 	],
 	{
 		requirements: {
@@ -276,13 +276,13 @@ const VampireGaze = baseToUnique(
 	bases.helmet["Grim Helm"],
 	"Vampire Gaze",
 	[
-		modifiers.addsColdDamageModifier(30, 60),
-		modifiers.manaStolenPerHitModifier([6, 10]),
-		modifiers.lifeStolenPerHitModifier([6, 10]),
-		modifiers.enhancedDefenseModifier(100),
-		modifiers.slowerStaminaDrainModifier(15),
-		modifiers.physicalDamageReducedModifier([15, 25]),
-		modifiers.flatMagicDamageReducedModifier([10, 15]),
+		modifiers.addsColdDamage(30, 60),
+		modifiers.manaStolenPerHit([6, 10]),
+		modifiers.lifeStolenPerHit([6, 10]),
+		modifiers.enhancedDefense(100),
+		modifiers.slowerStaminaDrain(15),
+		modifiers.physicalDamageReduced([15, 25]),
+		modifiers.flatMagicDamageReduced([10, 15]),
 	],
 	{
 		requirements: {
@@ -296,12 +296,12 @@ const ValkyrieWing = baseToUnique(
 	bases.helmet["Winged Helm"],
 	"Valkyrie Wing",
 	[
-		modifiers.amazonSkillsModifier([1, 2]),
-		modifiers.fasterRunWalkModifier(30),
-		modifiers.fasterHitRecoveryModifier(30),
-		modifiers.enhancedDamageModifier([40, 60]),
-		modifiers.enhancedDefenseModifier([150, 200]),
-		modifiers.manaAfterEachKillModifier([3, 6]),
+		modifiers.amazonSkills([1, 2]),
+		modifiers.fasterRunWalk(30),
+		modifiers.fasterHitRecovery(30),
+		modifiers.enhancedDamage([40, 60]),
+		modifiers.enhancedDefense([150, 200]),
+		modifiers.manaAfterEachKill([3, 6]),
 	],
 	{
 		requirements: {
@@ -315,13 +315,13 @@ const CrownOfThieves = baseToUnique(
 	bases.helmet["Grand Crown"],
 	"Crown of Thieves",
 	[
-		modifiers.lifeStolenPerHitModifier([5, 10]),
-		modifiers.enhancedDefenseModifier([160, 200]),
-		modifiers.dexterityModifier(25),
-		modifiers.lifeModifier(50),
-		modifiers.fireResistModifier(33),
-		modifiers.goldFindModifier([80, 100]),
-		modifiers.magicFindModifier([40, 65]),
+		modifiers.lifeStolenPerHit([5, 10]),
+		modifiers.enhancedDefense([160, 200]),
+		modifiers.dexterity(25),
+		modifiers.life(50),
+		modifiers.fireResist(33),
+		modifiers.goldFind([80, 100]),
+		modifiers.magicFind([40, 65]),
 	],
 	{
 		requirements: {
@@ -336,12 +336,12 @@ const HarlequinCrest = baseToUnique(
 	bases.helmet["Shako"],
 	"Harlequin Crest",
 	[
-		modifiers.allSkillsModifier(2),
-		modifiers.allAttributesModifier(2),
-		modifiers.lifePerLevelModifier(1),
-		modifiers.manaPerLevelModifier(1),
-		modifiers.physicalDamageReducedModifier([3, 5]),
-		modifiers.magicFindModifier([25, 50]),
+		modifiers.allSkills(2),
+		modifiers.allAttributes(2),
+		modifiers.lifePerLevel(1),
+		modifiers.manaPerLevel(1),
+		modifiers.physicalDamageReduced([3, 5]),
+		modifiers.magicFind([25, 50]),
 	],
 	{
 		requirements: {
@@ -355,14 +355,14 @@ const SteelShade = baseToUnique(
 	bases.helmet["Armet"],
 	"Steel Shade",
 	[
-		modifiers.allSkillsModifier(2),
-		modifiers.fasterBlockRateModifier(20),
-		modifiers.increasedChanceOfBlockingModifier(20),
-		modifiers.manaStolenPerHitModifier([4, 8]),
-		modifiers.enhancedDefenseModifier([100, 130]),
-		modifiers.replenishLifeModifier([30, 48]),
-		modifiers.fireAbsorbModifier([4, 6]),
-		modifiers.goldFindModifier([60, 80]),
+		modifiers.allSkills(2),
+		modifiers.fasterBlockRate(20),
+		modifiers.increasedChanceOfBlocking(20),
+		modifiers.manaStolenPerHit([4, 8]),
+		modifiers.enhancedDefense([100, 130]),
+		modifiers.replenishLife([30, 48]),
+		modifiers.fireAbsorb([4, 6]),
+		modifiers.goldFind([60, 80]),
 	],
 	{
 		requirements: {
@@ -472,14 +472,14 @@ const SteelShade = baseToUnique(
 // 	"Spired Helm",
 // 	"Nightwing's Veil",
 // 	[
-// 		modifiers.allSkillsModifier(2),
-// 		modifiers.enemyColdResistanceModifier([5, 10]),
-// 		modifiers.coldSkillDamageModifier([10, 15]),
-// 		modifiers.enhancedDefenseModifier([90, 120]),
-// 		modifiers.dexterityModifier([10, 20]),
-// 		modifiers.coldAbsorbModifier([5, 9]),
-// 		modifiers.halfFreezeDurationModifier(),
-// 		modifiers.requirementsModifier(50),
+// 		modifiers.allSkills(2),
+// 		modifiers.enemyColdResistance([5, 10]),
+// 		modifiers.coldSkillDamage([10, 15]),
+// 		modifiers.enhancedDefense([90, 120]),
+// 		modifiers.dexterity([10, 20]),
+// 		modifiers.coldAbsorb([5, 9]),
+// 		modifiers.halfFreezeDuration(),
+// 		modifiers.requirements(50),
 // 	],
 // 	{
 //      requirements: {
@@ -492,6 +492,7 @@ const SteelShade = baseToUnique(
 export const uniques = {
 	weapon: {},
 	shield: {},
+	quiver: {},
 	helmet: {
 		BigginsBonnet,
 		Tarnhelm,

@@ -114,17 +114,14 @@ function createItemModifier(
 	};
 }
 
-function createHybridItemModifier(
-	id: string,
-	modifiers: [ItemModifier, ItemModifier]
-): HybridItemModifier {
+function createHybridItem(id: string, modifiers: [ItemModifier, ItemModifier]): HybridItemModifier {
 	return {
 		id,
 		modifiers,
 	};
 }
 
-export function lifePerLevelModifier(valuePerLevel: number): ItemModifier {
+export function lifePerLevel(valuePerLevel: number): ItemModifier {
 	return createItemModifier(
 		"life_per_level",
 		"dynamic",
@@ -134,7 +131,7 @@ export function lifePerLevelModifier(valuePerLevel: number): ItemModifier {
 	);
 }
 
-export function manaPerLevelModifier(valuePerLevel: number): ItemModifier {
+export function manaPerLevel(valuePerLevel: number): ItemModifier {
 	return createItemModifier(
 		"mana_per_level",
 		"dynamic",
@@ -144,7 +141,7 @@ export function manaPerLevelModifier(valuePerLevel: number): ItemModifier {
 	);
 }
 
-export function defensePerLevelModifier(valuePerLevel: number): ItemModifier {
+export function defensePerLevel(valuePerLevel: number): ItemModifier {
 	return createItemModifier(
 		"defense_per_level",
 		"dynamic",
@@ -154,31 +151,31 @@ export function defensePerLevelModifier(valuePerLevel: number): ItemModifier {
 	);
 }
 
-export function lifeModifier(value: ModifierValue): ItemModifier {
+export function life(value: ModifierValue): ItemModifier {
 	return createItemModifier("life", "static", [value], "+{} to Life");
 }
 
-export function manaModifier(value: ModifierValue): ItemModifier {
+export function mana(value: ModifierValue): ItemModifier {
 	return createItemModifier("mana", "static", [value], "+{} to Mana");
 }
 
-export function fireResistModifier(value: ModifierValue): ItemModifier {
+export function fireResist(value: ModifierValue): ItemModifier {
 	return createItemModifier("fire_resist", "static", [value], "Fire Resist +{}%");
 }
 
-export function coldResistModifier(value: ModifierValue): ItemModifier {
+export function coldResist(value: ModifierValue): ItemModifier {
 	return createItemModifier("cold_resist", "static", [value], "Cold Resist +{}%");
 }
 
-export function maxFireResistModifier(value: ModifierValue): ItemModifier {
+export function maxFireResist(value: ModifierValue): ItemModifier {
 	return createItemModifier("max_fire_resist", "static", [value], "+{}% to Maximum Fire Resist");
 }
 
-export function maxColdResistModifier(value: ModifierValue): ItemModifier {
+export function maxColdResist(value: ModifierValue): ItemModifier {
 	return createItemModifier("max_cold_resist", "static", [value], "+{}% to Maximum Cold Resist");
 }
 
-export function maxLightningResistModifier(value: ModifierValue): ItemModifier {
+export function maxLightningResist(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"max_lightning_resist",
 		"static",
@@ -187,7 +184,7 @@ export function maxLightningResistModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function maxPoisonResistModifier(value: ModifierValue): ItemModifier {
+export function maxPoisonResist(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"max_poison_resist",
 		"static",
@@ -196,19 +193,19 @@ export function maxPoisonResistModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function lightningResistModifier(value: ModifierValue): ItemModifier {
+export function lightningResist(value: ModifierValue): ItemModifier {
 	return createItemModifier("lightning_resist", "static", [value], "Lightning Resist +{}%");
 }
 
-export function poisonResistModifier(value: ModifierValue): ItemModifier {
+export function poisonResist(value: ModifierValue): ItemModifier {
 	return createItemModifier("poison_resist", "static", [value], "Poison Resist +{}%");
 }
 
-export function allResistModifier(value: ModifierValue): ItemModifier {
+export function allResist(value: ModifierValue): ItemModifier {
 	return createItemModifier("all_resist", "static", [value], "All Resistances +{}");
 }
 
-export function lifeAfterEachKillModifier(value: ModifierValue): ItemModifier {
+export function lifeAfterEachKill(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"life_after_each_kill",
 		"static",
@@ -217,7 +214,7 @@ export function lifeAfterEachKillModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function manaAfterEachKillModifier(value: ModifierValue): ItemModifier {
+export function manaAfterEachKill(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"mana_after_each_kill",
 		"static",
@@ -226,7 +223,7 @@ export function manaAfterEachKillModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function physicalDamageReducedModifier(value: ModifierValue): ItemModifier {
+export function physicalDamageReduced(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"physical_damage_reduced",
 		"static",
@@ -235,7 +232,7 @@ export function physicalDamageReducedModifier(value: ModifierValue): ItemModifie
 	);
 }
 
-export function magicFindModifier(value: ModifierValue): ItemModifier {
+export function magicFind(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"magic_find",
 		"static",
@@ -244,23 +241,23 @@ export function magicFindModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function goldFindModifier(value: ModifierValue): ItemModifier {
+export function goldFind(value: ModifierValue): ItemModifier {
 	return createItemModifier("gold_find", "static", [value], "{}% Extra Gold from Monsters ");
 }
 
-export function allSkillsModifier(value: ModifierValue): ItemModifier {
+export function allSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("all_skills", "static", [value], "+{} to All Skills");
 }
 
-export function allAttributesModifier(value: ModifierValue): ItemModifier {
+export function allAttributes(value: ModifierValue): ItemModifier {
 	return createItemModifier("all_attributes", "static", [value], "+{} to All Attributes");
 }
 
-export function attackRatingModifier(value: ModifierValue): ItemModifier {
+export function attackRating(value: ModifierValue): ItemModifier {
 	return createItemModifier("attack_rating", "static", [value], "+{} to Attack Rating");
 }
 
-export function attackRatingAgainstUndeadModifier(value: ModifierValue): ItemModifier {
+export function attackRatingAgainstUndead(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"attack_rating_against Undead",
 		"static",
@@ -269,7 +266,7 @@ export function attackRatingAgainstUndeadModifier(value: ModifierValue): ItemMod
 	);
 }
 
-export function attackRatingAgainstDemonsModifier(value: ModifierValue): ItemModifier {
+export function attackRatingAgainstDemons(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"attack_rating_against Demons",
 		"static",
@@ -278,11 +275,11 @@ export function attackRatingAgainstDemonsModifier(value: ModifierValue): ItemMod
 	);
 }
 
-export function enhancedDamageModifier(value: ModifierValue): ItemModifier {
+export function enhancedDamage(value: ModifierValue): ItemModifier {
 	return createItemModifier("enhanced_damage", "static", [value], "+{}% Enhanced Damage");
 }
 
-export function enemyColdResistanceModifier(value: ModifierValue): ItemModifier {
+export function enemyColdResistance(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"enemy_cold_resistance",
 		"static",
@@ -291,79 +288,79 @@ export function enemyColdResistanceModifier(value: ModifierValue): ItemModifier 
 	);
 }
 
-export function coldSkillDamageModifier(value: ModifierValue): ItemModifier {
+export function coldSkillDamage(value: ModifierValue): ItemModifier {
 	return createItemModifier("cold_skill_damage", "static", [value], "+{}% to Cold Skill Damage");
 }
 
-export function baseDefenseModifier(value: ModifierValue): ItemModifier {
+export function baseDefense(value: ModifierValue): ItemModifier {
 	return createItemModifier("base_defense", "static", [value], "Base Defense: {}");
 }
 
-export function defenseModifier(value: ModifierValue): ItemModifier {
+export function defense(value: ModifierValue): ItemModifier {
 	return createItemModifier("defense", "static", [value], "+{} Defense");
 }
 
-export function defenseVsMissileModifier(value: ModifierValue): ItemModifier {
+export function defenseVsMissile(value: ModifierValue): ItemModifier {
 	return createItemModifier("defense_vs_missile", "static", [value], "+{} Defense vs. Missile");
 }
 
-export function enhancedDefenseModifier(value: ModifierValue): ItemModifier {
+export function enhancedDefense(value: ModifierValue): ItemModifier {
 	return createItemModifier("enhanced_defense", "static", [value], "+{}% Enhanced Defense");
 }
 
-export function strengthModifier(value: ModifierValue): ItemModifier {
+export function strength(value: ModifierValue): ItemModifier {
 	return createItemModifier("strength", "static", [value], "+{} to Strength");
 }
 
-export function dexterityModifier(value: ModifierValue): ItemModifier {
+export function dexterity(value: ModifierValue): ItemModifier {
 	return createItemModifier("dexterity", "static", [value], "+{} to Dexterity");
 }
 
-export function vitalityModifier(value: ModifierValue): ItemModifier {
+export function vitality(value: ModifierValue): ItemModifier {
 	return createItemModifier("vitality", "static", [value], "+{} to Vitality");
 }
 
-export function energyModifier(value: ModifierValue): ItemModifier {
+export function energy(value: ModifierValue): ItemModifier {
 	return createItemModifier("energy", "static", [value], "+{} to Energy");
 }
 
-export function fireAbsorbModifier(value: ModifierValue): ItemModifier {
+export function fireAbsorb(value: ModifierValue): ItemModifier {
 	return createItemModifier("fire_absorb", "static", [value], "+{} Fire Absorb");
 }
 
-export function coldAbsorbModifier(value: ModifierValue): ItemModifier {
+export function coldAbsorb(value: ModifierValue): ItemModifier {
 	return createItemModifier("cold_absorb", "static", [value], "+{} Cold Absorb");
 }
 
-export function lightningAbsorbModifier(value: ModifierValue): ItemModifier {
+export function lightningAbsorb(value: ModifierValue): ItemModifier {
 	return createItemModifier("lightning_absorb", "static", [value], "+{} Lightning Absorb");
 }
 
-export function halfFreezeDurationModifier(): ItemModifier {
+export function halfFreezeDuration(): ItemModifier {
 	return createItemModifier("freeze_duration", "static", [0.5], "Half Freeze Duration");
 }
 
-export function cannotBeFrozenModifier(): ItemModifier {
+export function cannotBeFrozen(): ItemModifier {
 	return createItemModifier("freeze_duration", "static", [1], "Cannot be Frozen");
 }
 
-export function hitBlindsTargetModifier(): ItemModifier {
+export function hitBlindsTarget(): ItemModifier {
 	return createItemModifier("hit_blinds_target", "static", [1], "Hit Blinds Target ");
 }
 
-export function chanceToFleeModifier(value: ModifierValue): ItemModifier {
+export function chanceToFlee(value: ModifierValue): ItemModifier {
 	return createItemModifier("chance_to_flee", "static", [value], "Hit Causes Monster to Flee {}%");
 }
 
-export function requirementsModifier(value: ModifierValue): ItemModifier {
+export function requirements(value: ModifierValue): ItemModifier {
 	return createItemModifier("requirements", "static", [value], "Requirements -{}%");
 }
 
-export function thornsModifier(value: ModifierValue): ItemModifier {
+export function thorns(value: ModifierValue): ItemModifier {
 	return createItemModifier("thorns", "static", [value], "Attacker Takes Damage of {}");
 }
 
-export function thornsLightningModifier(value: ModifierValue): ItemModifier {
+export function thornsLightning(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"thorns_lightning",
 		"static",
@@ -372,11 +369,11 @@ export function thornsLightningModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function maximumDamageModifier(value: ModifierValue): ItemModifier {
+export function maximumDamage(value: ModifierValue): ItemModifier {
 	return createItemModifier("maximum_damage", "static", [value], "+{} to Maximum Damage");
 }
 
-export function flatPhysicalDamageReducedModifier(value: ModifierValue): ItemModifier {
+export function flatPhysicalDamageReduced(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"flat_physical_damage_reduced",
 		"static",
@@ -385,7 +382,7 @@ export function flatPhysicalDamageReducedModifier(value: ModifierValue): ItemMod
 	);
 }
 
-export function flatMagicDamageReducedModifier(value: ModifierValue): ItemModifier {
+export function flatMagicDamageReduced(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"flat_magic_damage_reduced",
 		"static",
@@ -394,19 +391,19 @@ export function flatMagicDamageReducedModifier(value: ModifierValue): ItemModifi
 	);
 }
 
-export function lightRadiusModifier(value: ModifierValue): ItemModifier {
+export function lightRadius(value: ModifierValue): ItemModifier {
 	return createItemModifier("light_radius", "static", [value], "{} to Light Radius");
 }
 
-export function damageToUndeadModifier(value: ModifierValue): ItemModifier {
+export function damageToUndead(value: ModifierValue): ItemModifier {
 	return createItemModifier("damage_to_undead", "static", [value], "+{}% Damage to Undead");
 }
 
-export function damageToDemonsModifier(value: ModifierValue): ItemModifier {
+export function damageToDemons(value: ModifierValue): ItemModifier {
 	return createItemModifier("damage_to_demons", "static", [value], "+{}% Damage to Demons");
 }
 
-export function javelinAndSpearSkillsModifier(value: ModifierValue): ItemModifier {
+export function javelinAndSpearSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"javelin_and_spear_skills",
 		"static",
@@ -415,7 +412,7 @@ export function javelinAndSpearSkillsModifier(value: ModifierValue): ItemModifie
 	);
 }
 
-export function passiveAndMagicSkillsModifier(value: ModifierValue): ItemModifier {
+export function passiveAndMagicSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"passive_and_magic_skills",
 		"static",
@@ -424,7 +421,7 @@ export function passiveAndMagicSkillsModifier(value: ModifierValue): ItemModifie
 	);
 }
 
-export function bowAndCrossbowSkillsModifier(value: ModifierValue): ItemModifier {
+export function bowAndCrossbowSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"bow_and_crossbow_skills",
 		"static",
@@ -433,7 +430,7 @@ export function bowAndCrossbowSkillsModifier(value: ModifierValue): ItemModifier
 	);
 }
 
-export function combatSkillsModifier(value: ModifierValue): ItemModifier {
+export function combatSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"combat_skills",
 		"static",
@@ -442,7 +439,7 @@ export function combatSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function warcriesSkillsModifier(value: ModifierValue): ItemModifier {
+export function warcriesSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"warcries_skills",
 		"static",
@@ -451,7 +448,7 @@ export function warcriesSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function masteriesSkillsModifier(value: ModifierValue): ItemModifier {
+export function masteriesSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"masteries_skills",
 		"static",
@@ -460,7 +457,7 @@ export function masteriesSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function summoningSkillsModifier(value: ModifierValue): ItemModifier {
+export function summoningSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"summoning_skills",
 		"static",
@@ -469,7 +466,7 @@ export function summoningSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function poisonAndBoneSkillsModifier(value: ModifierValue): ItemModifier {
+export function poisonAndBoneSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"poison_and_bone_skills",
 		"static",
@@ -478,7 +475,7 @@ export function poisonAndBoneSkillsModifier(value: ModifierValue): ItemModifier 
 	);
 }
 
-export function cursesSkillsModifier(value: ModifierValue): ItemModifier {
+export function cursesSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"curses_skills",
 		"static",
@@ -487,7 +484,7 @@ export function cursesSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function combatSkillsPaladinModifier(value: ModifierValue): ItemModifier {
+export function combatSkillsPaladin(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"combat_skills_paladin",
 		"static",
@@ -496,7 +493,7 @@ export function combatSkillsPaladinModifier(value: ModifierValue): ItemModifier 
 	);
 }
 
-export function defensiveAurasSkillsModifier(value: ModifierValue): ItemModifier {
+export function defensiveAurasSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"defensive_auras_skills",
 		"static",
@@ -505,7 +502,7 @@ export function defensiveAurasSkillsModifier(value: ModifierValue): ItemModifier
 	);
 }
 
-export function offensiveAurasSkillsModifier(value: ModifierValue): ItemModifier {
+export function offensiveAurasSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"offensive_auras_skills",
 		"static",
@@ -514,7 +511,7 @@ export function offensiveAurasSkillsModifier(value: ModifierValue): ItemModifier
 	);
 }
 
-export function fireSkillsModifier(value: ModifierValue): ItemModifier {
+export function fireSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"fire_skills",
 		"static",
@@ -523,7 +520,7 @@ export function fireSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function coldSkillsModifier(value: ModifierValue): ItemModifier {
+export function coldSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"cold_skills",
 		"static",
@@ -532,7 +529,7 @@ export function coldSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function lightningSkillsModifier(value: ModifierValue): ItemModifier {
+export function lightningSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"lightning_skills",
 		"static",
@@ -541,7 +538,7 @@ export function lightningSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function shapeShiftingSkillsModifier(value: ModifierValue): ItemModifier {
+export function shapeShiftingSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"shape_shifting_skills",
 		"static",
@@ -550,7 +547,7 @@ export function shapeShiftingSkillsModifier(value: ModifierValue): ItemModifier 
 	);
 }
 
-export function summoningSkillsDruidModifier(value: ModifierValue): ItemModifier {
+export function summoningSkillsDruid(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"summoning_skills_druid",
 		"static",
@@ -559,7 +556,7 @@ export function summoningSkillsDruidModifier(value: ModifierValue): ItemModifier
 	);
 }
 
-export function elementalSkillsModifier(value: ModifierValue): ItemModifier {
+export function elementalSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"elemental_skills",
 		"static",
@@ -568,7 +565,7 @@ export function elementalSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function martialArtsSkillsModifier(value: ModifierValue): ItemModifier {
+export function martialArtsSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"martial_arts_skills",
 		"static",
@@ -577,7 +574,7 @@ export function martialArtsSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function trapsSkillsModifier(value: ModifierValue): ItemModifier {
+export function trapsSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"traps_skills",
 		"static",
@@ -586,7 +583,7 @@ export function trapsSkillsModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function shadowDisciplineSkillsModifier(value: ModifierValue): ItemModifier {
+export function shadowDisciplineSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"shadow_discipline_skills",
 		"static",
@@ -595,35 +592,35 @@ export function shadowDisciplineSkillsModifier(value: ModifierValue): ItemModifi
 	);
 }
 
-export function necromancerSkillsModifier(value: ModifierValue): ItemModifier {
+export function necromancerSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("necromancer_skills", "static", [value], "+{} to Necromancer Skills");
 }
 
-export function amazonSkillsModifier(value: ModifierValue): ItemModifier {
+export function amazonSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("amazon_skills", "static", [value], "+{} to Amazon Skills");
 }
 
-export function barbarianSkillsModifier(value: ModifierValue): ItemModifier {
+export function barbarianSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("barbarian_skills", "static", [value], "+{} to Barbarian Skills");
 }
 
-export function paladinSkillsModifier(value: ModifierValue): ItemModifier {
+export function paladinSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("paladin_skills", "static", [value], "+{} to Paladin Skills");
 }
 
-export function sorceressSkillsModifier(value: ModifierValue): ItemModifier {
+export function sorceressSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("sorceress_skills", "static", [value], "+{} to Sorceress Skills");
 }
 
-export function druidSkillsModifier(value: ModifierValue): ItemModifier {
+export function druidSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("druid_skills", "static", [value], "+{} to Druid Skills");
 }
 
-export function assassinSkillsModifier(value: ModifierValue): ItemModifier {
+export function assassinSkills(value: ModifierValue): ItemModifier {
 	return createItemModifier("assassin_skills", "static", [value], "+{} to Assassin Skills");
 }
 
-export function skeletonMasteryModifier(value: ModifierValue): ItemModifier {
+export function skeletonMastery(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"skeleton_mastery",
 		"static",
@@ -632,7 +629,7 @@ export function skeletonMasteryModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function raiseSkeletonModifier(value: ModifierValue): ItemModifier {
+export function raiseSkeleton(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"raise_skeleton",
 		"static",
@@ -641,11 +638,11 @@ export function raiseSkeletonModifier(value: ModifierValue): ItemModifier {
 	);
 }
 
-export function cloakOfShadowsModifier(value: ModifierValue): ItemModifier {
+export function cloakOfShadows(value: ModifierValue): ItemModifier {
 	return createItemModifier("cloak_of_shadows", "static", [value], "+{} to Cloak of Shadows");
 }
 
-export function poisonDamageOverTwoSecondsModifier(value: ModifierValue): ItemModifier {
+export function poisonDamageOverTwoSeconds(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"poison_damage_over_two_seconds",
 		"static",
@@ -654,7 +651,7 @@ export function poisonDamageOverTwoSecondsModifier(value: ModifierValue): ItemMo
 	);
 }
 
-export function poisonDamageOverThreeSecondsModifier(value: ModifierValue): ItemModifier {
+export function poisonDamageOverThreeSeconds(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"poison_damage_over_three_seconds",
 		"static",
@@ -663,7 +660,7 @@ export function poisonDamageOverThreeSecondsModifier(value: ModifierValue): Item
 	);
 }
 
-export function poisonDamageOverFourSecondsModifier(value: ModifierValue): ItemModifier {
+export function poisonDamageOverFourSeconds(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"poison_damage_over_four_seconds",
 		"static",
@@ -672,7 +669,7 @@ export function poisonDamageOverFourSecondsModifier(value: ModifierValue): ItemM
 	);
 }
 
-export function poisonDamageOverFiveSecondsModifier(value: ModifierValue): ItemModifier {
+export function poisonDamageOverFiveSeconds(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"poison_damage_over_five_seconds",
 		"static",
@@ -681,7 +678,7 @@ export function poisonDamageOverFiveSecondsModifier(value: ModifierValue): ItemM
 	);
 }
 
-export function poisonDamageOverSixSecondsModifier(value: ModifierValue): ItemModifier {
+export function poisonDamageOverSixSeconds(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"poison_damage_over_six_seconds",
 		"static",
@@ -690,17 +687,17 @@ export function poisonDamageOverSixSecondsModifier(value: ModifierValue): ItemMo
 	);
 }
 
-export function lifeStolenPerHitModifier(value: ModifierValue): ItemModifier {
+export function lifeStolenPerHit(value: ModifierValue): ItemModifier {
 	return createItemModifier("life_stolen_per_hit", "static", [value], "{}% Life Stolen per Hit");
 }
 
-export function manaStolenPerHitModifier(value: ModifierValue): ItemModifier {
+export function manaStolenPerHit(value: ModifierValue): ItemModifier {
 	return createItemModifier("mana_stolen_per_hit", "static", [value], "{}% Mana Stolen per Hit");
 }
 
 // TODO: multiple values
 
-export function howlLevelFiveOnStrikingModifier(value: ModifierValue): ItemModifier {
+export function howlLevelFiveOnStriking(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"howl_level_five_on_striking",
 		"static",
@@ -709,7 +706,7 @@ export function howlLevelFiveOnStrikingModifier(value: ModifierValue): ItemModif
 	);
 }
 
-export function dimVisionLevelThreeWhenStruckModifier(value: ModifierValue): ItemModifier {
+export function dimVisionLevelThreeWhenStruck(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"dim_vision_level_three_when_struck",
 		"static",
@@ -718,11 +715,11 @@ export function dimVisionLevelThreeWhenStruckModifier(value: ModifierValue): Ite
 	);
 }
 
-export function attackSpeedModifier(value: ModifierValue): ItemModifier {
+export function attackSpeed(value: ModifierValue): ItemModifier {
 	return createItemModifier("attack_speed", "static", [value], "+{}% Increased Attack Speed ");
 }
 
-export function damageTakenGainedAsManaModifier(value: ModifierValue): ItemModifier {
+export function damageTakenGainedAsMana(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"damage_taken_gained_as_mana",
 		"static",
@@ -731,23 +728,23 @@ export function damageTakenGainedAsManaModifier(value: ModifierValue): ItemModif
 	);
 }
 
-export function replenishLifeModifier(value: ModifierValue): ItemModifier {
+export function replenishLife(value: ModifierValue): ItemModifier {
 	return createItemModifier("replenish_life", "static", [value], "Replenish Life +{}");
 }
 
-export function fasterHitRecoveryModifier(value: ModifierValue): ItemModifier {
+export function fasterHitRecovery(value: ModifierValue): ItemModifier {
 	return createItemModifier("faster_hit_recovery", "static", [value], "+{}% Faster Hit Recovery");
 }
 
-export function fasterCastRateModifier(value: ModifierValue): ItemModifier {
+export function fasterCastRate(value: ModifierValue): ItemModifier {
 	return createItemModifier("faster_cast_rate", "static", [value], "+{}% Faster Cast Rate");
 }
 
-export function fasterBlockRateModifier(value: ModifierValue): ItemModifier {
+export function fasterBlockRate(value: ModifierValue): ItemModifier {
 	return createItemModifier("faster_block_rate", "static", [value], "+{}% Faster Block Rate");
 }
 
-export function increasedChanceOfBlockingModifier(value: ModifierValue): ItemModifier {
+export function increasedChanceOfBlocking(value: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"increased_block_chance",
 		"static",
@@ -756,31 +753,31 @@ export function increasedChanceOfBlockingModifier(value: ModifierValue): ItemMod
 	);
 }
 
-export function fasterRunWalkModifier(value: ModifierValue): ItemModifier {
+export function fasterRunWalk(value: ModifierValue): ItemModifier {
 	return createItemModifier("faster_run_walk", "static", [value], "+{}% Faster Run/Walk");
 }
 
-export function preventMonsterHealModifier(): ItemModifier {
+export function preventMonsterHeal(): ItemModifier {
 	return createItemModifier("prevent_monster_heal", "static", [1], "Prevent Monster Heal");
 }
 
-export function slowTargetModifier(value: ModifierValue): ItemModifier {
+export function slowTarget(value: ModifierValue): ItemModifier {
 	return createItemModifier("slow_target", "static", [value], "Slows Target by {}%");
 }
 
-export function slowerStaminaDrainModifier(value: ModifierValue): ItemModifier {
+export function slowerStaminaDrain(value: ModifierValue): ItemModifier {
 	return createItemModifier("slower_stamina_drain", "static", [value], "{}% Slower Stamina Drain");
 }
 
-export function addsFireDamageModifier(min: ModifierValue, max: ModifierValue): ItemModifier {
+export function addsFireDamage(min: ModifierValue, max: ModifierValue): ItemModifier {
 	return createItemModifier("adds_fire_damage", "static", [min, max], "Adds {}-{} Fire Damage ");
 }
 
-export function addsColdDamageModifier(min: ModifierValue, max: ModifierValue): ItemModifier {
+export function addsColdDamage(min: ModifierValue, max: ModifierValue): ItemModifier {
 	return createItemModifier("adds_cold_damage", "static", [min, max], "Adds {}-{} Cold Damage ");
 }
 
-export function addsLightningDamageModifier(min: ModifierValue, max: ModifierValue): ItemModifier {
+export function addsLightningDamage(min: ModifierValue, max: ModifierValue): ItemModifier {
 	return createItemModifier(
 		"adds_lightning_damage",
 		"static",
@@ -789,12 +786,12 @@ export function addsLightningDamageModifier(min: ModifierValue, max: ModifierVal
 	);
 }
 
-// export function hybridEnhancedDamageAttackRatingModifier(
-// 	enhancedDamageValue: ModifierValue,
-// 	attackRatingValue: ModifierValue
-// ): HybridItemModifier {
-// 	return createHybridItemModifier("hybrid_enhanced_damage_attack_rating", [
-// 		enhancedDamageModifier(enhancedDamageValue),
-// 		attackRatingModifier(attackRatingValue),
-// 	]);
-// }
+export function hybridEnhancedDamageAttackRating(
+	enhancedDamageValue: ModifierValue,
+	attackRatingValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_enhanced_damage_attack_rating", [
+		enhancedDamage(enhancedDamageValue),
+		attackRating(attackRatingValue),
+	]);
+}
