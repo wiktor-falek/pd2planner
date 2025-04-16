@@ -6,19 +6,25 @@ export class BuildModel {
 
 	async addBuild(buildId: string, buildCode: string) {
 		try {
+			const exists = this.lmdb.doesExist(buildId);
+			if (exists) return Err("Already exists" as const);
+
 			const result = await this.lmdb.put(buildId, buildCode);
 			return Ok(result);
 		} catch (e) {
-			return Err(e);
+			console.error(e);
+			return Err("Database write fail" as const);
 		}
 	}
 
-	async findBuild(buildId: string) {
+	findBuild(buildId: string) {
 		try {
-			const result = (await this.lmdb.get(buildId)) as string;
-			return Ok(result);
+			const result = this.lmdb.get(buildId);
+			if (result === undefined) return Err("Not Found" as const);
+			return Ok({ buildCode: result });
 		} catch (e) {
-			return Err(e);
+			console.error(e);
+			return Err("Database read fail" as const);
 		}
 	}
 }

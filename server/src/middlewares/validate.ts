@@ -1,9 +1,9 @@
 import type { ZodSchema } from "zod";
-import type { NextFunction, Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 
 /**
  * Ensures that the request body/params/query match the passed schema.
- * 
+ *
  * On invalid request schema breaks the middleware chain returning 422.
  */
 export function validate(schema: ZodSchema) {
@@ -11,7 +11,8 @@ export function validate(schema: ZodSchema) {
 		const validation = schema.safeParse(req);
 
 		if (!validation.success) {
-			return res.status(422).json({ error: validation.error.issues });
+			res.status(422).json({ error: validation.error.issues });
+			return;
 		}
 
 		return next();
