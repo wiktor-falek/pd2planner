@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
 import { createItemCopy, uniques } from "../data/items";
 import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
@@ -15,6 +15,12 @@ import { corruptionModifiers } from "../data/corruptions";
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();
 const attributeStore = useAttributeStore();
+
+onBeforeMount(() => {
+	if (itemStore.selectedItem !== null) {
+		selectedCorruptedModifier.value = itemStore.selectedItem.corruptedModifier;
+	}
+});
 
 function selectItem(item: Item | null) {
 	itemStore.selectedItem = item;
@@ -534,7 +540,7 @@ function selectSockets(item: Item, amount: number) {
 						v-if="!['normal', 'runeword'].includes(itemStore.selectedItem.rarity)"
 					>
 						<label for="corrupted">Corrupted</label>
-						<select name="" id="" v-model="selectedCorruptedModifier">
+						<select class="select" name="" id="" v-model="selectedCorruptedModifier">
 							<option :value="null">None</option>
 							<option
 								v-for="modifier in corruptionModifiers[itemStore.selectedItem.type]"
@@ -589,7 +595,7 @@ function selectSockets(item: Item, amount: number) {
 						<select
 							v-if="rollableModifiers?.length"
 							v-model="selectedModifier"
-							class="rollable-modifier"
+							class="select"
 							name=""
 							id=""
 						>
@@ -784,7 +790,7 @@ button {
 .selected-item-text {
 }
 
-.rollable-modifier {
+.select {
 	max-width: 240px;
 }
 
