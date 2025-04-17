@@ -1,4 +1,4 @@
-import type { CharacterClass } from "../types";
+import type { CharacterClass } from "../../types";
 
 export interface SkillDetails {
   description: string;

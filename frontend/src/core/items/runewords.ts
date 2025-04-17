@@ -1,8 +1,8 @@
-import type { RunewordBaseType } from "../types";
+import type { RunewordBaseType } from "../../types";
 import type { Item } from "./bases";
 import { type ItemModifier } from "./modifiers";
 import * as modifiers from "./modifiers";
-import type { RuneName } from "./socketables";
+import type { RuneName } from "../socketables";
 
 /*
     requires a base that is of normal rarity

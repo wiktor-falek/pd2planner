@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useCharacterStore } from "./characterStore";
 import { computed, ref, watch } from "vue";
 import { loadFromStorage, saveToStorage } from "../persistence";
-import { skillTreeIcons } from "../data/skillTrees";
+import { skillTreeIcons } from "../core/skills/skillTrees";
 import type { CharacterClass } from "../types";
 import { calculateQuestSkillPoints } from "../calculations";
 
@@ -44,7 +44,7 @@ export const useSkillStore = defineStore("skills", () => {
 	);
 
 	function allocateSkill(name: string, amount: number) {
-		const skill = skillTreeState.value[name];
+		const skill = skillTreeState.value[name]!;
 		skill.points = Math.min(skill.points + amount, 20);
 
 		while (
@@ -56,7 +56,7 @@ export const useSkillStore = defineStore("skills", () => {
 	}
 
 	function deallocateSkill(name: string, amount: number) {
-		const skill = skillTreeState.value[name];
+		const skill = skillTreeState.value[name]!;
 		skill.points = Math.max(skill.points - amount, 0);
 	}
 

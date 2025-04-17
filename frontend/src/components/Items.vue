@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
-import { createItemCopy, uniques } from "../data/items";
-import { getModifierTooltip, type ItemModifier } from "../data/modifiers";
+import { createItemCopy, uniques } from "../core/items/items";
+import { getModifierTooltip, type ItemModifier } from "../core/items/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
 import { useItemStore } from "../stores/itemStore";
 import { ALL_ITEM_BASE_TYPES, type CraftableRarity, type ItemBaseType, type Slot } from "../types";
 import { useAttributeStore } from "../stores/attributeStore";
-import { attributeInfo } from "../data/attributes";
+import { attributeInfo } from "../core/attributes";
 import Modal from "./reusable/Modal.vue";
-import { bases, type Item } from "../data/bases";
-import { createRuneword, runewordsData, type RunewordData } from "../data/runewords";
-import { corruptionModifiers } from "../data/corruptions";
+import { bases, type Item } from "../core/items/bases";
+import { createRuneword, runewordsData, type RunewordData } from "../core/items/runewords";
+import { corruptionModifiers } from "../core/items/corruptions";
 
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();

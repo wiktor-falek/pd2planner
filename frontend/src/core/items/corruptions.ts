@@ -1,4 +1,4 @@
-import type { ItemBaseType } from "../types";
+import type { ItemBaseType } from "../../types";
 import { type ItemModifier } from "./modifiers";
 import * as modifiers from "./modifiers";
 

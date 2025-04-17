@@ -1,4 +1,4 @@
-import type { CharacterClass, ItemBaseType, Rarity, Tier } from "../types";
+import type { CharacterClass, ItemBaseType, Rarity, Tier } from "../../types";
 import { type ItemModifier } from "./modifiers";
 import * as modifiers from "./modifiers";
 

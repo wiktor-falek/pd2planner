@@ -1,10 +1,9 @@
-import { toRaw } from "vue";
 import * as modifiers from "./modifiers";
 import type { ItemModifier } from "./modifiers";
 import { bases } from "./bases";
 import type { Item, ItemOptions } from "./bases";
-import type { ItemBaseType } from "../types";
-import { toRawDeep } from "../utils";
+import type { ItemBaseType } from "../../types";
+import { toRawDeep } from "../../utils";
 
 export function createItemCopy(item: Item): Item {
 	const copy = structuredClone(toRawDeep(item));
