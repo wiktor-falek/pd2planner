@@ -12,6 +12,7 @@ import {
 	serializeBuildDataToBuildCode,
 } from "./core/serialization/buildCodeSerializer";
 import { gatherBuildData } from "./core/serialization/buildDataUtils";
+import { createBuild, getBuildCode } from "./api";
 
 const characterStore = useCharacterStore();
 const attributeStore = useAttributeStore();
@@ -20,11 +21,17 @@ const skillStore = useSkillStore();
 type Tab = "items" | "skill-tree" | "attributes";
 const selectedTab = ref<Tab>("items");
 
-function exportBuild() {
+async function exportBuild() {
 	const buildCode = serializeBuildDataToBuildCode(gatherBuildData());
 	console.log(buildCode);
 
+	const buildId = await createBuild(buildCode);
+	console.log({ buildId });
+
 	const buildData = deserializeBuildCodeToBuildData(buildCode);
+
+	const fetchedBuildCode = await getBuildCode(buildId!);
+	console.log({ fetchedBuildCode });
 }
 </script>
 
