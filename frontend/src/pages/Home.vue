@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import SkillTree from "../components/SkillTree.vue";
 import Attributes from "../components/Attributes.vue";
 import Items from "../components/Items.vue";
@@ -11,6 +11,7 @@ import { serializeBuildDataToBuildCode } from "../core/serialization/buildCodeSe
 import { getBuildData, resetBuild } from "../core/build/buildData";
 import { createBuild } from "../api";
 import router from "../router";
+import Modal from "../components/reusable/Modal.vue";
 
 const characterStore = useCharacterStore();
 const attributeStore = useAttributeStore();
@@ -33,13 +34,43 @@ async function handleExportBuild() {
 
 async function handleImportBuild() {}
 
-async function handleResetBuild() {
-	// TODO: confirmation window
-	resetBuild();
+function handleOpenResetBuildModal() {
+	modalIsOpen.value = true;
 }
+
+function handleResetBuild() {
+	resetBuild();
+	modalIsOpen.value = false;
+}
+
+const modalIsOpen = ref(false);
+
+function handleEscKey(event: KeyboardEvent) {
+	if (event.key === "Escape") {
+		modalIsOpen.value = false;
+	}
+}
+
+onMounted(() => {
+	window.addEventListener("keydown", handleEscKey);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("keydown", handleEscKey);
+});
 </script>
 
 <template>
+	<Modal :is-open="modalIsOpen" @close="modalIsOpen = false">
+		<div class="modal">
+			<p class="modal__title">Are you sure you want to reset your build?</p>
+			<div class="modal__buttons">
+				<button @click="handleResetBuild">Reset</button>
+				<button @click="modalIsOpen = false">Close</button>
+			</div>
+		</div>
+	</Modal>
+
 	<div class="app" @contextmenu.prevent>
 		<header>
 			<div class="header-left">
@@ -115,7 +146,7 @@ async function handleResetBuild() {
 			<div class="header-right">
 				<button @click="handleExportBuild()">Export</button>
 				<button @click="handleImportBuild()">Import</button>
-				<button @click="handleResetBuild()">Reset</button>
+				<button @click="handleOpenResetBuildModal()">Reset</button>
 			</div>
 		</header>
 
@@ -240,5 +271,25 @@ header {
 	justify-content: center;
 	position: relative;
 	z-index: 0;
+}
+
+.modal {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+	width: 240px;
+	height: 120px;
+	border: 1px solid gray;
+	gap: 8px;
+	padding: 12px;
+	padding-top: 24px;
+}
+
+.modal__buttons {
+	display: flex;
+	width: 100%;
+	justify-content: space-around;
 }
 </style>
