@@ -8,7 +8,7 @@ import { calculateQuestSkillPoints } from "../calculations";
 
 export type SkillTreeState = { [key: string]: { points: number } };
 
-function getDefaultSkillTreeState(characterClass: CharacterClass): SkillTreeState {
+export function getDefaultSkillTreeState(characterClass: CharacterClass): SkillTreeState {
 	return Object.fromEntries(
 		skillTreeIcons[characterClass].map((e) => [e.name, { points: 0 }])
 	) as SkillTreeState;

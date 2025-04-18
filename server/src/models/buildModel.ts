@@ -6,9 +6,6 @@ export class BuildModel {
 
 	async addBuild(buildId: string, buildCode: string) {
 		try {
-			const exists = this.lmdb.doesExist(buildId);
-			if (exists) return Err("Already exists" as const);
-
 			const result = await this.lmdb.put(buildId, buildCode);
 			return Ok(result);
 		} catch (e) {

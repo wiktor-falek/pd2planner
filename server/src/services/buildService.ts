@@ -1,4 +1,4 @@
-import { type Result, Ok, Err } from "resultat";
+import { Ok } from "resultat";
 import xxhash from "xxhashjs";
 import base62 from "base62";
 import type { BuildModel } from "../models/buildModel.js";
@@ -14,10 +14,8 @@ export class BuildService {
 
 	private generateBuildId(buildCode: string) {
 		const buffer = Buffer.from(buildCode);
-		const hash1 = xxhash.h32(buffer, 0x1111).toString(16);
-		const hash2 = xxhash.h32(buffer, 0x2222).toString(16);
-		const part1 = base62.encode(parseInt(hash1, 16));
-		const part2 = base62.encode(parseInt(hash2, 16));
-		return part1 + part2;
+		const hash = xxhash.h64(buffer, 0x1111).toString(16);
+		const buildId = base62.encode(parseInt(hash, 16)).padEnd(12, "0");
+		return buildId;
 	}
 }

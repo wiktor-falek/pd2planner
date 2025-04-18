@@ -5,7 +5,7 @@ import { loadFromStorage, saveToStorage } from "../persistence";
 import { calculateQuestAttributePoints } from "../calculations";
 import type { Attribute, Attributes } from "../types";
 
-function getDefaultAttributes(): Attributes {
+export function getDefaultAttributes(): Attributes {
 	return {
 		strength: 0,
 		dexterity: 0,

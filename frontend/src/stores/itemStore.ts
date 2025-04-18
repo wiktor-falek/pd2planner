@@ -18,7 +18,7 @@ function itemTypeToEquippableSlots(type: ItemBaseType): Slot[] {
 	}
 }
 
-function getDefaultEquippedItems(): EquippedItems {
+export function getDefaultEquippedItems(): EquippedItems {
 	return {
 		"weapon-1": { items: [], selected: 0 },
 		"weapon-2": { items: [], selected: 0 },

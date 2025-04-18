@@ -11,11 +11,7 @@ export class BuildController {
 		const { buildCode } = req.body;
 		const result = await this.buildService.createBuild(buildCode);
 		if (!result.ok) {
-			if (result.err === "Already exists") {
-				res.status(409).json({ error: "Build already exists" });
-			} else {
-				res.status(500).json({ error: "Internal Server Error" });
-			}
+			res.status(500).json({ error: "Internal Server Error" });
 			return;
 		}
 

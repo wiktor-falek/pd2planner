@@ -1,7 +1,11 @@
-import { useAttributeStore } from "../../stores/attributeStore";
+import { getDefaultAttributes, useAttributeStore } from "../../stores/attributeStore";
 import { useCharacterStore } from "../../stores/characterStore";
-import { useItemStore, type EquippedItems } from "../../stores/itemStore";
-import { useSkillStore, type SkillTreeState } from "../../stores/skillStore";
+import { getDefaultEquippedItems, useItemStore, type EquippedItems } from "../../stores/itemStore";
+import {
+	getDefaultSkillTreeState,
+	useSkillStore,
+	type SkillTreeState,
+} from "../../stores/skillStore";
 import type { Attributes, CharacterClass } from "../../types";
 import type { Item } from "../items/bases";
 
@@ -18,7 +22,7 @@ export interface BuildData {
 	};
 }
 
-export function gatherBuildData(): BuildData {
+export function getBuildData(): BuildData {
 	const characterStore = useCharacterStore();
 	const attributeStore = useAttributeStore();
 	const skillStore = useSkillStore();
@@ -36,6 +40,23 @@ export function gatherBuildData(): BuildData {
 			equipped: itemStore.equippedItems,
 		},
 	};
+}
+
+export function resetBuild() {
+	const characterStore = useCharacterStore();
+	const attributeStore = useAttributeStore();
+	const skillStore = useSkillStore();
+	const itemStore = useItemStore();
+
+	characterStore.setCharacterClass("amazon");
+	characterStore.setCharacterLevel(1);
+
+	attributeStore.attributes = getDefaultAttributes();
+
+	skillStore.skillTreeState = getDefaultSkillTreeState("amazon");
+
+	itemStore.items = [];
+	itemStore.equippedItems = getDefaultEquippedItems();
 }
 
 export function importBuild(buildData: BuildData) {

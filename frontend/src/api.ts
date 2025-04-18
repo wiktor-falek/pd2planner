@@ -1,8 +1,8 @@
-const BASE_URL = "http://localhost:8080/api/builds";
+const BASE_URL = "http://localhost:8080";
 
 export async function createBuild(buildCode: string) {
 	try {
-		const res = await fetch(`${BASE_URL}/`, {
+		const res = await fetch(`${BASE_URL}/api/builds`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ buildCode }),
@@ -19,9 +19,8 @@ export async function createBuild(buildCode: string) {
 
 export async function getBuildCode(buildId: string) {
 	try {
-		const res = await fetch(`${BASE_URL}/${buildId}`, {
+		const res = await fetch(`${BASE_URL}/api/builds/${buildId}`, {
 			method: "GET",
-			// headers: { "Content-Type": "application/json" },
 		});
 		if (!res.ok) throw new Error(`Create Build POST ${res.status} ${res.statusText}`);
 
