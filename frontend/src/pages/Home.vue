@@ -42,72 +42,81 @@ async function handleResetBuild() {
 <template>
 	<div class="app" @contextmenu.prevent>
 		<header>
-			<div class="label-input">
-				<label for="character-class">Class:</label>
-				<select
-					id="character-class"
-					name="character-class"
-					:value="characterStore.characterClass"
-					@change="
-						characterStore.setCharacterClass(
-							($event.target as HTMLSelectElement).value as CharacterClass
-						)
-					"
-				>
-					<option value="amazon">Amazon</option>
-					<option value="assassin">Assassin</option>
-					<option value="necromancer">Necromancer</option>
-					<option value="barbarian">Barbarian</option>
-					<option value="paladin">Paladin</option>
-					<option value="sorceress">Sorceress</option>
-					<option value="druid">Druid</option>
-				</select>
+			<div class="header-left">
+				<p>pd2planner.com</p>
 			</div>
 
-			<div class="label-input">
-				<label for="character-level">Level</label>
-				<input
-					id="character-level"
-					type="number"
-					min="1"
-					max="99"
-					:value="characterStore.characterLevel"
-					@change="
-						characterStore.setCharacterLevel(parseInt(($event.target as HTMLInputElement).value))
-					"
-				/>
-			</div>
-
-			<div class="label-input">
-				<label for="skill-points">Skill Points:</label>
-				<span id="skill-points">
-					<span
-						:class="{
-							red: skillStore.allocatedSkillPoints > skillStore.totalSkillPoints,
-						}"
-						>{{ skillStore.allocatedSkillPoints }}</span
+			<div class="header-middle">
+				<div class="label-input">
+					<label for="character-class">Class:</label>
+					<select
+						id="character-class"
+						name="character-class"
+						:value="characterStore.characterClass"
+						@change="
+							characterStore.setCharacterClass(
+								($event.target as HTMLSelectElement).value as CharacterClass
+							)
+						"
 					>
-					<span>/</span>
-					<span>{{ skillStore.totalSkillPoints }}</span>
-				</span>
+						<option value="amazon">Amazon</option>
+						<option value="assassin">Assassin</option>
+						<option value="necromancer">Necromancer</option>
+						<option value="barbarian">Barbarian</option>
+						<option value="paladin">Paladin</option>
+						<option value="sorceress">Sorceress</option>
+						<option value="druid">Druid</option>
+					</select>
+				</div>
+
+				<div class="label-input">
+					<label for="character-level">Level</label>
+					<input
+						id="character-level"
+						type="number"
+						min="1"
+						max="99"
+						:value="characterStore.characterLevel"
+						@change="
+							characterStore.setCharacterLevel(parseInt(($event.target as HTMLInputElement).value))
+						"
+					/>
+				</div>
+
+				<div class="label-input">
+					<label for="skill-points">Skill Points:</label>
+					<span id="skill-points">
+						<span
+							:class="{
+								red: skillStore.allocatedSkillPoints > skillStore.totalSkillPoints,
+							}"
+							>{{ skillStore.allocatedSkillPoints }}</span
+						>
+						<span>/</span>
+						<span>{{ skillStore.totalSkillPoints }}</span>
+					</span>
+				</div>
+
+				<div class="label-input">
+					<label for="attribute-points">Attribute Points:</label>
+					<span id="attribute-points">
+						<span
+							:class="{
+								red: attributeStore.allocatedAttributePoints > attributeStore.totalAttributePoints,
+							}"
+							>{{ attributeStore.allocatedAttributePoints }}</span
+						>
+						<span>/</span>
+						<span>{{ attributeStore.totalAttributePoints }}</span>
+					</span>
+				</div>
 			</div>
 
-			<div class="label-input">
-				<label for="attribute-points">Attribute Points:</label>
-				<span id="attribute-points">
-					<span
-						:class="{
-							red: attributeStore.allocatedAttributePoints > attributeStore.totalAttributePoints,
-						}"
-						>{{ attributeStore.allocatedAttributePoints }}</span
-					>
-					<span>/</span>
-					<span>{{ attributeStore.totalAttributePoints }}</span>
-				</span>
+			<div class="header-right">
+				<button @click="handleExportBuild()">Export</button>
+				<button @click="handleImportBuild()">Import</button>
+				<button @click="handleResetBuild()">Reset</button>
 			</div>
-			<button @click="handleExportBuild()">Export</button>
-			<button @click="handleImportBuild()">Import</button>
-			<button @click="handleResetBuild()">Reset</button>
 		</header>
 
 		<div class="container">
@@ -157,9 +166,17 @@ async function handleResetBuild() {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	overflow: hidden;
 }
 
 header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header-middle {
 	display: flex;
 	gap: 20px;
 	flex: 0 1 auto;
@@ -170,11 +187,15 @@ header {
 	padding: 2px 0;
 }
 
+.header-right {
+	display: flex;
+	gap: 8px;
+}
+
 .container {
 	display: flex;
 	width: 100%;
-	height: 100%;
-	align-items: center;
+	margin-top: 12px;
 	position: relative;
 }
 
