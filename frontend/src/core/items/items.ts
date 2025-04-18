@@ -117,7 +117,7 @@ const Wormskull = baseToUnique(
 	[
 		modifiers.poisonAndBoneSkills(1),
 		modifiers.necromancerSkills(1),
-		modifiers.poisonDamageOverTwoSeconds(60),
+		modifiers.poisonDamageOverSeconds(60, 2),
 		modifiers.lifeStolenPerHit(5),
 		modifiers.mana(10),
 		modifiers.poisonResist(25),
@@ -134,7 +134,7 @@ const Howltusk = baseToUnique(
 	bases.helmet["Great Helm"],
 	"Howltusk",
 	[
-		modifiers.howlLevelFiveOnStriking(10),
+		modifiers.howlOnStriking(10, 5),
 		modifiers.attackSpeed(20),
 		modifiers.enhancedDefense(80),
 		modifiers.flatMagicDamageReduced(2),
@@ -234,7 +234,7 @@ const DarksightHelm = baseToUnique(
 	bases.helmet["Basinet"],
 	"Darksight Helm",
 	[
-		modifiers.dimVisionLevelThreeWhenStruck(16),
+		modifiers.dimVisionWhenStruck(16, 3),
 		modifiers.manaStolenPerHit(5),
 		modifiers.hitBlindsTarget(),
 		modifiers.defensePerLevel(3),

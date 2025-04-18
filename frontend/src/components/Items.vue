@@ -524,23 +524,22 @@ function selectSockets(item: Item, amount: number) {
 			<div class="idk" v-else>
 				<button @click="modalIsOpen = true">Craft Item</button>
 			</div>
-			<div class="thingy">
-				<div v-if="itemStore.selectedItem">
-					<div class="label-input">
-						<label for="sockets">Sockets</label>
-						<select name="" id="" v-model="itemStore.selectedItem.sockets">
-							<option v-for="i in itemStore.selectedItem.maxSockets + 1" :value="i - 1">
-								{{ i - 1 }}
-							</option>
-						</select>
+			<div class="selected-item-container">
+				<div v-if="itemStore.selectedItem" class="selected-item-container__item-options">
+					<div
+						v-if="['magic', 'rare', 'crafted'].includes(itemStore.selectedItem.rarity)"
+						class="label-input"
+					>
+						<label for="name">Name:</label>
+						<input id="name" type="text" v-model="itemStore.selectedItem.name" />
 					</div>
 
 					<div
 						class="label-input"
 						v-if="!['normal', 'runeword'].includes(itemStore.selectedItem.rarity)"
 					>
-						<label for="corrupted">Corrupted</label>
-						<select class="select" name="" id="" v-model="selectedCorruptedModifier">
+						<label for="corrupted">Corrupted: </label>
+						<select id="corrupted" class="select" v-model="selectedCorruptedModifier">
 							<option :value="null">None</option>
 							<option
 								v-for="modifier in corruptionModifiers[itemStore.selectedItem.type]"
@@ -550,13 +549,23 @@ function selectSockets(item: Item, amount: number) {
 							</option>
 						</select>
 					</div>
-					<!-- <input id="corrupted" type="checkbox" v-model="itemStore.selectedItem.corrupted" /> -->
+
 					<div class="label-input">
-						<label for="ethereal">Ethereal</label>
+						<label for="sockets">Sockets: </label>
+						<select id="sockets" v-model="itemStore.selectedItem.sockets">
+							<option v-for="i in itemStore.selectedItem.maxSockets + 1" :value="i - 1">
+								{{ i - 1 }}
+							</option>
+						</select>
+					</div>
+
+					<div class="label-input">
+						<label for="ethereal">Ethereal: </label>
 						<input id="ethereal" type="checkbox" v-model="itemStore.selectedItem.ethereal" />
 					</div>
 
 					<div
+					class="modifiers"
 						v-if="
 							itemStore.selectedItem.rarity === 'rare' || itemStore.selectedItem.rarity === 'magic'
 						"
@@ -735,8 +744,14 @@ function selectSockets(item: Item, amount: number) {
 	margin-left: auto;
 }
 
-.thingy {
+.selected-item-container {
 	width: 360px;
+}
+
+.selected-item-container__item-options, .modifiers {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
 }
 
 .selected-item {

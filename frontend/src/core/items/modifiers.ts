@@ -642,48 +642,15 @@ export function cloakOfShadows(value: ModifierValue): ItemModifier {
 	return createItemModifier("cloak_of_shadows", "static", [value], "+{} to Cloak of Shadows");
 }
 
-export function poisonDamageOverTwoSeconds(value: ModifierValue): ItemModifier {
+export function poisonDamageOverSeconds(
+	damage: ModifierValue,
+	seconds: ModifierValue
+): ItemModifier {
 	return createItemModifier(
-		"poison_damage_over_two_seconds",
+		"poison_damage_over_seconds",
 		"static",
-		[value],
-		"+{} Poison Damage over 2 seconds"
-	);
-}
-
-export function poisonDamageOverThreeSeconds(value: ModifierValue): ItemModifier {
-	return createItemModifier(
-		"poison_damage_over_three_seconds",
-		"static",
-		[value],
-		"+{} Poison Damage over 3 seconds"
-	);
-}
-
-export function poisonDamageOverFourSeconds(value: ModifierValue): ItemModifier {
-	return createItemModifier(
-		"poison_damage_over_four_seconds",
-		"static",
-		[value],
-		"+{} Poison Damage over 4 seconds"
-	);
-}
-
-export function poisonDamageOverFiveSeconds(value: ModifierValue): ItemModifier {
-	return createItemModifier(
-		"poison_damage_over_five_seconds",
-		"static",
-		[value],
-		"+{} Poison Damage over 5 seconds"
-	);
-}
-
-export function poisonDamageOverSixSeconds(value: ModifierValue): ItemModifier {
-	return createItemModifier(
-		"poison_damage_over_six_seconds",
-		"static",
-		[value],
-		"+{} Poison Damage over 6 seconds"
+		[damage, seconds],
+		"+{} Poison Damage over {} seconds"
 	);
 }
 
@@ -695,23 +662,21 @@ export function manaStolenPerHit(value: ModifierValue): ItemModifier {
 	return createItemModifier("mana_stolen_per_hit", "static", [value], "{}% Mana Stolen per Hit");
 }
 
-// TODO: multiple values
-
-export function howlLevelFiveOnStriking(value: ModifierValue): ItemModifier {
+export function howlOnStriking(chance: ModifierValue, level: ModifierValue): ItemModifier {
 	return createItemModifier(
-		"howl_level_five_on_striking",
+		"howl_on_striking",
 		"static",
-		[value],
-		"{}% Chance to Cast Level 5 Howl on Striking"
+		[chance, level],
+		"{}% Chance to Cast Level {} Howl on Striking"
 	);
 }
 
-export function dimVisionLevelThreeWhenStruck(value: ModifierValue): ItemModifier {
+export function dimVisionWhenStruck(chance: ModifierValue, level: ModifierValue): ItemModifier {
 	return createItemModifier(
-		"dim_vision_level_three_when_struck",
+		"dim_vision_when_struck",
 		"static",
-		[value],
-		"{}% Chance to Cast Level 3 Dim Vision when Struck"
+		[chance, level],
+		"{}% Chance to Cast Level {} Dim Vision when Struck"
 	);
 }
 

@@ -11,12 +11,12 @@ const buildId = route.params.buildId as string;
 const buildData = ref<BuildData | null>(null);
 
 async function handleImportBuild() {
-	if (buildId.length !== 12 || buildId.match(/[^0-9a-z]/i)) {
-		console.error("Invalid build ID");
-		// TODO: handle error
-		// router.push({ name: "create-build" });
-		return;
-	}
+	// if (buildId.length !== 12 || buildId.match(/[^0-9a-z]/i)) {
+	// 	console.error("Invalid build ID");
+	// 	// TODO: handle error
+	// 	// router.push({ name: "create-build" });
+	// 	return;
+	// }
 
 	const buildCode = await getBuildCode(buildId);
 
