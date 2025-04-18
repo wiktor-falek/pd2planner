@@ -37,5 +37,24 @@ onBeforeMount(() => {
 
 <template>
 	<div v-if="buildData === null">Loading build...</div>
-	<div v-else>Level {{ buildData.character.level }} {{ buildData.character.class }}</div>
+	<div v-else>
+		<p>Level {{ buildData.character.level }} {{ buildData.character.class }}</p>
+		<div>
+			<p>Attributes</p>
+			<p>Strength: {{ buildData.attributes.strength }}</p>
+			<p>Dexterity: {{ buildData.attributes.dexterity }}</p>
+			<p>Vitality: {{ buildData.attributes.vitality }}</p>
+			<p>Energy: {{ buildData.attributes.energy }}</p>
+		</div>
+
+		<div>
+			<p>Skills</p>
+			<div v-for="[skillName, data] in Object.entries(buildData.skills)">
+				<p v-if="data.points !== 0">{{ skillName }}: {{ data.points }}</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- edit/open button (requires support for multiple local builds) -->
+	<!-- save locally in a text file? -->
 </template>

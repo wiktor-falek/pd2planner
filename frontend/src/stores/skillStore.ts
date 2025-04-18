@@ -17,6 +17,7 @@ export function getDefaultSkillTreeState(characterClass: CharacterClass): SkillT
 export const useSkillStore = defineStore("skills", () => {
 	const characterStore = useCharacterStore();
 
+	// TODO: get rid of unallocated skill keys, dynamically add if doesn't exist
 	const skillTreeState = ref<SkillTreeState>(
 		loadFromStorage("skillTreeState", getDefaultSkillTreeState(characterStore.characterClass))
 	);
