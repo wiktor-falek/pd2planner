@@ -6,7 +6,7 @@ import { skillTreeIcons } from "../core/skills/skillTrees";
 import type { CharacterClass } from "../types";
 import { calculateQuestSkillPoints } from "../calculations";
 
-type SkillTreeState = { [key: string]: { points: number } };
+export type SkillTreeState = { [key: string]: { points: number } };
 
 function getDefaultSkillTreeState(characterClass: CharacterClass): SkillTreeState {
 	return Object.fromEntries(

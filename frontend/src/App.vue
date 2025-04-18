@@ -7,6 +7,11 @@ import { useCharacterStore } from "./stores/characterStore";
 import type { CharacterClass } from "./types";
 import { useSkillStore } from "./stores/skillStore";
 import { useAttributeStore } from "./stores/attributeStore";
+import {
+	deserializeBuildCodeToBuildData,
+	serializeBuildDataToBuildCode,
+} from "./core/serialization/buildCodeSerializer";
+import { gatherBuildData } from "./core/serialization/buildDataUtils";
 
 const characterStore = useCharacterStore();
 const attributeStore = useAttributeStore();
@@ -14,6 +19,13 @@ const skillStore = useSkillStore();
 
 type Tab = "items" | "skill-tree" | "attributes";
 const selectedTab = ref<Tab>("items");
+
+function exportBuild() {
+	const buildCode = serializeBuildDataToBuildCode(gatherBuildData());
+	console.log(buildCode);
+
+	const buildData = deserializeBuildCodeToBuildData(buildCode);
+}
 </script>
 
 <template>
@@ -82,6 +94,7 @@ const selectedTab = ref<Tab>("items");
 					<span>{{ attributeStore.totalAttributePoints }}</span>
 				</span>
 			</div>
+			<button @click="exportBuild()">Export</button>
 		</header>
 
 		<div class="container">
@@ -178,7 +191,7 @@ header {
 	text-align: center;
 	padding: 4px 0;
 	background-color: #585858;
-	color: var(--font-color)
+	color: var(--font-color);
 }
 
 .navigation-panel button:hover {

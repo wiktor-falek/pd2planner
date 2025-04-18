@@ -5,7 +5,7 @@ import { createItemCopy } from "../core/items/items";
 import type { ItemBaseType, Slot } from "../types";
 import type { Item } from "../core/items/bases";
 
-type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
+export type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
 
 function itemTypeToEquippableSlots(type: ItemBaseType): Slot[] {
 	switch (type) {
@@ -36,6 +36,7 @@ function getDefaultEquippedItems(): EquippedItems {
 export const useItemStore = defineStore("items", () => {
 	const items = ref<Item[]>(loadFromStorage("items", []));
 	const selectedItem = ref<Item | null>(null);
+	// TODO: store ids instead of copies
 	const equippedItems = ref<EquippedItems>(
 		loadFromStorage("equippedItems", getDefaultEquippedItems())
 	);
