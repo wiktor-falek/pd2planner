@@ -25,6 +25,7 @@
     "base62": "^2.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
     "lmdb": "^3.2.6",
     "mongodb": "^6.15.0",
     "morgan": "^1.10.0",
