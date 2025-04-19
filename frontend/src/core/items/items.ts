@@ -26,7 +26,6 @@ const BigginsBonnet = baseToUnique(
 	bases.helmet["Cap"],
 	"Biggin's Bonnet",
 	[
-		modifiers.hybridEnhancedDamageAttackRating([40, 60], [150, 200]),
 		modifiers.enhancedDamage([30, 50]),
 		modifiers.attackRating([30, 50]),
 		modifiers.defense(14),
