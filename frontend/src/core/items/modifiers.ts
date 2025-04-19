@@ -276,8 +276,49 @@ export function enemyColdResistance(value: ModifierValue): SingleItemModifier {
 	);
 }
 
-export function coldSkillDamage(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("cold_skill_damage", "static", [value], "+{}% to Cold Skill Damage");
+export function enemyLightningResistance(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"enemy_lightning_resistance",
+		"static",
+		[value],
+		"-{}% to Enemy Lightning Resistance"
+	);
+}
+
+export function enemyFireResistance(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"enemy_fire_resistance",
+		"static",
+		[value],
+		"-{}% to Enemy Fire Resistance"
+	);
+}
+
+export function enemyPoisonResistance(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"enemy_poison_resistance",
+		"static",
+		[value],
+		"-{}% to Enemy Poison Resistance"
+	);
+}
+
+export function enemyPhysicalResistance(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"enemy_physical_resistance",
+		"static",
+		[value],
+		"-{}% to Enemy Physical Resistance"
+	);
+}
+
+export function enemyMagicResistance(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"enemy_magic_resistance",
+		"static",
+		[value],
+		"-{}% to Enemy Magic Resistance"
+	);
 }
 
 export function baseDefense(value: ModifierValue): SingleItemModifier {
@@ -324,6 +365,10 @@ export function lightningAbsorb(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("lightning_absorb", "static", [value], "+{} Lightning Absorb");
 }
 
+export function indestructible(): SingleItemModifier {
+	return createItemModifier("indestructible", "static", [1], "Indestructible");
+}
+
 export function halfFreezeDuration(): SingleItemModifier {
 	return createItemModifier("freeze_duration", "static", [0.5], "Half Freeze Duration");
 }
@@ -334,6 +379,10 @@ export function cannotBeFrozen(): SingleItemModifier {
 
 export function hitBlindsTarget(): SingleItemModifier {
 	return createItemModifier("hit_blinds_target", "static", [1], "Hit Blinds Target ");
+}
+
+export function knockback(): SingleItemModifier {
+	return createItemModifier("knockback", "static", [1], "Cannot be Frozen");
 }
 
 export function chanceToFlee(value: ModifierValue): SingleItemModifier {
@@ -671,6 +720,18 @@ export function dimVisionWhenStruck(
 	);
 }
 
+export function poisonNovaWhenStruck(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"poison_nova_when_struck",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Poison Nova when Struck "
+	);
+}
+
 export function attackSpeed(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("attack_speed", "static", [value], "+{}% Increased Attack Speed ");
 }
@@ -726,11 +787,23 @@ export function slowerStaminaDrain(value: ModifierValue): SingleItemModifier {
 }
 
 export function addsFireDamage(min: ModifierValue, max: ModifierValue): SingleItemModifier {
-	return createItemModifier("adds_fire_damage", "static", [min, max], "Adds {}-{} Fire Damage ");
+	return createItemModifier("adds_fire_damage", "static", [min, max], "Adds {}-{} Fire Damage");
 }
 
 export function addsColdDamage(min: ModifierValue, max: ModifierValue): SingleItemModifier {
-	return createItemModifier("adds_cold_damage", "static", [min, max], "Adds {}-{} Cold Damage ");
+	return createItemModifier("adds_cold_damage", "static", [min, max], "Adds {}-{} Cold Damage");
+}
+
+export function venomSkillCharges(
+	level: ModifierValue,
+	charges: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"venom_skill_charges",
+		"static",
+		[level, charges],
+		"Level {} Venom ({} Charges)"
+	);
 }
 
 export function addsLightningDamage(min: ModifierValue, max: ModifierValue): SingleItemModifier {
@@ -740,6 +813,66 @@ export function addsLightningDamage(min: ModifierValue, max: ModifierValue): Sin
 		[min, max],
 		"Adds {}-{} Lightning Damage"
 	);
+}
+
+export function chanceToPierce(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("change_to_pierce", "static", [value], "+{}% Chance to Pierce");
+}
+
+export function crushingBlow(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("crushing_blow", "static", [value], "+{}% Chance of Crushing Blow");
+}
+
+export function reducedCurseDuration(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"reduced_curse_duration",
+		"static",
+		[value],
+		"{}% Reduced Curse Duration"
+	);
+}
+
+export function curseResistance(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"reduced_curse_duration",
+		"static",
+		[value],
+		"{}% Reduced Curse Duration"
+	);
+}
+
+export function socketed(sockets: ModifierValue): SingleItemModifier {
+	return createItemModifier("socketed", "static", [sockets], "Socketed {}");
+}
+
+export function fireSkillDamage(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("fire_skill_damage", "static", [value], "+{}% to Fire Skill Damage");
+}
+
+export function coldSkillDamage(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("cold_skill_damage", "static", [value], "+{}% to Cold Skill Damage");
+}
+
+export function lightningSkillDamage(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"lightning_skill_damage",
+		"static",
+		[value],
+		"+{}% to Lightning Skill Damage"
+	);
+}
+
+export function poisonSkillDamage(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"poison_skill_damage",
+		"static",
+		[value],
+		"+{}% to Poison Skill Damage"
+	);
+}
+
+export function magicSkillDamage(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("magic_skill_damage", "static", [value], "+{}% to Magic Skill Damage");
 }
 
 export function hybridEnhancedDamageAttackRating(

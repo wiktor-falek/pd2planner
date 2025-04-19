@@ -371,122 +371,152 @@ const SteelShade = baseToUnique(
 	}
 );
 
-// // const AndarielsVisage = baseToUnique(
-// // 	"Demonhead",
-// // 	"Andariel's Visage",
-// // 	[],
-// // 	{
-//      requirements: {
-// // 		level: 83,
-// // 		strength: 102,
-// }
-// // 	}
-// // );
+const AndarielsVisage = baseToUnique(
+	bases.helmet["Demonhead"],
+	"Andariel's Visage",
+	[
+		modifiers.poisonNovaWhenStruck(15, 30),
+		modifiers.allSkills(2),
+		modifiers.attackSpeed(30),
+		modifiers.lifeStolenPerHit([8, 10]),
+		modifiers.enhancedDefense([100, 150]),
+		modifiers.strength([25, 30]),
+		modifiers.maxPoisonResist(8),
+		modifiers.fireResist(-20),
+		modifiers.poisonResist(70),
+		modifiers.venomSkillCharges(3, 20),
+	],
+	{
+		requirements: { level: 83, strength: 102 },
+	}
+);
 
-// // const Template = baseToUnique(
-// // 	"",
-// // 	"",
-// // 	[
-// // 	],
-// // 	{
-//      requirements: {
-// // 		level: 0,
-// // 		strength: 0,
-// }
-// // 		requiredDexterity: 0,
-// // 	}
-// // );
+const GiantSkull = baseToUnique(
+	bases.helmet["Bone Visage"],
+	"Giant Skull",
+	[
+		modifiers.chanceToPierce([25, 35]),
+		modifiers.enhancedDamage([60, 80]),
+		modifiers.crushingBlow(25),
+		modifiers.knockback(),
+		modifiers.baseDefense([250, 320]),
+		modifiers.strength([25, 35]),
+	],
+	{
+		requirements: { level: 65, strength: 106 },
+	}
+);
 
-// // const Template = baseToUnique(
-// // 	"",
-// // 	"",
-// // 	[
-// // 	],
-// // 	{
-//      requirements: {
-// // 		level: 0,
-// // 		strength: 0,
-// }
-// // 		requiredDexterity: 0,
-// // 	}
-// // );
+const VeilOfSteel = baseToUnique(
+	bases.helmet["Spired Helm"],
+	"Veil of Steel",
+	[
+		modifiers.allSkills(1),
+		modifiers.enhancedDamage([40, 80]),
+		modifiers.enhancedDefense([160, 220]),
+		modifiers.baseDefense(140),
+		modifiers.strength(15),
+		modifiers.vitality(15),
+		modifiers.allResist([25, 40]),
+		// modifiers.durability(20)
+	],
+	{
+		requirements: { level: 73, strength: 192 },
+	}
+);
 
-// // const Template = baseToUnique(
-// // 	"",
-// // 	"",
-// // 	[
-// // 	],
-// // 	{
-//      requirements: {
-// // 		level: 0,
-// // 		strength: 0,
-// }
-// // 		requiredDexterity: 0,
-// // 	}
-// // );
+const NightwingsVeil = baseToUnique(
+	bases.helmet["Spired Helm"],
+	"Nightwing's Veil",
+	[
+		modifiers.allSkills(2),
+		modifiers.enemyColdResistance([5, 10]),
+		modifiers.coldSkillDamage([10, 15]),
+		modifiers.enhancedDefense([90, 120]),
+		modifiers.dexterity([10, 20]),
+		modifiers.coldAbsorb([5, 9]),
+		modifiers.halfFreezeDuration(),
+		modifiers.requirements(50),
+	],
+	{
+		requirements: {
+			level: 67,
+			strength: 96,
+		},
+	}
+);
 
-// // const Template = baseToUnique(
-// // 	"",
-// // 	"",
-// // 	[
-// // 	],
-// // 	{
-//      requirements: {
-// // 		level: 0,
-// // 		strength: 0,
-// }
-// // 		requiredDexterity: 0,
-// // 	}
-// // );
+const CrownOfAges = baseToUnique(
+	bases.helmet["Corona"],
+	"Crown of Ages",
+	[
+		modifiers.indestructible(),
+		modifiers.fasterHitRecovery(30),
+		modifiers.reducedCurseDuration(50),
+		modifiers.enhancedDefense(50),
+		modifiers.baseDefense(150),
+		modifiers.allResist([20, 30]),
+		modifiers.physicalDamageReduced([10, 15]),
+		modifiers.socketed([2, 3]),
+	],
+	{
+		requirements: { level: 82, strength: 174 },
+	}
+);
 
-// // const Template = baseToUnique(
-// // 	"",
-// // 	"",
-// // 	[
-// // 	],
-// // 	{
-//      requirements: {
-// // 		level: 0,
-// // 		strength: 0,
-// }
-// // 		requiredDexterity: 0,
-// // 	}
-// // );
+const OverlordsHelm = baseToUnique(
+	bases.helmet["Giant Conch"],
+	"Overlord's Helm",
+	[
+		modifiers.enemyPhysicalResistance(10),
+		modifiers.lifeStolenPerHit([5, 8]),
+		modifiers.baseDefense([460, 680]),
+		modifiers.strength([20, 30]),
+		modifiers.dexterity(15),
+		modifiers.vitality(15),
+		modifiers.energy(-30),
+		modifiers.curseResistance(-30),
+	],
+	{
+		requirements: { level: 85, strength: 142 },
+	}
+);
 
-// // const Template = baseToUnique(
-// // 	"",
-// // 	"",
-// // 	[
-// // 	],
-// // 	{
-//      requirements: {
-// // 		level: 0,
-// // 		strength: 0,
-// }
-// // 		requiredDexterity: 0,
-// // 	}
-// // );
+const KirasGuardian = baseToUnique(
+	bases.helmet["Tiara"],
+	"Kira's Guardian",
+	[
+		modifiers.fasterHitRecovery(20),
+		modifiers.enemyColdResistance([10, 15]),
+		modifiers.enemyLightningResistance([10, 15]),
+		modifiers.enemyFireResistance([10, 15]),
+		modifiers.baseDefense([50, 120]),
+		modifiers.allResist([25, 40]),
+		modifiers.cannotBeFrozen(),
+	],
+	{
+		requirements: { level: 77 },
+	}
+);
 
-// const NightwingsVeil = baseToUnique(
-// 	"Spired Helm",
-// 	"Nightwing's Veil",
-// 	[
-// 		modifiers.allSkills(2),
-// 		modifiers.enemyColdResistance([5, 10]),
-// 		modifiers.coldSkillDamage([10, 15]),
-// 		modifiers.enhancedDefense([90, 120]),
-// 		modifiers.dexterity([10, 20]),
-// 		modifiers.coldAbsorb([5, 9]),
-// 		modifiers.halfFreezeDuration(),
-// 		modifiers.requirements(50),
-// 	],
-// 	{
-//      requirements: {
-// 		level: 67,
-// 		strength: 96,
-// }
-// 	}
-// );
+const GriffonsEye = baseToUnique(
+	bases.helmet["Diadem"],
+	"Griffon's Eye",
+	[
+		modifiers.allSkills(1),
+		modifiers.fasterCastRate(25),
+		modifiers.lightningSkillDamage([10, 15]),
+		modifiers.enemyLightningResistance([15, 20]),
+		modifiers.baseDefense([100, 200]),
+	],
+	{
+		requirements: { level: 76 },
+	}
+);
+
+// const Template = baseToUnique(bases.helmet[""], "", [], {
+// 	requirements: { level: 0, strength: 0 },
+// });
 
 export const uniques = {
 	weapon: {},
@@ -511,7 +541,14 @@ export const uniques = {
 		CrownOfThieves,
 		HarlequinCrest,
 		SteelShade,
-		// NightwingsVeil,
+		AndarielsVisage,
+		GiantSkull,
+		VeilOfSteel,
+		NightwingsVeil,
+		CrownOfAges,
+		OverlordsHelm,
+		KirasGuardian,
+		GriffonsEye,
 	},
 	chest: {},
 	gloves: {},
