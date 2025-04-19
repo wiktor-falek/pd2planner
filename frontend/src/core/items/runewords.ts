@@ -4,36 +4,6 @@ import { type ItemModifier } from "./modifiers";
 import * as modifiers from "./modifiers";
 import type { RuneName } from "../socketables";
 
-/*
-    requires a base that is of normal rarity
-    the base needs to have max sockets >= required sockets for the runeword
-
-    runeword data:
-    - required base type
-    - rune combination (exact amount)
-
-    runeword adds:
-    - level requirement (if not already higher)
-    - modifiers
-*/
-
-/*
-Lore
-
-2-Socket Helms
-
-Ort • Sol
-
-Required Level: 27
-Before 	After
-+1 to All Skills 	+1 to All Skills
-+10 to Energy 	+[5-10] to Energy
-Lightning Resist +30% 	Lightning Resist +30%
-Physical Damage Taken Reduced by 7 	Physical Damage Taken Reduced by 7
-+2 to Mana after each Kill 	+[1-2] to Mana after each Kill
-+2 to Light Radius 	+2 to Light Radius 
-*/
-
 export interface RunewordData {
 	name: string;
 	runes: RuneName[];

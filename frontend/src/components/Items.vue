@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
 import { createItemCopy, uniques } from "../core/items/items";
-import { getModifierTooltip, type ItemModifier } from "../core/items/modifiers";
+import {
+	getModifierTooltip,
+	type ItemModifier,
+	type SingleItemModifier,
+} from "../core/items/modifiers";
 import { useCharacterStore } from "../stores/characterStore";
 import { useItemStore } from "../stores/itemStore";
 import { ALL_ITEM_BASE_TYPES, type CraftableRarity, type ItemBaseType, type Slot } from "../types";
@@ -38,14 +42,15 @@ function selectEquippedItem(e: Event, slot: Slot) {
 	itemStore.equippedItems[slot].selected = index;
 }
 
-const rollableModifiers = computed<ItemModifier[] | null>(
+const rollableModifiers = computed<SingleItemModifier[] | null>(
 	() =>
 		itemStore.selectedItem?.basemods
 			.concat(itemStore.selectedItem?.affixes)
 			.concat(itemStore.selectedItem.corruptedModifier ?? [])
+			.flatMap((affix) => ("modifiers" in affix ? affix.modifiers : affix))
 			.filter((affix) => affix.values.some((value) => value.rolls)) ?? null
 );
-const selectedModifier = ref<ItemModifier | null>(null);
+const selectedModifier = ref<SingleItemModifier | null>(null);
 
 watch(rollableModifiers, (newModifiers) => {
 	if (newModifiers === null) {
@@ -565,7 +570,7 @@ function selectSockets(item: Item, amount: number) {
 					</div>
 
 					<div
-					class="modifiers"
+						class="modifiers"
 						v-if="
 							itemStore.selectedItem.rarity === 'rare' || itemStore.selectedItem.rarity === 'magic'
 						"
@@ -748,7 +753,8 @@ function selectSockets(item: Item, amount: number) {
 	width: 360px;
 }
 
-.selected-item-container__item-options, .modifiers {
+.selected-item-container__item-options,
+.modifiers {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
