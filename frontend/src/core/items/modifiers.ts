@@ -48,7 +48,7 @@ export function getModifierTooltip(
 	if (modifier.tooltipTemplate) {
 		let i = 0;
 		return modifier.tooltipTemplate.replace(/{}/g, () => {
-			const values = getModifierValues(modifier, scalingFactor);
+			const values = getModifierValues(modifier, scalingFactor).map((value) => Math.floor(value));
 			return values[i++]!.toString();
 		});
 	}
@@ -137,6 +137,20 @@ export function defensePerLevel(valuePerLevel: number): SingleItemModifier {
 		`+{} Defense (+${valuePerLevel} per Character Level) `,
 		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
 	);
+}
+
+export function deadlyStrikePerLevel(valuePerLevel: number): SingleItemModifier {
+	return createItemModifier(
+		"deadly_strike_per_level",
+		"dynamic",
+		[valuePerLevel],
+		`{}% Deadly Strike (${valuePerLevel} per Character Level) `,
+		[`[${Math.floor(valuePerLevel)}-${Math.floor(valuePerLevel * 99)}]`]
+	);
+}
+
+export function deadlyStrike(value: number): SingleItemModifier {
+	return createItemModifier("deadly_strike", "static", [value], "{}% Deadly Strike");
 }
 
 export function life(value: ModifierValue): SingleItemModifier {
@@ -278,6 +292,10 @@ export function attackRatingAgainstDemons(value: ModifierValue): SingleItemModif
 		[value],
 		"+{} to Attack Rating against Demons"
 	);
+}
+
+export function bonusAttackRating(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("bonus_attack_rating", "static", [value], "{}% Bonus to Attack Rating");
 }
 
 export function enhancedDamage(value: ModifierValue): SingleItemModifier {
@@ -538,7 +556,7 @@ export function cursesSkills(value: ModifierValue): SingleItemModifier {
 	);
 }
 
-export function combatSkillsPaladin(value: ModifierValue): SingleItemModifier {
+export function combatSkillsPaladinOnly(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"combat_skills_paladin",
 		"static",
@@ -547,7 +565,7 @@ export function combatSkillsPaladin(value: ModifierValue): SingleItemModifier {
 	);
 }
 
-export function defensiveAurasSkills(value: ModifierValue): SingleItemModifier {
+export function defensiveAurasSkillsPaladinOnly(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"defensive_auras_skills",
 		"static",
@@ -556,7 +574,7 @@ export function defensiveAurasSkills(value: ModifierValue): SingleItemModifier {
 	);
 }
 
-export function offensiveAurasSkills(value: ModifierValue): SingleItemModifier {
+export function offensiveAurasSkillsPaladinOnly(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"offensive_auras_skills",
 		"static",
@@ -566,48 +584,23 @@ export function offensiveAurasSkills(value: ModifierValue): SingleItemModifier {
 }
 
 export function fireSkills(value: ModifierValue): SingleItemModifier {
-	return createItemModifier(
-		"fire_skills",
-		"static",
-		[value],
-		"+{} to Fire Skills"
-	);
+	return createItemModifier("fire_skills", "static", [value], "+{} to Fire Skills");
 }
 
 export function coldSkills(value: ModifierValue): SingleItemModifier {
-	return createItemModifier(
-		"cold_skills",
-		"static",
-		[value],
-		"+{} to Cold Skills"
-	);
+	return createItemModifier("cold_skills", "static", [value], "+{} to Cold Skills");
 }
 
 export function lightningSkills(value: ModifierValue): SingleItemModifier {
-	return createItemModifier(
-		"lightning_skills",
-		"static",
-		[value],
-		"+{} to Lightning Skills"
-	);
+	return createItemModifier("lightning_skills", "static", [value], "+{} to Lightning Skills");
 }
 
 export function poisonSkills(value: ModifierValue): SingleItemModifier {
-	return createItemModifier(
-		"poison_skills",
-		"static",
-		[value],
-		"+{} to Poison Skills"
-	);
+	return createItemModifier("poison_skills", "static", [value], "+{} to Poison Skills");
 }
 
 export function magicSkills(value: ModifierValue): SingleItemModifier {
-	return createItemModifier(
-		"magic_skills",
-		"static",
-		[value],
-		"+{} to Magic Skills"
-	);
+	return createItemModifier("magic_skills", "static", [value], "+{} to Magic Skills");
 }
 
 export function shapeShiftingSkills(value: ModifierValue): SingleItemModifier {
@@ -752,6 +745,18 @@ export function twisterOnStriking(chance: ModifierValue, level: ModifierValue): 
 	);
 }
 
+export function amplifyDamageOnStriking(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"amplify_damage_on_striking",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Amplify Damage on Striking"
+	);
+}
+
 export function dimVisionWhenStruck(
 	chance: ModifierValue,
 	level: ModifierValue
@@ -764,6 +769,18 @@ export function dimVisionWhenStruck(
 	);
 }
 
+export function ironMaidenWhenStruck(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"iron_maiden_when_struck",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Iron Maiden when Struck"
+	);
+}
+
 export function poisonNovaWhenStruck(
 	chance: ModifierValue,
 	level: ModifierValue
@@ -773,6 +790,15 @@ export function poisonNovaWhenStruck(
 		"static",
 		[chance, level],
 		"{}% Chance to Cast Level {} Poison Nova when Struck "
+	);
+}
+
+export function meteorWhenStruck(chance: ModifierValue, level: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"meteor_when_struck",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Meteor when Struck "
 	);
 }
 
@@ -907,6 +933,31 @@ export function heartOfWolverineSkillCharges(
 	);
 }
 
+export function ironMaidenSkillCharges(
+	level: ModifierValue,
+	charges: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"iron_maiden_skill_charges",
+		"static",
+		[level, charges],
+		"Level {} Iron Maiden ({} Charges)"
+	);
+}
+
+export function ironGolemSkill(level: ModifierValue): SingleItemModifier {
+	return createItemModifier("iron_golem_skill_charges", "static", [level], "+{} to Iron Golem");
+}
+
+export function golemMasterySkill(level: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"golem_mastery_skill_charges",
+		"static",
+		[level],
+		"+{} to Golem Mastery"
+	);
+}
+
 export function addsLightningDamage(min: ModifierValue, max: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"adds_lightning_damage",
@@ -978,6 +1029,33 @@ export function magicSkillDamage(value: ModifierValue): SingleItemModifier {
 
 export function regenerateMana(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("regenerate_mana", "static", [value], "Regenerate Mana {}%");
+}
+
+export function chanceOfOpenWounds(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"chance_of_open_wounds",
+		"static",
+		[value],
+		"{}% Chance of Open Wounds"
+	);
+}
+
+export function openWoundsDamagePerSeconds(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"open_wounds_damage_per_second",
+		"static",
+		[value],
+		"+{} Open Wounds Damage per Second"
+	);
+}
+
+export function boneNovaOnCasting(chance: ModifierValue, level: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"bone_nova_on_casting",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level 25 Bone Nova on Casting"
+	);
 }
 
 export function hybridEnhancedDamageAttackRating(
