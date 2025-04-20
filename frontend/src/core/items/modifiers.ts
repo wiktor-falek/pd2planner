@@ -134,17 +134,26 @@ export function defensePerLevel(valuePerLevel: number): SingleItemModifier {
 		"defense_per_level",
 		"dynamic",
 		[valuePerLevel],
-		`+{} Defense (+${valuePerLevel} per Character Level) `,
+		`+{} Defense (+${valuePerLevel} per Character Level)`,
 		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
 	);
 }
 
+export function thornsPerLevel(valuePerLevel: number): SingleItemModifier {
+	return createItemModifier(
+		"thorns_per_level",
+		"dynamic",
+		[valuePerLevel],
+		`Attacker Takes Damage of {} (${valuePerLevel} per Character Level)`,
+		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
+	);
+}
 export function deadlyStrikePerLevel(valuePerLevel: number): SingleItemModifier {
 	return createItemModifier(
 		"deadly_strike_per_level",
 		"dynamic",
 		[valuePerLevel],
-		`{}% Deadly Strike (${valuePerLevel} per Character Level) `,
+		`{}% Deadly Strike (${valuePerLevel} per Character Level)`,
 		[`[${Math.floor(valuePerLevel)}-${Math.floor(valuePerLevel * 99)}]`]
 	);
 }
@@ -204,9 +213,13 @@ export function maxPoisonResist(value: ModifierValue): SingleItemModifier {
 }
 
 export function maxAllResist(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("max_all_resist", "static", [value], "+{}% to All Maximum Resistances ");
+	return createItemModifier(
+		"max_all_resist",
+		"static",
+		[value],
+		"+{}% to All Maximum Resistances "
+	);
 }
-
 
 export function lightningResist(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("lightning_resist", "static", [value], "Lightning Resist +{}%");
@@ -218,6 +231,15 @@ export function poisonResist(value: ModifierValue): SingleItemModifier {
 
 export function allResist(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("all_resist", "static", [value], "All Resistances +{}");
+}
+
+export function poisonLengthDurationReduced(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"poison_length_duration_reduced",
+		"static",
+		[value],
+		"Poison Length Reduced by {}%"
+	);
 }
 
 export function lifeAfterEachKill(value: ModifierValue): SingleItemModifier {
@@ -804,6 +826,42 @@ export function meteorWhenStruck(chance: ModifierValue, level: ModifierValue): S
 		"static",
 		[chance, level],
 		"{}% Chance to Cast Level {} Meteor when Struck "
+	);
+}
+
+export function blizzardWhenStruck(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"blizzard_when_struck",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Blizzard when Struck "
+	);
+}
+
+export function fistOfHeavensWhenStruck(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"fist_of_heavens_when_struck",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Fist of Heavens when Struck "
+	);
+}
+
+export function boneArmorWhenStruck(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"bone_armor_when_struck",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Bone Armor when Struck "
 	);
 }
 
