@@ -1162,7 +1162,10 @@ export function leapSkillBarbarianOnly(value: ModifierValue): SingleItemModifier
 	);
 }
 
-export function repairsDurabilityInSeconds(value: ModifierValue, seconds: ModifierValue): SingleItemModifier {
+export function repairsDurabilityInSeconds(
+	value: ModifierValue,
+	seconds: ModifierValue
+): SingleItemModifier {
 	return createItemModifier(
 		"repairs_durability_in_seconds",
 		"static",
@@ -1171,7 +1174,6 @@ export function repairsDurabilityInSeconds(value: ModifierValue, seconds: Modifi
 	);
 }
 
-
 export function hybridEnhancedDamageAttackRating(
 	enhancedDamageValue: ModifierValue,
 	attackRatingValue: ModifierValue
@@ -1179,5 +1181,54 @@ export function hybridEnhancedDamageAttackRating(
 	return createHybridItem("hybrid_enhanced_damage_attack_rating", [
 		enhancedDamage(enhancedDamageValue),
 		attackRating(attackRatingValue),
+	]);
+}
+
+export function hybridIndestructibleEnhancedDefense(
+	enhancedDefense: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_indestructible_enhanced_defense", [
+		indestructible(),
+		attackRating(enhancedDefense),
+	]);
+}
+
+export function hybridMaxFireResistFireResist(
+	maxFireResistValue: ModifierValue,
+	fireResistValue: ModifierValue,
+): HybridItemModifier {
+	return createHybridItem("hybrid_max_fire_resist_fire_resist", [
+		maxFireResist(maxFireResistValue),
+		fireResist(fireResistValue),
+	]);
+}
+
+export function hybridMaxColdResistColdResist(
+	maxColdResistValue: ModifierValue,
+	coldResistValue: ModifierValue,
+): HybridItemModifier {
+	return createHybridItem("hybrid_max_cold_resist_cold_resist", [
+		maxColdResist(maxColdResistValue),
+		coldResist(coldResistValue),
+	]);
+}
+
+export function hybridMaxLightningResistLightningResist(
+	maxLightningResistValue: ModifierValue,
+	lightningResistValue: ModifierValue,
+): HybridItemModifier {
+	return createHybridItem("hybrid_max_lightning_resist_lightning_resist", [
+		maxLightningResist(maxLightningResistValue),
+		lightningResist(lightningResistValue),
+	]);
+}
+
+export function hybridMaxPoisonResistPoisonResist(
+	maxPoisonResistValue: ModifierValue,
+	poisonResistValue: ModifierValue,
+): HybridItemModifier {
+	return createHybridItem("hybrid_max_poison_resist_poison_resist", [
+		maxPoisonResist(maxPoisonResistValue),
+		poisonResist(poisonResistValue),
 	]);
 }
