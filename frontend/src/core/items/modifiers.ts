@@ -159,7 +159,7 @@ export function deadlyStrikePerLevel(valuePerLevel: number): SingleItemModifier 
 	);
 }
 
-export function deadlyStrike(value: number): SingleItemModifier {
+export function deadlyStrike(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("deadly_strike", "static", [value], "{}% Deadly Strike");
 }
 
@@ -280,7 +280,7 @@ export function magicFind(value: ModifierValue): SingleItemModifier {
 }
 
 export function goldFind(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("gold_find", "static", [value], "{}% Extra Gold from Monsters ");
+	return createItemModifier("gold_find", "static", [value], "{}% Extra Gold from Monsters");
 }
 
 export function reducedAllVendorPrices(value: ModifierValue): SingleItemModifier {
@@ -441,7 +441,7 @@ export function cannotBeFrozen(): SingleItemModifier {
 }
 
 export function hitBlindsTarget(): SingleItemModifier {
-	return createItemModifier("hit_blinds_target", "static", [1], "Hit Blinds Target ");
+	return createItemModifier("hit_blinds_target", "static", [1], "Hit Blinds Target");
 }
 
 export function knockback(): SingleItemModifier {
@@ -471,6 +471,10 @@ export function thornsLightning(value: ModifierValue): SingleItemModifier {
 
 export function maximumDamage(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("maximum_damage", "static", [value], "+{} to Maximum Damage");
+}
+
+export function addsDamage(min: ModifierValue, max: ModifierValue): SingleItemModifier {
+	return createItemModifier("adds_damage", "static", [min, max], "Adds {}-{} Damage");
 }
 
 export function flatPhysicalDamageReduced(value: ModifierValue): SingleItemModifier {
@@ -611,6 +615,15 @@ export function offensiveAurasSkillsPaladinOnly(value: ModifierValue): SingleIte
 	);
 }
 
+export function vigorSkillPaladinOnly(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"vigor_skill_paladin_only",
+		"static",
+		[value],
+		"+{} to Vigor (Paladin Only)"
+	);
+}
+
 export function fireSkills(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("fire_skills", "static", [value], "+{} to Fire Skills");
 }
@@ -713,18 +726,18 @@ export function assassinSkills(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("assassin_skills", "static", [value], "+{} to Assassin Skills");
 }
 
-export function skeletonMastery(value: ModifierValue): SingleItemModifier {
+export function skeletonMasterySkeletonOnly(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
-		"skeleton_mastery",
+		"skeleton_mastery_necromancer_only",
 		"static",
 		[value],
 		"+{} to Skeleton Mastery (Necromancer Only)"
 	);
 }
 
-export function raiseSkeleton(value: ModifierValue): SingleItemModifier {
+export function raiseSkeletonNecromancerOnly(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
-		"raise_skeleton",
+		"raise_skeleton_necromancer_only",
 		"static",
 		[value],
 		"+{} to Raise Skeleton (Necromancer Only)"
@@ -817,7 +830,7 @@ export function poisonNovaWhenStruck(
 		"poison_nova_when_struck",
 		"static",
 		[chance, level],
-		"{}% Chance to Cast Level {} Poison Nova when Struck "
+		"{}% Chance to Cast Level {} Poison Nova when Struck"
 	);
 }
 
@@ -826,7 +839,7 @@ export function meteorWhenStruck(chance: ModifierValue, level: ModifierValue): S
 		"meteor_when_struck",
 		"static",
 		[chance, level],
-		"{}% Chance to Cast Level {} Meteor when Struck "
+		"{}% Chance to Cast Level {} Meteor when Struck"
 	);
 }
 
@@ -838,7 +851,16 @@ export function blizzardWhenStruck(
 		"blizzard_when_struck",
 		"static",
 		[chance, level],
-		"{}% Chance to Cast Level {} Blizzard when Struck "
+		"{}% Chance to Cast Level {} Blizzard when Struck"
+	);
+}
+
+export function blazeWhenStruck(chance: ModifierValue, level: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"blaze_when_struck",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Blaze when Struck"
 	);
 }
 
@@ -850,7 +872,7 @@ export function fistOfHeavensWhenStruck(
 		"fist_of_heavens_when_struck",
 		"static",
 		[chance, level],
-		"{}% Chance to Cast Level {} Fist of Heavens when Struck "
+		"{}% Chance to Cast Level {} Fist of Heavens when Struck"
 	);
 }
 
@@ -862,12 +884,12 @@ export function boneArmorWhenStruck(
 		"bone_armor_when_struck",
 		"static",
 		[chance, level],
-		"{}% Chance to Cast Level {} Bone Armor when Struck "
+		"{}% Chance to Cast Level {} Bone Armor when Struck"
 	);
 }
 
 export function attackSpeed(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("attack_speed", "static", [value], "+{}% Increased Attack Speed ");
+	return createItemModifier("attack_speed", "static", [value], "+{}% Increased Attack Speed");
 }
 
 export function damageTakenGainedAsMana(value: ModifierValue): SingleItemModifier {
@@ -1121,6 +1143,34 @@ export function boneNovaOnCasting(chance: ModifierValue, level: ModifierValue): 
 		"{}% Chance to Cast Level 25 Bone Nova on Casting"
 	);
 }
+
+export function fasterLeapAndLeapAttackMovementSpeed(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"faster_leap_and_leap_attack_movement_speed",
+		"static",
+		[value],
+		"+{}% Leap and Leap Attack Movement Speed"
+	);
+}
+
+export function leapSkillBarbarianOnly(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"leap_skill_barbarian_only",
+		"static",
+		[value],
+		"+{} to Leap (Barbarian Only)"
+	);
+}
+
+export function repairsDurabilityInSeconds(value: ModifierValue, seconds: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"repairs_durability_in_seconds",
+		"static",
+		[value, seconds],
+		"Repairs {} Durability in {} Seconds"
+	);
+}
+
 
 export function hybridEnhancedDamageAttackRating(
 	enhancedDamageValue: ModifierValue,
