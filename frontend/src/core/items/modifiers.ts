@@ -140,6 +140,7 @@ export function defensePerLevel(valuePerLevel: number): SingleItemModifier {
 }
 
 export function thornsPerLevel(valuePerLevel: number): SingleItemModifier {
+	// TODO: support range for per level modifiers
 	return createItemModifier(
 		"thorns_per_level",
 		"dynamic",

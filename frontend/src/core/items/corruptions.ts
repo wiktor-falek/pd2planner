@@ -87,5 +87,33 @@ export const corruptionModifiers = {
 		modifiers.allResist([4, 6]),
 		modifiers.physicalDamageReduced(3),
 	],
-	belt: [],
+	belt: [
+		// Low-Rarity (48% chance)
+		modifiers.strength([7, 10]),
+		modifiers.dexterity([7, 10]),
+		modifiers.vitality([7, 10]),
+		modifiers.energy([7, 10]),
+		modifiers.fireResist([10, 15]),
+		modifiers.coldResist([10, 15]),
+		modifiers.lightningResist([10, 15]),
+		modifiers.poisonResist([10, 15]),
+		// Mid-Rarity (32% chance)
+		modifiers.chanceToPierce([10, 15]),
+		modifiers.fasterHitRecovery(10),
+		modifiers.allAttributes([3, 6]),
+		modifiers.replenishLife([15, 20]),
+		modifiers.attackRating([100, 150]),
+		modifiers.thornsPerLevel(2), // FIXME: [2, 4]
+		modifiers.goldFind([60, 100]),
+		modifiers.magicFind([20, 30]),
+		// High-Rarity (20% chance)
+		modifiers.fasterCastRate(10),
+		modifiers.attackSpeed(10),
+		modifiers.fasterRunWalk(10),
+		modifiers.reducedCurseDuration(20),
+		modifiers.increasedChanceOfBlocking(10),
+		modifiers.maxAllResist(2),
+		modifiers.allResist([5, 8]),
+		modifiers.physicalDamageReduced([3, 4]),
+	],
 } as const satisfies Record<ItemBaseType, ItemModifier[]>;
