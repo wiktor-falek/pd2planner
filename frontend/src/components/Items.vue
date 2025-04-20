@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
-import { createItemCopy, uniques } from "../core/items/items";
+import { createItemCopy } from "../core/items/items";
 import {
 	getModifierTooltip,
 	type ItemModifier,
@@ -15,6 +15,7 @@ import Modal from "./reusable/Modal.vue";
 import { bases, type Item } from "../core/items/bases";
 import { createRuneword, runewordsData, type RunewordData } from "../core/items/runewords";
 import { corruptionModifiers } from "../core/items/corruptions";
+import { uniques } from "../core/items/uniques";
 
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();
