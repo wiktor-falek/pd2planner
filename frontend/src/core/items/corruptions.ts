@@ -16,7 +16,7 @@ export const corruptionModifiers = {
 	shield: [],
 	quiver: [],
 	helmet: [
-		// low rarity (48% chance)
+		// Low-Rarity (48% chance)
 		modifiers.fasterHitRecovery([20, 30]),
 		modifiers.enhancedDefense([50, 80]),
 		modifiers.magicFind([20, 30]),
@@ -29,9 +29,37 @@ export const corruptionModifiers = {
 	chest: [],
 	gloves: [],
 	boots: [],
-	amulet: [],
+	amulet: [
+		// Low-Rarity (48% chance)
+		modifiers.strength([6, 12]),
+		modifiers.dexterity([6, 12]),
+		modifiers.vitality([6, 12]),
+		modifiers.energy([6, 12]),
+		modifiers.fireResist([15, 20]),
+		modifiers.coldResist([15, 20]),
+		modifiers.lightningResist([15, 20]),
+		modifiers.poisonResist([15, 20]),
+		// Mid-Rarity (32% chance)
+		modifiers.chanceToPierce([10, 20]),
+		modifiers.fasterHitRecovery(10),
+		modifiers.increasedChanceOfBlocking(10),
+		modifiers.lifeAfterEachKill([2, 3]),
+		modifiers.manaAfterEachKill([2, 3]),
+		modifiers.allAttributes([6, 8]),
+		modifiers.goldFind([60, 100]),
+		modifiers.magicFind([20, 30]),
+		// High-Rarity (20% chance)
+		modifiers.allSkills(1),
+		modifiers.fasterCastRate(10),
+		modifiers.fasterRunWalk(10),
+		modifiers.curseResistance(10),
+		modifiers.enhancedDamage([30, 40]),
+		modifiers.cannotBeFrozen(),
+		modifiers.maxAllResist(2),
+		modifiers.allResist([7, 10]),
+	],
 	ring: [
-		// low rarity (48% chance)
+		// Low-Rarity (48% chance)
 		modifiers.strength([7, 10]),
 		modifiers.dexterity([7, 10]),
 		modifiers.vitality([7, 10]),
@@ -40,7 +68,7 @@ export const corruptionModifiers = {
 		modifiers.coldResist([10, 15]),
 		modifiers.lightningResist([10, 15]),
 		modifiers.poisonResist([10, 15]),
-		// mid rarity (32% chance)
+		// Mid-Rarity (32% chance)
 		modifiers.attackRating([100, 150]),
 		modifiers.lifeAfterEachKill([2, 3]),
 		modifiers.manaAfterEachKill([2, 3]),
@@ -49,7 +77,7 @@ export const corruptionModifiers = {
 		modifiers.life([30, 40]),
 		modifiers.goldFind([40, 80]),
 		modifiers.magicFind([15, 20]),
-		// high rarity (20% chance)
+		// High-Rarity (20% chance)
 		modifiers.fasterCastRate(10),
 		modifiers.fasterRunWalk(10),
 		modifiers.reducedCurseDuration(10),

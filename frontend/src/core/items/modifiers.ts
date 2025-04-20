@@ -203,6 +203,11 @@ export function maxPoisonResist(value: ModifierValue): SingleItemModifier {
 	);
 }
 
+export function maxAllResist(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("max_all_resist", "static", [value], "+{}% to All Maximum Resistances ");
+}
+
+
 export function lightningResist(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("lightning_resist", "static", [value], "Lightning Resist +{}%");
 }
