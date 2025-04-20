@@ -143,8 +143,16 @@ export function life(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("life", "static", [value], "+{} to Life");
 }
 
+export function maximumLife(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("maximum_life", "static", [value], "Increase Maximum Life {}%");
+}
+
 export function mana(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("mana", "static", [value], "+{} to Mana");
+}
+
+export function maximumMana(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("maximum_mife", "static", [value], "Increase Maximum Mana {}%");
 }
 
 export function fireResist(value: ModifierValue): SingleItemModifier {
@@ -231,6 +239,15 @@ export function magicFind(value: ModifierValue): SingleItemModifier {
 
 export function goldFind(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("gold_find", "static", [value], "{}% Extra Gold from Monsters ");
+}
+
+export function reducedAllVendorPrices(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"reduced_all_vendor_prices",
+		"static",
+		[value],
+		"Reduces all Vendor Prices {}%"
+	);
 }
 
 export function allSkills(value: ModifierValue): SingleItemModifier {
@@ -553,7 +570,7 @@ export function fireSkills(value: ModifierValue): SingleItemModifier {
 		"fire_skills",
 		"static",
 		[value],
-		"+{} to Fire Skills (Sorceress Only)"
+		"+{} to Fire Skills"
 	);
 }
 
@@ -562,7 +579,7 @@ export function coldSkills(value: ModifierValue): SingleItemModifier {
 		"cold_skills",
 		"static",
 		[value],
-		"+{} to Cold Skills (Sorceress Only)"
+		"+{} to Cold Skills"
 	);
 }
 
@@ -571,7 +588,25 @@ export function lightningSkills(value: ModifierValue): SingleItemModifier {
 		"lightning_skills",
 		"static",
 		[value],
-		"+{} to Lightning Skills (Sorceress Only)"
+		"+{} to Lightning Skills"
+	);
+}
+
+export function poisonSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"poison_skills",
+		"static",
+		[value],
+		"+{} to Poison Skills"
+	);
+}
+
+export function magicSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"magic_skills",
+		"static",
+		[value],
+		"+{} to Magic Skills"
 	);
 }
 
@@ -708,6 +743,15 @@ export function howlOnStriking(chance: ModifierValue, level: ModifierValue): Sin
 	);
 }
 
+export function twisterOnStriking(chance: ModifierValue, level: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"twister_on_striking",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Twister on Striking"
+	);
+}
+
 export function dimVisionWhenStruck(
 	chance: ModifierValue,
 	level: ModifierValue
@@ -778,6 +822,15 @@ export function preventMonsterHeal(): SingleItemModifier {
 	return createItemModifier("prevent_monster_heal", "static", [1], "Prevent Monster Heal");
 }
 
+export function slainMonstersRestinPeace(): SingleItemModifier {
+	return createItemModifier(
+		"slain_monsters_rest_in_peace",
+		"static",
+		[1],
+		"Slain Monsters Rest in Peace"
+	);
+}
+
 export function slowTarget(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("slow_target", "static", [value], "Slows Target by {}%");
 }
@@ -803,6 +856,54 @@ export function venomSkillCharges(
 		"static",
 		[level, charges],
 		"Level {} Venom ({} Charges)"
+	);
+}
+
+export function poisonCreeperSkillCharges(
+	level: ModifierValue,
+	charges: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"poison_creeper_skill_charges",
+		"static",
+		[level, charges],
+		"Level {} Poison Creeper ({} Charges)"
+	);
+}
+
+export function oakSageSkillCharges(
+	level: ModifierValue,
+	charges: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"oak_sage_skill_charges",
+		"static",
+		[level, charges],
+		"Level {} Oak Sage ({} Charges)"
+	);
+}
+
+export function spiritOfBarbsSkillCharges(
+	level: ModifierValue,
+	charges: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"spirit_of_barbs_skill_charges",
+		"static",
+		[level, charges],
+		"Level {} Spirit of Barbs ({} Charges)"
+	);
+}
+
+export function heartOfWolverineSkillCharges(
+	level: ModifierValue,
+	charges: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"heart_of_wolverine_skill_charges",
+		"static",
+		[level, charges],
+		"Level {} Heart of Wolverine ({} Charges)"
 	);
 }
 
@@ -873,6 +974,10 @@ export function poisonSkillDamage(value: ModifierValue): SingleItemModifier {
 
 export function magicSkillDamage(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("magic_skill_damage", "static", [value], "+{}% to Magic Skill Damage");
+}
+
+export function regenerateMana(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("regenerate_mana", "static", [value], "Regenerate Mana {}%");
 }
 
 export function hybridEnhancedDamageAttackRating(

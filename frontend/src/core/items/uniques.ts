@@ -1,6 +1,7 @@
 import type { Item } from "./bases";
 import type { ItemBaseType } from "../../types";
 import { helmet } from "./uniques/helmet";
+import { ring } from "./uniques/ring";
 
 export const uniques = {
 	weapon: {},
@@ -11,6 +12,6 @@ export const uniques = {
 	gloves: {},
 	boots: {},
 	amulet: {},
-	ring: {},
+	ring,
 	belt: {},
 } as const satisfies Record<ItemBaseType, Record<string, Item>>;
