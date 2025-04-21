@@ -5,6 +5,7 @@ import { ring } from "./uniques/ring";
 import { amulet } from "./uniques/amulet";
 import { belt } from "./uniques/belt";
 import { boots } from "./uniques/boots";
+import { gloves } from "./uniques/gloves";
 
 export const uniques = {
 	weapon: {},
@@ -12,7 +13,7 @@ export const uniques = {
 	quiver: {},
 	helmet,
 	chest: {},
-	gloves: {},
+	gloves,
 	boots,
 	amulet,
 	ring,

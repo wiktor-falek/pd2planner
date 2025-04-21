@@ -195,7 +195,7 @@ const chest = {
 // prettier-ignore
 const gloves = {
 	// normal
-	"Gloves": createItemBase("Gloves", "gloves", "normal", { basemods: [modifiers.baseDefense([2, 3])] }),
+	"Leather Gloves": createItemBase("Leather Gloves", "gloves", "normal", { basemods: [modifiers.baseDefense([2, 3])] }), // TODO: double check
 	"Heavy Gloves": createItemBase("Heavy Gloves", "gloves", "normal", { basemods: [modifiers.baseDefense([5, 6])] }),
 	"Chain Gloves": createItemBase("Chain Gloves", "gloves", "normal", { basemods: [modifiers.baseDefense([8, 9])], requirements: { strength: 25 } }),
 	"Light Gauntlets": createItemBase("Light Gauntlets", "gloves", "normal", { basemods: [modifiers.baseDefense([9, 11])], requirements: { strength: 45 } }),

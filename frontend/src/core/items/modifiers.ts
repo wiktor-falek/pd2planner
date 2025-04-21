@@ -149,6 +149,27 @@ export function thornsPerLevel(valuePerLevel: number): SingleItemModifier {
 		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
 	);
 }
+
+export function damageToUndeadPerLevel(valuePerLevel: number): SingleItemModifier {
+	return createItemModifier(
+		"damage_to_undead_per_level",
+		"dynamic",
+		[valuePerLevel],
+		`+{}% Damage to Undead (+${valuePerLevel}% per Character Level)`,
+		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
+	);
+}
+
+export function attackRatingAgainstUndeadPerLevel(valuePerLevel: number): SingleItemModifier {
+	return createItemModifier(
+		"attack_rating_against_undead_per_level",
+		"dynamic",
+		[valuePerLevel],
+		`+{} to Attack Rating against Undead (+${valuePerLevel} per Character Level)`,
+		[`[${valuePerLevel}-${valuePerLevel * 99}]`]
+	);
+}
+
 export function deadlyStrikePerLevel(valuePerLevel: number): SingleItemModifier {
 	return createItemModifier(
 		"deadly_strike_per_level",
@@ -561,7 +582,7 @@ export function masteriesSkills(value: ModifierValue): SingleItemModifier {
 	);
 }
 
-export function summoningSkills(value: ModifierValue): SingleItemModifier {
+export function summoningSkillsNecromancerOnly(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"summoning_skills",
 		"static",
@@ -786,6 +807,39 @@ export function twisterOnStriking(chance: ModifierValue, level: ModifierValue): 
 	);
 }
 
+export function enchantFireOnStriking(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"enchant_fire_on_striking",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Enchant Fire on Striking"
+	);
+}
+
+export function moltenBoulderOnStriking(
+	chance: ModifierValue,
+	level: ModifierValue
+): SingleItemModifier {
+	return createItemModifier(
+		"molten_boulder_on_striking",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Molten Boulder on Striking"
+	);
+}
+
+export function meteorOnStriking(chance: ModifierValue, level: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"meteor_on_striking",
+		"static",
+		[chance, level],
+		"{}% Chance to Cast Level {} Meteor on Striking"
+	);
+}
+
 export function amplifyDamageOnStriking(
 	chance: ModifierValue,
 	level: ModifierValue
@@ -903,6 +957,10 @@ export function damageTakenGainedAsMana(value: ModifierValue): SingleItemModifie
 
 export function replenishLife(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("replenish_life", "static", [value], "Replenish Life +{}");
+}
+
+export function drainLife(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("drain_life", "static", [value], "Drain Life -{}");
 }
 
 export function fasterHitRecovery(value: ModifierValue): SingleItemModifier {
@@ -1174,6 +1232,24 @@ export function repairsDurabilityInSeconds(
 	);
 }
 
+export function meleeAttacksDealSplashDamage(): SingleItemModifier {
+	return createItemModifier(
+		"melee_attack_splash",
+		"static",
+		[1],
+		"Melee Attacks Deal Splash Damage"
+	);
+}
+
+export function monsterDefencePerHit(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"monsterDefencePerHit",
+		"static",
+		[value],
+		"-{} to Monster Defense per Hit"
+	);
+}
+
 export function hybridEnhancedDamageAttackRating(
 	enhancedDamageValue: ModifierValue,
 	attackRatingValue: ModifierValue
@@ -1195,7 +1271,7 @@ export function hybridIndestructibleEnhancedDefense(
 
 export function hybridMaxFireResistFireResist(
 	maxFireResistValue: ModifierValue,
-	fireResistValue: ModifierValue,
+	fireResistValue: ModifierValue
 ): HybridItemModifier {
 	return createHybridItem("hybrid_max_fire_resist_fire_resist", [
 		maxFireResist(maxFireResistValue),
@@ -1205,7 +1281,7 @@ export function hybridMaxFireResistFireResist(
 
 export function hybridMaxColdResistColdResist(
 	maxColdResistValue: ModifierValue,
-	coldResistValue: ModifierValue,
+	coldResistValue: ModifierValue
 ): HybridItemModifier {
 	return createHybridItem("hybrid_max_cold_resist_cold_resist", [
 		maxColdResist(maxColdResistValue),
@@ -1215,7 +1291,7 @@ export function hybridMaxColdResistColdResist(
 
 export function hybridMaxLightningResistLightningResist(
 	maxLightningResistValue: ModifierValue,
-	lightningResistValue: ModifierValue,
+	lightningResistValue: ModifierValue
 ): HybridItemModifier {
 	return createHybridItem("hybrid_max_lightning_resist_lightning_resist", [
 		maxLightningResist(maxLightningResistValue),
@@ -1225,7 +1301,7 @@ export function hybridMaxLightningResistLightningResist(
 
 export function hybridMaxPoisonResistPoisonResist(
 	maxPoisonResistValue: ModifierValue,
-	poisonResistValue: ModifierValue,
+	poisonResistValue: ModifierValue
 ): HybridItemModifier {
 	return createHybridItem("hybrid_max_poison_resist_poison_resist", [
 		maxPoisonResist(maxPoisonResistValue),
