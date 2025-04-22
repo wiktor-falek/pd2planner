@@ -138,7 +138,7 @@ const UndeadCrown = baseToUnique(
 		modifiers.damageToUndead(50),
 		modifiers.attackRatingAgainstUndead([50, 100]),
 		modifiers.lifeStolenPerHit(5),
-		modifiers.skeletonMasterySkeletonOnly([2, 3]),
+		modifiers.skeletonMasteryNecromancerOnly([2, 3]),
 		modifiers.raiseSkeletonNecromancerOnly([2, 3]),
 		modifiers.defense(40),
 		modifiers.poisonResist(50),

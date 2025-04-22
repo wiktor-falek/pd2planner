@@ -220,7 +220,7 @@ const Marrowwalk = baseToUnique(
 	"Marrowwalk",
 	[
 		modifiers.fasterRunWalk(20),
-		modifiers.skeletonMasterySkeletonOnly([1, 2]),
+		modifiers.skeletonMasteryNecromancerOnly([1, 2]),
 		modifiers.enhancedDefense([170, 200]),
 		modifiers.strength([10, 20]),
 		modifiers.dexterity(17),

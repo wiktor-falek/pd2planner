@@ -747,7 +747,16 @@ export function assassinSkills(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("assassin_skills", "static", [value], "+{} to Assassin Skills");
 }
 
-export function skeletonMasterySkeletonOnly(value: ModifierValue): SingleItemModifier {
+export function ravenSkill(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"raven",
+		"static",
+		[value],
+		"+{} to Raven"
+	);
+}
+
+export function skeletonMasteryNecromancerOnly(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"skeleton_mastery_necromancer_only",
 		"static",
