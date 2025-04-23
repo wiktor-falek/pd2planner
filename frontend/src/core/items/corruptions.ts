@@ -26,8 +26,40 @@ export const corruptionModifiers = {
 		modifiers.lightningResist([30, 35]),
 		modifiers.poisonResist([30, 35]),
 	],
-	chest: [],
-	gloves: [],
+	chest: [
+		// Low-Rarity (48% chance)
+		// Mid-Rarity (32% chance)
+		// High-Rarity (20% chance)
+	],
+	gloves: [
+		// Low-Rarity (48% chance)
+		modifiers.enhancedDefense([50, 80]),
+		modifiers.regenerateMana([20, 30]),
+		modifiers.goldFind([50, 100]),
+		modifiers.magicFind([10, 25]),
+		modifiers.fireResist([10, 15]),
+		modifiers.coldResist([10, 15]),
+		modifiers.lightningResist([10, 15]),
+		modifiers.poisonResist([10, 15]),
+		// Mid-Rarity (32% chance)
+		modifiers.chanceToPierce([10, 15]),
+		modifiers.fasterBlockRate([10, 20]),
+		modifiers.attackRating([100, 150]),
+		modifiers.lifeStolenPerHit([2, 3]),
+		modifiers.manaStolenPerHit([2, 3]),
+		modifiers.allAttributes([3, 6]),
+		modifiers.life([20, 40]),
+		modifiers.replenishLife([15, 20]),
+		// High-Rarity (20% chance)
+		modifiers.fasterCastRate(10),
+		modifiers.attackSpeed(10),
+		modifiers.increasedChanceOfBlocking(10),
+		modifiers.enhancedDamage([30, 40]),
+		modifiers.targetDefence([15, 25]),
+		modifiers.deadlyStrike(10),
+		modifiers.manaAfterEachKill([3, 4]),
+		modifiers.allResist([5, 8]),
+	],
 	boots: [
 		// Low-Rarity (48% chance)
 		modifiers.enhancedDefense([50, 80]),

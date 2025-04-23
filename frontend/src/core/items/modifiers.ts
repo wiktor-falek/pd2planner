@@ -1252,12 +1252,22 @@ export function meleeAttacksDealSplashDamage(): SingleItemModifier {
 
 export function monsterDefencePerHit(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
-		"monsterDefencePerHit",
+		"monster_defence_per_hit",
 		"static",
 		[value],
 		"-{} to Monster Defense per Hit"
 	);
 }
+
+export function targetDefence(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"target_defence",
+		"static",
+		[value],
+		"-{}% Target Defense"
+	);
+}
+
 
 export function hybridEnhancedDamageAttackRating(
 	enhancedDamageValue: ModifierValue,
