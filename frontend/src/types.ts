@@ -47,29 +47,28 @@ export const ALL_SLOTS: Slot[] = [
 ];
 
 export type ItemBaseType =
-	| "weapon"
-	| "shield"
-	| "quiver"
+	| "amulet"
+	| "ring"
+	| "belt"
 	| "helmet"
 	| "chest"
 	| "gloves"
 	| "boots"
-	| "amulet"
-	| "ring"
-	| "belt";
+	| "shield"
+	| "quiver";
 
 export type RunewordBaseType = "weapon" | "shield" | "helmet" | "chest";
 
 export const ALL_ITEM_BASE_TYPES = [
-	"weapon",
-	"shield",
+	"amulet",
+	"ring",
+	"belt",
 	"helmet",
 	"chest",
 	"gloves",
 	"boots",
-	"amulet",
-	"ring",
-	"belt",
+	"shield",
+	"quiver",
 ];
 
 export type Tier = "normal" | "exceptional" | "elite";

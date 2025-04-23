@@ -273,6 +273,10 @@ export function lifeAfterEachKill(value: ModifierValue): SingleItemModifier {
 	);
 }
 
+export function lifeOnHit(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("life_on_hit", "static", [value], "+{} Life after each Hit");
+}
+
 export function manaAfterEachKill(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"mana_after_each_kill",
@@ -490,12 +494,16 @@ export function thornsLightning(value: ModifierValue): SingleItemModifier {
 	);
 }
 
-export function maximumDamage(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("maximum_damage", "static", [value], "+{} to Maximum Damage");
-}
-
 export function addsDamage(min: ModifierValue, max: ModifierValue): SingleItemModifier {
 	return createItemModifier("adds_damage", "static", [min, max], "Adds {}-{} Damage");
+}
+
+export function minimumDamage(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("minimum_damage", "static", [value], "+{} to Minimum Damage");
+}
+
+export function maximumDamage(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("maximum_damage", "static", [value], "+{} to Maximum Damage");
 }
 
 export function flatPhysicalDamageReduced(value: ModifierValue): SingleItemModifier {
@@ -748,12 +756,7 @@ export function assassinSkills(value: ModifierValue): SingleItemModifier {
 }
 
 export function ravenSkill(value: ModifierValue): SingleItemModifier {
-	return createItemModifier(
-		"raven",
-		"static",
-		[value],
-		"+{} to Raven"
-	);
+	return createItemModifier("raven", "static", [value], "+{} to Raven");
 }
 
 export function skeletonMasteryNecromancerOnly(value: ModifierValue): SingleItemModifier {
@@ -1250,24 +1253,71 @@ export function meleeAttacksDealSplashDamage(): SingleItemModifier {
 	);
 }
 
-export function monsterDefencePerHit(value: ModifierValue): SingleItemModifier {
+export function monsterDefensePerHit(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
-		"monster_defence_per_hit",
+		"monster_Defense_per_hit",
 		"static",
 		[value],
 		"-{} to Monster Defense per Hit"
 	);
 }
 
-export function targetDefence(value: ModifierValue): SingleItemModifier {
-	return createItemModifier(
-		"target_defence",
-		"static",
-		[value],
-		"-{}% Target Defense"
-	);
+export function targetDefense(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("target_Defense", "static", [value], "-{}% Target Defense");
 }
 
+export function ignoreTargetDefense(): SingleItemModifier {
+	return createItemModifier("ignore_target_defense", "static", [1], "Ignore Target's Defense");
+}
+
+export function hybridAttackSpeedCrushingBlow(
+	attackSpeedValue: ModifierValue,
+	crushingBlowValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_attack_speed_crushing_blow", [
+		attackSpeed(attackSpeedValue),
+		crushingBlow(crushingBlowValue),
+	]);
+}
+
+export function hybridEnhancedDamageDeadlyStrike(
+	enhancedDamageValue: ModifierValue,
+	deadlyStrikeValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_enhanced_damage_deadly_strike", [
+		enhancedDamage(enhancedDamageValue),
+		deadlyStrike(deadlyStrikeValue),
+	]);
+}
+
+export function hybridEnhancedDamageIgnoreTargetsDefense(
+	enhancedDamageValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_enhanced_damage_ignore_target_defense", [
+		enhancedDamage(enhancedDamageValue),
+		ignoreTargetDefense(),
+	]);
+}
+
+export function hybridEnhancedDamageAttackSpeed(
+	enhancedDamageValue: ModifierValue,
+	attackSpeedValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_enhanced_damage_attack_speed", [
+		enhancedDamage(enhancedDamageValue),
+		attackSpeed(attackSpeedValue),
+	]);
+}
+
+export function hybridEnhancedDamageLifeStolenPerHit(
+	enhancedDamageValue: ModifierValue,
+	lifeStolenPerHitValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_enhanced_damage_life_stolen_per_hit", [
+		enhancedDamage(enhancedDamageValue),
+		lifeStolenPerHit(lifeStolenPerHitValue),
+	]);
+}
 
 export function hybridEnhancedDamageAttackRating(
 	enhancedDamageValue: ModifierValue,
@@ -1276,6 +1326,26 @@ export function hybridEnhancedDamageAttackRating(
 	return createHybridItem("hybrid_enhanced_damage_attack_rating", [
 		enhancedDamage(enhancedDamageValue),
 		attackRating(attackRatingValue),
+	]);
+}
+
+export function hybridEnhancedDamageToDemonsAttackRatingAgainstDemons(
+	enhancedDamageValue: ModifierValue,
+	attackRatingValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_enhanced_damage_to_demons_attack_rating_against_demons", [
+		damageToDemons(enhancedDamageValue),
+		attackRatingAgainstDemons(attackRatingValue),
+	]);
+}
+
+export function hybridEnhancedDamageToUndeadAttackRatingAgainstUndead(
+	enhancedDamageValue: ModifierValue,
+	attackRatingValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_enhanced_damage_to_undead_attack_rating_against_undead", [
+		damageToUndead(enhancedDamageValue),
+		attackRatingAgainstUndead(attackRatingValue),
 	]);
 }
 
@@ -1325,5 +1395,65 @@ export function hybridMaxPoisonResistPoisonResist(
 	return createHybridItem("hybrid_max_poison_resist_poison_resist", [
 		maxPoisonResist(maxPoisonResistValue),
 		poisonResist(poisonResistValue),
+	]);
+}
+
+export function hybridFasterCastRateFireSkillDamage(
+	fasterCastRateValue: ModifierValue,
+	fireSkillDamageValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_faster_cast_rate_fire_skill_damage", [
+		fasterCastRate(fasterCastRateValue),
+		fireSkillDamage(fireSkillDamageValue),
+	]);
+}
+
+export function hybridFasterCastRateColdSkillDamage(
+	fasterCastRateValue: ModifierValue,
+	coldSkillDamageValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_faster_cast_rate_cold_skill_damage", [
+		fasterCastRate(fasterCastRateValue),
+		coldSkillDamage(coldSkillDamageValue),
+	]);
+}
+
+export function hybridFasterCastRateLightningSkillDamage(
+	fasterCastRateValue: ModifierValue,
+	lightningSkillDamageValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_faster_cast_rate_lightning_skill_damage", [
+		fasterCastRate(fasterCastRateValue),
+		lightningSkillDamage(lightningSkillDamageValue),
+	]);
+}
+
+export function hybridFasterCastRatePoisonSkillDamage(
+	fasterCastRateValue: ModifierValue,
+	poisonSkillDamageValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("poison_skill_damage", [
+		fasterCastRate(fasterCastRateValue),
+		poisonSkillDamage(poisonSkillDamageValue),
+	]);
+}
+
+export function hybridAttackRatingLightRadius(
+	attackRatingValue: ModifierValue,
+	lightRadiusValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_attack_rating_light_radius", [
+		attackRating(attackRatingValue),
+		lightRadius(lightRadiusValue),
+	]);
+}
+
+export function hybridFasterBlockRateIncreasedChanceOfBlocking(
+	fasterBlockRateValue: ModifierValue,
+	increasedChanceOfBlockingValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_faster_block_rate_increased_chance_of_blocking", [
+		fasterBlockRate(fasterBlockRateValue),
+		increasedChanceOfBlocking(increasedChanceOfBlockingValue),
 	]);
 }

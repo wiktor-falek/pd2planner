@@ -218,7 +218,7 @@ const SoulDrainer = baseToUnique(
 		modifiers.enemyPhysicalResistance(5),
 		modifiers.manaStolenPerHit([2, 3]),
 		modifiers.lifeStolenPerHit([2, 3]),
-		modifiers.monsterDefencePerHit(50),
+		modifiers.monsterDefensePerHit(50),
 		modifiers.enhancedDefense([90, 120]),
 		modifiers.drainLife(30),
 	],

@@ -89,8 +89,8 @@ const craftingItem = ref<{
 }>({
 	name: "New Item",
 	rarity: "rare",
-	type: "weapon",
-	baseName: Object.values(bases.weapon)[0]!.baseName,
+	type: "amulet",
+	baseName: Object.values(bases.amulet)[0]!.baseName,
 });
 
 watch(
@@ -551,7 +551,11 @@ function selectSockets(item: Item, amount: number) {
 								v-for="modifier in corruptionModifiers[itemStore.selectedItem.type]"
 								:value="modifier"
 							>
-								{{ modifier.description }}
+								{{
+									"modifiers" in modifier
+										? modifier.modifiers[0].description + ", " + modifier.modifiers[1].description
+										: modifier.description
+								}}
 							</option>
 						</select>
 					</div>

@@ -4,17 +4,98 @@ import * as modifiers from "./modifiers";
 
 export const corruptionModifiers = {
 	weapon: [
+		// Low-Rarity (50% chance)
 		modifiers.enhancedDamage([40, 80]),
 		modifiers.attackRating([150, 250]),
-		// +[100-150]% Enhanced Damage to Demons
-		// +200 to Attack Rating against Demons
-
-		// +[100-150]% Enhanced Damage to Undead
-		// +200 to Attack Rating against Undead
+		modifiers.hybridEnhancedDamageToDemonsAttackRatingAgainstDemons([100, 150], 200),
+		modifiers.hybridEnhancedDamageToUndeadAttackRatingAgainstUndead([100, 150], 200),
 		modifiers.fasterCastRate(10),
+		modifiers.lifeOnHit([3, 6]),
+		modifiers.lifeAfterEachKill([3, 6]),
+		modifiers.manaAfterEachKill([3, 5]),
+		modifiers.magicFind([20, 30]),
+		modifiers.requirements([25, 50]),
+		// Mid-Rarity (30% chance)
+		modifiers.fasterCastRate(20),
+		modifiers.attackSpeed([30, 40]),
+		modifiers.hybridEnhancedDamageLifeStolenPerHit([40, 60], 5),
+		modifiers.monsterDefensePerHit([40, 60]),
+		modifiers.crushingBlow([20, 30]),
+		modifiers.deadlyStrike([20, 30]),
+		modifiers.enemyFireResistance([7, 10]),
+		modifiers.enemyColdResistance([7, 10]),
+		modifiers.enemyLightningResistance([7, 10]),
+		modifiers.enemyPoisonResistance([7, 10]),
+		// High-Rarity (20% chance)
+		modifiers.allSkills(1),
+		modifiers.hybridAttackSpeedCrushingBlow(30, [20, 30]),
+		modifiers.hybridEnhancedDamageAttackSpeed([80, 120], 20),
+		modifiers.hybridEnhancedDamageAttackRating([80, 120], 250),
+		modifiers.hybridEnhancedDamageDeadlyStrike([50, 70], 25),
+		modifiers.hybridEnhancedDamageIgnoreTargetsDefense([60, 80]),
+		modifiers.hybridFasterCastRateFireSkillDamage(10, 5),
+		modifiers.hybridFasterCastRateColdSkillDamage(10, 5),
+		modifiers.hybridFasterCastRateLightningSkillDamage(10, 5),
+		modifiers.hybridFasterCastRatePoisonSkillDamage(10, 5),
 	],
-	shield: [],
-	quiver: [],
+	shield: [
+		// Low-Rarity (48% chance)
+		modifiers.fasterHitRecovery([20, 30]),
+		modifiers.fasterBlockRate(20),
+		modifiers.magicFind([20, 30]),
+		modifiers.life([30, 40]),
+		modifiers.fireResist([35, 40]),
+		modifiers.coldResist([35, 40]),
+		modifiers.lightningResist([35, 40]),
+		modifiers.poisonResist([35, 40]),
+		// Mid-Rarity (32% chance)
+		modifiers.hybridIndestructibleEnhancedDefense([50, 80]),
+		modifiers.fasterCastRate(10),
+		modifiers.hybridFasterBlockRateIncreasedChanceOfBlocking(10, [10, 20]),
+		modifiers.maximumLife([4, 6]),
+		modifiers.flatPhysicalDamageReduced([6, 10]),
+		modifiers.flatMagicDamageReduced([6, 10]),
+		modifiers.thornsPerLevel(4), // FIXME: [4, 6]
+		modifiers.cannotBeFrozen(),
+		// High-Rarity (20% chance)
+		modifiers.allSkills(1),
+		modifiers.curseResistance(10),
+		modifiers.allResist([20, 35]),
+		modifiers.physicalDamageReduced([6, 8]),
+		modifiers.hybridMaxFireResistFireResist([4, 5], [15, 20]),
+		modifiers.hybridMaxColdResistColdResist([4, 5], [15, 20]),
+		modifiers.hybridMaxLightningResistLightningResist([4, 5], [15, 20]),
+		modifiers.hybridMaxPoisonResistPoisonResist([4, 5], [15, 20]),
+	],
+	quiver: [
+		// Low-Rarity (48% chance)
+		modifiers.fasterHitRecovery(20),
+		modifiers.life([30, 40]),
+		modifiers.goldFind([50, 100]),
+		modifiers.magicFind([10, 25]),
+		modifiers.fireResist([10, 20]),
+		modifiers.coldResist([10, 20]),
+		modifiers.lightningResist([10, 20]),
+		modifiers.poisonResist([10, 20]),
+		// Mid-Rarity (32% chance)
+		modifiers.fasterRunWalk(10),
+		modifiers.chanceToPierce([10, 15]),
+		modifiers.enemyFireResistance([5, 10]),
+		modifiers.enemyColdResistance([5, 10]),
+		modifiers.targetDefense([10, 20]),
+		modifiers.attackRating([50, 100]),
+		modifiers.manaStolenPerHit([2, 4]),
+		modifiers.lifeStolenPerHit([2, 4]),
+		// High-Rarity (20% chance)
+		modifiers.allSkills(1),
+		modifiers.attackSpeed(10),
+		modifiers.curseResistance(10),
+		modifiers.enhancedDamage([30, 40]),
+		modifiers.minimumDamage([10, 15]),
+		modifiers.maximumDamage([10, 15]),
+		modifiers.ignoreTargetDefense(),
+		modifiers.allResist([5, 10]),
+	],
 	helmet: [
 		// Low-Rarity (48% chance)
 		modifiers.fasterHitRecovery([20, 30]),
@@ -25,11 +106,53 @@ export const corruptionModifiers = {
 		modifiers.coldResist([30, 35]),
 		modifiers.lightningResist([30, 35]),
 		modifiers.poisonResist([30, 35]),
+		// Mid-Rarity (32% chance)
+		modifiers.hybridIndestructibleEnhancedDefense([50, 80]),
+		modifiers.hybridAttackRatingLightRadius([150, 250], [2, 4]),
+		modifiers.lifeStolenPerHit([3, 5]),
+		modifiers.manaStolenPerHit([3, 5]),
+		modifiers.maximumLife([4, 6]),
+		modifiers.lifeAfterEachKill([3, 4]),
+		modifiers.manaAfterEachKill([3, 4]),
+		modifiers.cannotBeFrozen(),
+		// High-Rarity (20% chance)
+		modifiers.allSkills(1),
+		modifiers.curseResistance(10),
+		modifiers.allResist([15, 20]),
+		modifiers.physicalDamageReduced([4, 6]),
+		modifiers.hybridMaxFireResistFireResist([4, 5], 15),
+		modifiers.hybridMaxColdResistColdResist([4, 5], 15),
+		modifiers.hybridMaxLightningResistLightningResist([4, 5], 15),
+		modifiers.hybridMaxPoisonResistPoisonResist([4, 5], 15),
 	],
 	chest: [
 		// Low-Rarity (48% chance)
+		modifiers.fasterHitRecovery([20, 30]),
+		modifiers.enhancedDefense([50, 80]),
+		modifiers.magicFind([20, 30]),
+		modifiers.mana([30, 40]),
+		modifiers.fireResist([30, 35]),
+		modifiers.coldResist([30, 35]),
+		modifiers.lightningResist([30, 35]),
+		modifiers.poisonResist([30, 35]),
 		// Mid-Rarity (32% chance)
+		modifiers.hybridIndestructibleEnhancedDefense([50, 80]),
+		modifiers.fasterCastRate(10),
+		modifiers.fasterRunWalk(20),
+		modifiers.maximumLife([4, 6]),
+		modifiers.flatPhysicalDamageReduced([6, 10]),
+		modifiers.flatMagicDamageReduced([6, 10]),
+		modifiers.thornsPerLevel(4), // FIXME: [4, 6]
+		modifiers.cannotBeFrozen(),
 		// High-Rarity (20% chance)
+		modifiers.allSkills(1),
+		modifiers.curseResistance(10),
+		modifiers.allResist([20, 25]),
+		modifiers.physicalDamageReduced([6, 8]),
+		modifiers.hybridMaxFireResistFireResist([4, 5], 15),
+		modifiers.hybridMaxColdResistColdResist([4, 5], 15),
+		modifiers.hybridMaxLightningResistLightningResist([4, 5], 15),
+		modifiers.hybridMaxPoisonResistPoisonResist([4, 5], 15),
 	],
 	gloves: [
 		// Low-Rarity (48% chance)
@@ -55,7 +178,7 @@ export const corruptionModifiers = {
 		modifiers.attackSpeed(10),
 		modifiers.increasedChanceOfBlocking(10),
 		modifiers.enhancedDamage([30, 40]),
-		modifiers.targetDefence([15, 25]),
+		modifiers.targetDefense([15, 25]),
 		modifiers.deadlyStrike(10),
 		modifiers.manaAfterEachKill([3, 4]),
 		modifiers.allResist([5, 8]),
