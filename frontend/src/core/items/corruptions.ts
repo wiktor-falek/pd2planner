@@ -299,4 +299,11 @@ export const corruptionModifiers = {
 		modifiers.allResist([5, 8]),
 		modifiers.physicalDamageReduced([3, 4]),
 	],
+	// annihilus
+	charm: [
+		modifiers.allSkills(1),
+		modifiers.hybridVitalityEnergy([20, 25], [10, 15]),
+		modifiers.allResist([5, 10]),
+		modifiers.experienceGained([3, 5]),
+	],
 } as const satisfies Record<ItemBaseType, ItemModifier[]>;

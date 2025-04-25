@@ -145,7 +145,10 @@ onUnmounted(() => {
 
 const filterQuery = ref("");
 
-const allUniques = Object.values(uniques).flatMap((slotItems) => Object.values(slotItems));
+const allUniques = Object.entries(uniques)
+	.filter(([slot]) => slot !== "charm")
+	.map(([_, value]) => value)
+	.flatMap((slotItems) => Object.values(slotItems));
 const allRunewords = Object.values(runewordsData);
 const itemList = [...allUniques, ...allRunewords];
 const filteredItemList = ref<(Item | RunewordData)[]>(itemList);

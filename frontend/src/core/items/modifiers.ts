@@ -317,6 +317,10 @@ export function reducedAllVendorPrices(value: ModifierValue): SingleItemModifier
 	);
 }
 
+export function experienceGained(value: ModifierValue): SingleItemModifier {
+	return createItemModifier("experience_gained", "static", [value], "+{}% to Experience Gained");
+}
+
 export function allSkills(value: ModifierValue): SingleItemModifier {
 	return createItemModifier("all_skills", "static", [value], "+{} to All Skills");
 }
@@ -1456,4 +1460,11 @@ export function hybridFasterBlockRateIncreasedChanceOfBlocking(
 		fasterBlockRate(fasterBlockRateValue),
 		increasedChanceOfBlocking(increasedChanceOfBlockingValue),
 	]);
+}
+
+export function hybridVitalityEnergy(
+	vitalityValue: ModifierValue,
+	energyValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_vitality_energy", [vitality(vitalityValue), energy(energyValue)]);
 }

@@ -268,6 +268,12 @@ const belt = {
 	"Colossus Girdle": createItemBase("Colossus Girdle", "belt", "elite", { basemods: [modifiers.baseDefense([61, 71])], requirements: { strength: 185, level: 67 } }),
 };
 
+const charm = {
+	"Small Charm": createItemBase("Small Charm", "charm", "normal"),
+	"Large Charm": createItemBase("Large Charm", "charm", "normal"),
+	"Grand Charm": createItemBase("Grand Charm", "charm", "normal"),
+};
+
 export const bases = {
 	weapon,
 	shield,
@@ -279,4 +285,5 @@ export const bases = {
 	amulet,
 	ring,
 	belt,
+	charm,
 } as const satisfies Record<ItemBaseType, Record<string, Item>>;

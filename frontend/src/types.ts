@@ -47,6 +47,7 @@ export const ALL_SLOTS: Slot[] = [
 ];
 
 export type ItemBaseType =
+	| "weapon"
 	| "amulet"
 	| "ring"
 	| "belt"
@@ -55,7 +56,8 @@ export type ItemBaseType =
 	| "gloves"
 	| "boots"
 	| "shield"
-	| "quiver";
+	| "quiver"
+	| "charm";
 
 export type RunewordBaseType = "weapon" | "shield" | "helmet" | "chest";
 

@@ -6,6 +6,7 @@ import { amulet } from "./uniques/amulet";
 import { belt } from "./uniques/belt";
 import { boots } from "./uniques/boots";
 import { gloves } from "./uniques/gloves";
+import { charm } from "./uniques/charm";
 
 export const uniques = {
 	weapon: {},
@@ -18,4 +19,5 @@ export const uniques = {
 	amulet,
 	ring,
 	belt,
+	charm,
 } as const satisfies Record<ItemBaseType, Record<string, Item>>;
