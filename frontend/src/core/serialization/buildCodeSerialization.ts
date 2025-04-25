@@ -3,7 +3,7 @@ import { gzip, ungzip } from "pako";
 
 export function serializeBuildDataToBuildCode(buildData: BuildData): string {
 	const json = JSON.stringify(buildData);
-	
+
 	const compressed = gzip(json);
 
 	let hexString = "";
@@ -13,6 +13,7 @@ export function serializeBuildDataToBuildCode(buildData: BuildData): string {
 	}
 
 	const buildCode = btoa(hexString);
+
 	return buildCode;
 }
 

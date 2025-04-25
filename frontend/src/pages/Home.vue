@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 import SkillTree from "../components/SkillTree.vue";
 import Attributes from "../components/Attributes.vue";
 import Items from "../components/Items.vue";
+import Charms from "../components/Charms.vue";
 import { useCharacterStore } from "../stores/characterStore";
 import type { CharacterClass } from "../types";
 import { useSkillStore } from "../stores/skillStore";
@@ -17,7 +18,7 @@ const characterStore = useCharacterStore();
 const attributeStore = useAttributeStore();
 const skillStore = useSkillStore();
 
-type Tab = "items" | "skill-tree" | "attributes";
+type Tab = "items" | "charms" | "skill-tree" | "attributes";
 const selectedTab = ref<Tab>("items");
 
 async function handleExportBuild() {
@@ -177,12 +178,14 @@ onUnmounted(() => {
 
 			<div class="main">
 				<Items v-if="selectedTab === 'items'"></Items>
+				<Charms v-else-if="selectedTab === 'charms'"></Charms>
 				<SkillTree v-else-if="selectedTab === 'skill-tree'"></SkillTree>
 				<Attributes v-else-if="selectedTab === 'attributes'"></Attributes>
 			</div>
 
 			<div class="navigation-panel">
 				<button @click="selectedTab = 'items'">Items</button>
+				<button @click="selectedTab = 'charms'">Charms</button>
 				<button @click="selectedTab = 'skill-tree'">Skill Tree</button>
 				<button @click="selectedTab = 'attributes'">Attributes</button>
 			</div>
@@ -201,10 +204,11 @@ onUnmounted(() => {
 }
 
 header {
-	width: 100%;
 	display: flex;
+	flex: 0 0 auto;
 	justify-content: space-between;
 	align-items: center;
+	width: 100%;
 }
 
 .header-middle {
@@ -224,7 +228,7 @@ header {
 }
 
 .container {
-	display: flex;
+	flex: 1 1 auto;
 	width: 100%;
 	margin-top: 12px;
 	position: relative;
@@ -271,6 +275,7 @@ header {
 	justify-content: center;
 	position: relative;
 	z-index: 0;
+	height: 100%;
 }
 
 .modal {

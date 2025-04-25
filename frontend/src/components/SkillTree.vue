@@ -101,60 +101,69 @@ const getSkillPoints = (skillName: string) => skillStore.skillTreeState[skillNam
 </script>
 
 <template>
-	<div class="skill-tree">
-		<img class="skill-tree-image" :src="skillTreeSrc" />
+	<div class="container">
+		<div class="skill-tree">
+			<img class="skill-tree-image" :src="skillTreeSrc" />
 
-		<div class="skill-tooltip" v-if="skillTooltipData != null">
-			<!-- TODO: optimize -->
-			<p>
-				<span class="green">{{ skillTooltipData.name }}</span
-				><br />
-				{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.description }}<br />
-				<span
-					>Required Level:
-					{{
-						skillDetails[characterStore.characterClass][skillTooltipData.name]!.levelRequirement
-					}}</span
-				>
-			</p>
-			<p
-				v-if="skillDetails[characterStore.characterClass][skillTooltipData.name]!.mechanics.length > 0"
-			>
-				{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.mechanics }}
-			</p>
-			<div
-				v-if="skillDetails[characterStore.characterClass][skillTooltipData.name]!.synergies.length > 0"
-			>
-				<p class="green">{{ skillTooltipData.name }} Receives Bonuses From:</p>
-				<p>{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.synergies }}</p>
-			</div>
-		</div>
-
-		<div
-			v-for="skill in skillTreeIcons[characterStore.characterClass]"
-			:key="skill.name"
-			class="skill-icon-container"
-			:style="skillContainerStyle(skill)"
-		>
-			<div :style="{ opacity: getSkillPoints(skill.name) > 0 ? '100' : '0' }">
-				<img
-					class="skill-icon"
-					:src="getSkillIconSrc(characterStore.characterClass, skill)"
-					@mousedown="handleMouseDown($event, skill.name)"
-					@mouseenter="handleMouseEnter(skill.name)"
-					@mouseleave="handleMouseLeave()"
-				/>
-				<p class="skill-label">
-					{{ getSkillPoints(skill.name) }}
+			<div class="skill-tooltip" v-if="skillTooltipData != null">
+				<!-- TODO: optimize -->
+				<p>
+					<span class="green">{{ skillTooltipData.name }}</span
+					><br />
+					{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.description
+					}}<br />
+					<span
+						>Required Level:
+						{{
+							skillDetails[characterStore.characterClass][skillTooltipData.name]!.levelRequirement
+						}}</span
+					>
 				</p>
+				<p
+					v-if="skillDetails[characterStore.characterClass][skillTooltipData.name]!.mechanics.length > 0"
+				>
+					{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.mechanics }}
+				</p>
+				<div
+					v-if="skillDetails[characterStore.characterClass][skillTooltipData.name]!.synergies.length > 0"
+				>
+					<p class="green">{{ skillTooltipData.name }} Receives Bonuses From:</p>
+					<p>{{ skillDetails[characterStore.characterClass][skillTooltipData.name]!.synergies }}</p>
+				</div>
 			</div>
-		</div>
 
-		<p class="gray">Remaining: {{ skillStore.unallocatedSkillPoints }}</p>
+			<div
+				v-for="skill in skillTreeIcons[characterStore.characterClass]"
+				:key="skill.name"
+				class="skill-icon-container"
+				:style="skillContainerStyle(skill)"
+			>
+				<div :style="{ opacity: getSkillPoints(skill.name) > 0 ? '100' : '0' }">
+					<img
+						class="skill-icon"
+						:src="getSkillIconSrc(characterStore.characterClass, skill)"
+						@mousedown="handleMouseDown($event, skill.name)"
+						@mouseenter="handleMouseEnter(skill.name)"
+						@mouseleave="handleMouseLeave()"
+					/>
+					<p class="skill-label">
+						{{ getSkillPoints(skill.name) }}
+					</p>
+				</div>
+			</div>
+
+			<p class="gray">Remaining: {{ skillStore.unallocatedSkillPoints }}</p>
+		</div>
 	</div>
 </template>
 
 <style scoped>
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .skill-tree {
 	position: relative;
 }

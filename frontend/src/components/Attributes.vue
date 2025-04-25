@@ -32,7 +32,7 @@ function handleMouseDown(event: MouseEvent, attribute: Attribute) {
 </script>
 
 <template>
-	<div class="attributes">
+	<div class="container">
 		<div class="attribute">
 			<label
 				>Strength: {{ attributes.strength.base + attributeStore.attributes.strength }} ({{
@@ -71,10 +71,12 @@ function handleMouseDown(event: MouseEvent, attribute: Attribute) {
 </template>
 
 <style scoped>
-.attributes {
+.container {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+	align-items: center;
+	justify-content: center;
 }
 
 .attribute {
