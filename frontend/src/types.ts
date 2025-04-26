@@ -31,7 +31,8 @@ export type Slot =
 	| "amulet"
 	| "ring-1"
 	| "ring-2"
-	| "belt";
+	| "belt"
+	| "charm";
 
 export const ALL_SLOTS: Slot[] = [
 	"weapon-1",
@@ -44,6 +45,7 @@ export const ALL_SLOTS: Slot[] = [
 	"ring-1",
 	"ring-2",
 	"belt",
+	"charm",
 ];
 
 export type ItemBaseType =

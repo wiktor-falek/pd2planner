@@ -200,9 +200,6 @@ function selectSockets(item: Item, amount: number) {
 	// Weapons (Two-Handed) = 3-6 sockets (30% for 3, 28% for 4, 24% for 5, 18% for 6)
 	// But some items like Gorgon Crossbow will still only get 4 sockets max
 	// Shako can roll 2 sockets, but can corrupt 3 on a Harlequin Crest
-	/*
-
-	*/
 }
 </script>
 
@@ -484,7 +481,7 @@ function selectSockets(item: Item, amount: number) {
 				<div class="all-items">
 					<div
 						class="item-listing"
-						v-for="item in itemStore.items.values()"
+						v-for="item in itemStore.items.filter((item) => item.type !== 'charm')"
 						@click="selectItem(item)"
 					>
 						<p
@@ -520,7 +517,7 @@ function selectSockets(item: Item, amount: number) {
 		</div>
 
 		<div class="right">
-			<div class="idk" v-if="itemStore.selectedItem">
+			<div class="button-container" v-if="itemStore.selectedItem">
 				<button
 					v-if="itemStore.selectedItemIsAdded"
 					@click="itemStore.removeSelectedItemFromBuild()"
@@ -530,7 +527,7 @@ function selectSockets(item: Item, amount: number) {
 				<button v-else @click="itemStore.addSelectedItemToBuild()">Add to build</button>
 				<button @click="selectItem(null)">Cancel</button>
 			</div>
-			<div class="idk" v-else>
+			<div class="button-container" v-else>
 				<button @click="modalIsOpen = true">Craft Item</button>
 			</div>
 			<div class="selected-item-container">
@@ -799,7 +796,7 @@ function selectSockets(item: Item, amount: number) {
 	border-color: white;
 }
 
-.idk {
+.button-container {
 	display: flex;
 	gap: 8px;
 	margin-bottom: 4px;
