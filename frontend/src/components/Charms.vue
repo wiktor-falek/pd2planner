@@ -4,6 +4,7 @@ import type { Item } from "../core/items/bases";
 import { uniques } from "../core/items/uniques";
 import { useItemStore } from "../stores/itemStore";
 import {
+	getModifierDescription,
 	getModifierTooltip,
 	type ItemModifier,
 	type SingleItemModifier,
@@ -104,9 +105,7 @@ onMounted(() => {
 							:value="modifier"
 						>
 							{{
-								"modifiers" in modifier
-									? modifier.modifiers[0].description + ", " + modifier.modifiers[1].description
-									: modifier.description
+								getModifierDescription(modifier)
 							}}
 						</option>
 					</select>

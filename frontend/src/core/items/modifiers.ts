@@ -33,10 +33,13 @@ export function getModifierValues(
 	});
 }
 
-export function getModifierTooltip(
-	modifier: SingleItemModifier | HybridItemModifier,
-	scalingFactor: number = 1
-): string {
+export function getModifierDescription(modifier: ItemModifier) {
+	return "modifiers" in modifier
+		? modifier.modifiers[0].description + ", " + modifier.modifiers[1].description
+		: modifier.description;
+}
+
+export function getModifierTooltip(modifier: ItemModifier, scalingFactor: number = 1): string {
 	if ("modifiers" in modifier) {
 		return (
 			getModifierTooltip(modifier.modifiers[0], scalingFactor) +
@@ -52,6 +55,7 @@ export function getModifierTooltip(
 			return values[i++]!.toString();
 		});
 	}
+
 	return modifier.description;
 }
 

@@ -2,6 +2,7 @@
 import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
 import { createItemCopy } from "../core/items/items";
 import {
+	getModifierDescription,
 	getModifierTooltip,
 	type ItemModifier,
 	type SingleItemModifier,
@@ -551,11 +552,7 @@ function selectSockets(item: Item, amount: number) {
 								v-for="modifier in corruptionModifiers[itemStore.selectedItem.type]"
 								:value="modifier"
 							>
-								{{
-									"modifiers" in modifier
-										? modifier.modifiers[0].description + ", " + modifier.modifiers[1].description
-										: modifier.description
-								}}
+								{{ getModifierDescription(modifier) }}
 							</option>
 						</select>
 					</div>
