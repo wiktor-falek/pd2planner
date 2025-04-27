@@ -1472,3 +1472,192 @@ export function hybridVitalityEnergy(
 ): HybridItemModifier {
 	return createHybridItem("hybrid_vitality_energy", [vitality(vitalityValue), energy(energyValue)]);
 }
+
+export function amazonBowAndCrossbowSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"amazon_bow_and_crossbow_skills",
+		"static",
+		[value],
+		"+{} to Bow and Crossbow Skills (Amazon Only)"
+	);
+}
+
+export function amazonJavelinAndSpearSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"amazon_javelin_and_spear_skills",
+		"static",
+		[value],
+		"+{} to Javelin and Spear Skills (Amazon Only)"
+	);
+}
+
+export function amazonPassiveAndMagicSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"amazon_passive_and_magic_skills",
+		"static",
+		[value],
+		"+{} to Passive and Magic Skills (Amazon Only)"
+	);
+}
+
+export function assassinMartialArtsSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"assassin_martial_arts_skills",
+		"static",
+		[value],
+		"+{} to Martial Arts (Assassin Only)"
+	);
+}
+
+export function assassinShadowDisciplinesSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"assassin_shadow_disciplines_skills",
+		"static",
+		[value],
+		"+{} to Shadow Disciplines (Assassin Only)"
+	);
+}
+
+export function assassinTrapsSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"assassin_traps_skills",
+		"static",
+		[value],
+		"+{} to Traps (Assassin Only)"
+	);
+}
+
+export function barbarianCombatMasteriesSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"barbarian_combat_masteries_skills",
+		"static",
+		[value],
+		"+{} to Combat Masteries (Barbarian Only)"
+	);
+}
+
+export function barbarianCombatSkillsSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"barbarian_combat_skills_skills",
+		"static",
+		[value],
+		"+{} to Combat Skills (Barbarian Only)"
+	);
+}
+
+export function barbarianWarcriesSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"barbarian_warcries_skills",
+		"static",
+		[value],
+		"+{} to Warcries (Barbarian Only)"
+	);
+}
+
+export function druidElementalSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"druid_elemental_skills",
+		"static",
+		[value],
+		"+{} to Elemental Skills (Druid Only)"
+	);
+}
+
+export function druidShapeShiftingSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"druid_shape_shifting_skills",
+		"static",
+		[value],
+		"+{} to Shape Shifting Skills (Druid Only)"
+	);
+}
+
+export function druidSummoningSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"druid_summoning_skills",
+		"static",
+		[value],
+		"+{} to Summoning Skills (Druid Only)"
+	);
+}
+
+export function necromancerCursesSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"necromancer_curses_skills",
+		"static",
+		[value],
+		"+{} to Curses (Necromancer Only)"
+	);
+}
+
+export function necromancerPoisonAndBoneSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"necromancer_poison_and_bone_skills",
+		"static",
+		[value],
+		"+{} to Poison and Bone Skills (Necromancer Only)"
+	);
+}
+
+export function necromancerSummoningSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"necromancer_summoning_skills",
+		"static",
+		[value],
+		"+{} to Summoning Skills (Necromancer Only)"
+	);
+}
+
+export function paladinCombatSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"paladin_combat_skills",
+		"static",
+		[value],
+		"+{} to Combat Skills (Paladin Only)"
+	);
+}
+
+export function paladinDefensiveAurasSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"paladin_defensive_auras_skills",
+		"static",
+		[value],
+		"+{} to Defensive Auras (Paladin Only)"
+	);
+}
+
+export function paladinOffensiveAurasSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"paladin_offensive_auras_skills",
+		"static",
+		[value],
+		"+{} to Offensive Auras (Paladin Only)"
+	);
+}
+
+export function sorceressColdSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"sorceress_cold_skills",
+		"static",
+		[value],
+		"+{} to Cold Skills (Sorceress Only)"
+	);
+}
+
+export function sorceressFireSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"sorceress_fire_skills",
+		"static",
+		[value],
+		"+{} to Fire Skills (Sorceress Only)"
+	);
+}
+
+export function sorceressLightningSkills(value: ModifierValue): SingleItemModifier {
+	return createItemModifier(
+		"sorceress_lightning_skills",
+		"static",
+		[value],
+		"+{} to Lightning Skills (Sorceress Only)"
+	);
+}

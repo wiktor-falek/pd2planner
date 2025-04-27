@@ -8,6 +8,15 @@ export function createItemCopy(item: Item): Item {
 	return copy;
 }
 
+export function baseToMagic(
+	base: Item,
+	name: string,
+	affixes: ItemModifier[],
+	options?: ItemOptions
+): Item {
+	return { ...base, name, rarity: "magic", affixes, ...options };
+}
+
 export function baseToUnique(
 	base: Item,
 	name: string,

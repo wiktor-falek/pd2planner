@@ -16,7 +16,7 @@ import Modal from "./reusable/Modal.vue";
 import { bases, type Item } from "../core/items/bases";
 import { createRuneword, runewordsData, type RunewordData } from "../core/items/runewords";
 import { corruptionModifiers } from "../core/items/corruptions";
-import { uniques } from "../core/items/uniques";
+import { uniques } from "../core/items/unique";
 
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();

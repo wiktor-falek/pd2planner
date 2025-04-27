@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import type { Item } from "../core/items/bases";
-import { uniques } from "../core/items/uniques";
+import { uniques } from "../core/items/unique";
 import { useItemStore } from "../stores/itemStore";
 import {
 	getModifierDescription,
@@ -11,16 +11,19 @@ import {
 } from "../core/items/modifiers";
 import { corruptionModifiers } from "../core/items/corruptions";
 import { useCharacterStore } from "../stores/characterStore";
+import { magic } from "../core/items/magic";
+import { createItemCopy } from "../core/items/items";
 
 const itemStore = useItemStore();
 const characterStore = useCharacterStore();
 
 const uniqueCharms = Object.values(uniques.charm);
-const magicCharms: Item[] = [];
+const magicCharms: Item[] = Object.values(magic.charm);
 const charmList: Item[] = [...uniqueCharms, ...magicCharms];
 
 function selectCharm(item: Item | null) {
-	itemStore.selectedCharm = item;
+	const itemCopy = item === null ? null : createItemCopy(item);
+	itemStore.selectedCharm = itemCopy;
 }
 
 const modalIsOpen = ref(false);
@@ -104,19 +107,16 @@ onMounted(() => {
 							v-for="modifier in corruptionModifiers[itemStore.selectedCharm.type]"
 							:value="modifier"
 						>
-							{{
-								getModifierDescription(modifier)
-							}}
+							{{ getModifierDescription(modifier) }}
 						</option>
 					</select>
 				</div>
 
-				<div class="modifiers" v-if="itemStore.selectedCharm.rarity === 'magic'">
+				<!-- <div class="modifiers" v-if="itemStore.selectedCharm.rarity === 'magic'">
 					<div class="label-input">
 						<label>Prefix: </label>
 						<select>
 							<option value="">None</option>
-							<!-- TODO: render and bind actual modifiers -->
 							<option value="life">Life</option>
 							<option value="mana">Mana</option>
 						</select>
@@ -129,7 +129,7 @@ onMounted(() => {
 							<option value="mana">Mana</option>
 						</select>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="label-input">
 					<select
