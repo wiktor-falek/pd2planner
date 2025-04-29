@@ -1,5 +1,4 @@
 import type { Request } from "express";
-import type { ObjectId } from "mongodb";
 import type { z } from "zod";
 
 export type ValidatedRequest<T> = T extends z.Schema<infer Schema>
@@ -19,16 +18,5 @@ export type ValidatedRequest<T> = T extends z.Schema<infer Schema>
 				: Request[K];
 	  }
 	: Request;
-
-declare global {
-	namespace Express {
-		interface Locals {
-			user: {
-				id: ObjectId;
-				isAdmin: boolean;
-			};
-		}
-	}
-}
 
 export {};
