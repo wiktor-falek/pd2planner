@@ -810,9 +810,6 @@ button {
 	padding-bottom: 7px;
 }
 
-.selected-item-text {
-}
-
 .select {
 	max-width: 240px;
 }
