@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import type { Item } from "../core/items/bases";
 import { uniques } from "../core/items/unique";
 import { useItemStore } from "../stores/itemStore";
 import {
@@ -12,7 +11,7 @@ import {
 import { corruptionModifiers } from "../core/items/corruptions";
 import { useCharacterStore } from "../stores/characterStore";
 import { magic } from "../core/items/magic";
-import { createItemCopy } from "../core/items/items";
+import { createItemCopy, type Item } from "../core/items/item";
 
 const itemStore = useItemStore();
 const characterStore = useCharacterStore();

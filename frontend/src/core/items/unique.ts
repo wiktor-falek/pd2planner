@@ -1,4 +1,4 @@
-import type { Item } from "./bases";
+import type { Item } from "./item";
 import type { ItemBaseType } from "../../types";
 import { helmet } from "./uniques/helmet";
 import { ring } from "./uniques/ring";
