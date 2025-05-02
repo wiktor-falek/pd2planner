@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { uniques } from "../core/items/unique";
-import { useItemStore } from "../stores/itemStore";
+import { useItemStore, type GridItem } from "../stores/itemStore";
 import {
 	getModifierDescription,
 	getModifierTooltip,
@@ -83,8 +83,13 @@ for (const charmGridItem of itemStore.equippedCharms) {
 function addCharmToGrid(charm: Item, x: number, y: number) {
 	const [width, height] = charm.size!;
 	const added = grid.addItemAt(charmGrid.value, charm, x, y, width, height);
+
 	console.log({ added });
-	// if added add to itemStore.equippedCharms?
+
+	if (!added) return;
+
+	const gridItem: GridItem = { item: charm, x, y };
+	itemStore.equippedCharms.push(gridItem);
 }
 
 const draggedItem = ref<Item | null>(null);

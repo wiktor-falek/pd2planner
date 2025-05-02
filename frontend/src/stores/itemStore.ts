@@ -58,7 +58,7 @@ export const useItemStore = defineStore("items", () => {
 	watch(equippedItems, (newEquippedItems) => saveToStorage("equippedItems", newEquippedItems), {
 		deep: true,
 	});
-	watch(equippedCharms, (newGrid) => saveToStorage("equippedCharms", newGrid));
+	watch(equippedCharms, (newGrid) => saveToStorage("equippedCharms", newGrid), { deep: true });
 
 	const selectedItemIsAdded = computed(() => {
 		if (selectedItem.value === null) return false;
