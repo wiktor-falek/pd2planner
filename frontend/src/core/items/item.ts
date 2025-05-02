@@ -1,5 +1,5 @@
 import type { ItemModifier } from "./modifiers";
-import { toRawDeep } from "../../utils";
+import { toRawDeep } from "../../utils/toRawDeep";
 import type { CharacterClass, ItemBaseType, Rarity, Tier } from "../../types";
 
 export interface Item {
@@ -23,6 +23,8 @@ export interface Item {
 		dexterity?: number;
 		class?: CharacterClass;
 	};
+	img?: string;
+	size?: [width: number, height: number];
 }
 
 export interface ItemOptions {
@@ -34,6 +36,8 @@ export interface ItemOptions {
 		class?: CharacterClass;
 	};
 	basemods?: ItemModifier[];
+	img?: string;
+	size?: [number, number];
 }
 
 export function createItemCopy(item: Item): Item {

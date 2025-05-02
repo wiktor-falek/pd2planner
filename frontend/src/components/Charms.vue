@@ -60,6 +60,17 @@ onMounted(() => {
 		selectedModifier.value = rollableModifiers.value[0] ?? null;
 	}
 });
+
+function startDrag(e: DragEvent, item: Item) {
+	const image = new Image();
+	image.src = `../src/assets/${item.img}`;
+	const scale = 1.5;
+	image.width = 28 * scale * (item.size?.[0] ?? 0);
+	image.height = 28 * scale * (item.size?.[1] ?? 0);
+	e.dataTransfer?.setDragImage(image, image.width / 2, image.height / 2);
+}
+
+function onDrop() {}
 </script>
 
 <template>
@@ -70,6 +81,8 @@ onMounted(() => {
 				<div class="all-items">
 					<div
 						class="item-listing"
+						draggable="true"
+						@dragstart="startDrag($event, charm)"
 						v-for="charm in itemStore.items.filter((item) => item.type === 'charm')"
 						@click="selectCharm(charm)"
 					>

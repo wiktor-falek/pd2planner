@@ -3,6 +3,8 @@ import { bases } from "../bases";
 import type { Item } from "../item";
 import { baseToUnique } from "../item";
 
+// TODO: tie size to bases
+
 const Annihilus = baseToUnique(
 	bases.charm["Small Charm"],
 	"Annihilus",
@@ -13,7 +15,11 @@ const Annihilus = baseToUnique(
 		modifiers.allResist([10, 20]),
 		modifiers.experienceGained([5, 10]),
 	],
-	{ requirements: { level: 75 } }
+	{
+		requirements: { level: 75 },
+		img: "charms/annihilus.png",
+		size: [1, 1],
+	}
 );
 
 const HellfireTorch = baseToUnique(
@@ -26,7 +32,7 @@ const HellfireTorch = baseToUnique(
 		modifiers.allResist([10, 20]),
 		modifiers.lightRadius([4, 8]),
 	],
-	{ requirements: { level: 75 } }
+	{ requirements: { level: 75 }, img: "charms/hellfire_torch.png", size: [1, 2] }
 );
 
 const GheedsFortune = baseToUnique(
@@ -37,7 +43,7 @@ const GheedsFortune = baseToUnique(
 		modifiers.magicFind([20, 40]),
 		modifiers.reducedAllVendorPrices([10, 15]),
 	],
-	{ requirements: { level: 62 } }
+	{ requirements: { level: 62 }, img: "charms/grand_charm-2.png", size: [1, 3] }
 );
 
 export const charm = {
