@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
-import { createItemCopy } from "../core/items/items";
+import { createItemCopy } from "../core/items/item";
 import {
 	getModifierDescription,
 	getModifierTooltip,
@@ -13,7 +13,8 @@ import { ALL_ITEM_BASE_TYPES, type CraftableRarity, type ItemBaseType, type Slot
 import { useAttributeStore } from "../stores/attributeStore";
 import { attributeInfo } from "../core/attributes";
 import Modal from "./reusable/Modal.vue";
-import { bases, type Item } from "../core/items/bases";
+import { bases } from "../core/items/bases";
+import { type Item } from "../core/items/item";
 import { createRuneword, runewordsData, type RunewordData } from "../core/items/runewords";
 import { corruptionModifiers } from "../core/items/corruptions";
 import { uniques } from "../core/items/unique";
@@ -815,9 +816,6 @@ button {
 
 .label {
 	padding-bottom: 7px;
-}
-
-.selected-item-text {
 }
 
 .select {

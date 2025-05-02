@@ -1,6 +1,6 @@
 import * as modifiers from "../modifiers";
-import { bases, type Item } from "../bases";
-import { baseToMagic } from "../items";
+import { bases } from "../bases";
+import { baseToMagic, type Item } from "../item";
 
 // Plain Skillers
 const AmazonJavelinAndSpearSkiller = baseToMagic(

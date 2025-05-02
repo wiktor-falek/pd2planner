@@ -1,6 +1,7 @@
 import * as modifiers from "../modifiers";
-import { bases, type Item } from "../bases";
-import { baseToUnique } from "../items";
+import { bases } from "../bases";
+import type { Item } from "../item";
+import { baseToUnique } from "../item";
 
 // Normal Unique Gloves
 

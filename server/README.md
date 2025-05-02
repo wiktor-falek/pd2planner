@@ -1,4 +1,4 @@
-## pd2planner frontend
+## pd2planner backend
 
 ## Running locally
 

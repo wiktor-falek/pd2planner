@@ -7,7 +7,7 @@ import {
 	type SkillTreeState,
 } from "../../stores/skillStore";
 import type { Attributes, CharacterClass } from "../../types";
-import type { Item } from "../items/bases";
+import type { Item } from "../items/item";
 
 export interface BuildData {
 	character: {

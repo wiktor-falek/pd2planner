@@ -1,5 +1,5 @@
 import type { RunewordBaseType } from "../../types";
-import type { Item } from "./bases";
+import type { Item } from "./item";
 import { type ItemModifier } from "./modifiers";
 import * as modifiers from "./modifiers";
 import type { RuneName } from "../socketables";
