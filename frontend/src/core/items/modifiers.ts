@@ -450,15 +450,15 @@ export function energy(value: ModifierValue): SingleItemModifier {
 }
 
 export function fireAbsorb(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("fire_absorb", "static", [value], "+{} Fire Absorb");
+	return createItemModifier("fire_absorb", "static", [value], "+{}% Fire Absorb");
 }
 
 export function coldAbsorb(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("cold_absorb", "static", [value], "+{} Cold Absorb");
+	return createItemModifier("cold_absorb", "static", [value], "+{}% Cold Absorb");
 }
 
 export function lightningAbsorb(value: ModifierValue): SingleItemModifier {
-	return createItemModifier("lightning_absorb", "static", [value], "+{} Lightning Absorb");
+	return createItemModifier("lightning_absorb", "static", [value], "+{}% Lightning Absorb");
 }
 
 export function indestructible(): SingleItemModifier {

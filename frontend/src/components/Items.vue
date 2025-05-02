@@ -34,6 +34,7 @@ function selectItem(item: Item | null) {
 	if (item === null) {
 		selectedCorruptedModifier.value = null;
 	} else {
+		// this doesn't work for some reason
 		selectedCorruptedModifier.value = item.corruptedModifier;
 	}
 }
@@ -177,6 +178,12 @@ function selectEntry(entry: Item | RunewordData) {
 }
 
 const selectedCorruptedModifier = ref<ItemModifier | null>(null);
+
+onBeforeMount(() => {
+	if (itemStore.selectedItem !== null) {
+		selectedCorruptedModifier.value = itemStore.selectedItem.corruptedModifier;
+	}
+});
 
 watch(selectedCorruptedModifier, (newSelectedCorruptedModifier) => {
 	if (itemStore.selectedItem === null) return;
@@ -557,7 +564,7 @@ function selectSockets(item: Item, amount: number) {
 						</select>
 					</div>
 
-					<div class="label-input">
+					<div class="label-input" v-if="itemStore.selectedItem.maxSockets !== 0">
 						<label for="sockets">Sockets: </label>
 						<select id="sockets" v-model="itemStore.selectedItem.sockets">
 							<option v-for="i in itemStore.selectedItem.maxSockets + 1" :value="i - 1">
@@ -646,6 +653,10 @@ function selectSockets(item: Item, amount: number) {
 							{{ itemStore.selectedItem.baseName }}
 						</p>
 
+						<p v-for="basemod in itemStore.selectedItem.basemods">
+							{{ getModifierTooltip(basemod) }}
+						</p>
+
 						<p
 							v-if="itemStore.selectedItem.requirements.level"
 							:class="{
@@ -677,10 +688,6 @@ function selectSockets(item: Item, amount: number) {
 							}"
 						>
 							Requires {{ itemStore.selectedItem.requirements.dexterity }} Dexterity
-						</p>
-
-						<p v-for="basemod in itemStore.selectedItem.basemods">
-							{{ getModifierTooltip(basemod) }}
 						</p>
 
 						<p class="corrupted" v-if="itemStore.selectedItem.corrupted">Corrupted</p>
@@ -733,12 +740,12 @@ function selectSockets(item: Item, amount: number) {
 }
 
 .equipped-items {
-	width: 320px;
+	width: 340px;
 	height: 460px;
 }
 
 .equipped-items--mercenary {
-	width: 320px;
+	width: 340px;
 	height: 240px;
 }
 

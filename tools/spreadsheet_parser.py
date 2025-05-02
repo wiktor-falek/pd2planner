@@ -1,11 +1,4 @@
 def parse_entry(entry: str, slot: str, quality: str):
-    # data = entry.split("\t")
-    # [name, _, _, lvl_req, str_req, min, max, soc, *_] = data
-
-    # if soc:
-    #     return f'\t"{name}": createItemBase("{name}", "{slot}", "{quality}", {{ maxSockets: {soc}, basemods: [baseDefenseModifier([{min}, {max}])] }}),'
-
-    # return f'\t"{name}": createItemBase("{name}", "{slot}", "{quality}", {{ basemods: [baseDefenseModifier([{min}, {max}])] }}),'
     data = entry.split("\t")
     [name, _, _, lvl_req, str_req, min, max, soc, *_] = data
 

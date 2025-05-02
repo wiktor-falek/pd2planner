@@ -9,8 +9,9 @@ export type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
 
 function itemTypeToEquippableSlots(type: ItemBaseType): Slot[] {
 	switch (type) {
-		case "weapon":
-			return ["weapon-1", "weapon-2"];
+		case "quiver":
+		case "shield":
+			return ["weapon-2"];
 		case "ring":
 			return ["ring-1", "ring-2"];
 		default:
