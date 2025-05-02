@@ -12,13 +12,17 @@ import { corruptionModifiers } from "../core/items/corruptions";
 import { useCharacterStore } from "../stores/characterStore";
 import { magic } from "../core/items/magic";
 import { createItemCopy, type Item } from "../core/items/item";
+import * as grid from "../utils/grid";
+
+const SQUARE_SIZE = 29;
+const INVENTORY_SCALE = 1.5;
 
 const itemStore = useItemStore();
 const characterStore = useCharacterStore();
 
 const uniqueCharms = Object.values(uniques.charm);
-const magicCharms: Item[] = Object.values(magic.charm);
-const charmList: Item[] = [...uniqueCharms, ...magicCharms];
+const magicCharms = Object.values(magic.charm);
+const charmList = [...uniqueCharms, ...magicCharms];
 
 function selectCharm(item: Item | null) {
 	const itemCopy = item === null ? null : createItemCopy(item);
@@ -61,15 +65,36 @@ onMounted(() => {
 	}
 });
 
+const charmGrid = ref(grid.createGrid<Item>(10, 4));
+
+// init equipped charms
+for (const charmGridItem of itemStore.equippedCharms) {
+	const [width, height] = charmGridItem.item.size!;
+	grid.addItemAt(
+		charmGrid.value,
+		charmGridItem.item,
+		charmGridItem.x,
+		charmGridItem.y,
+		width,
+		height
+	);
+}
+
+function addCharmToGrid(charm: Item, x: number, y: number) {
+	const [width, height] = charm.size!;
+	const added = grid.addItemAt(charmGrid.value, charm, x, y, width, height);
+	console.log({ added });
+	// if added add to itemStore.equippedCharms?
+}
+
 const draggedItem = ref<Item | null>(null);
 
 function startDrag(e: DragEvent, item: Item) {
-	console.log("drag started");
 	draggedItem.value = item;
 
 	const image = new Image();
 	image.src = `../src/assets/${item.img}`;
-	const scale = 1.5; // that doesnt work sadge
+	const scale = INVENTORY_SCALE; // that doesnt work sadge
 	image.width = 28 * scale * (item.size?.[0] ?? 0);
 	image.height = 28 * scale * (item.size?.[1] ?? 0);
 	e.dataTransfer?.setDragImage(image, image.width / 4, 0);
@@ -77,19 +102,15 @@ function startDrag(e: DragEvent, item: Item) {
 
 function endDrag(e: DragEvent) {
 	e.preventDefault();
-	console.log("drag ended");
 	draggedItem.value = null;
 }
 
-function onDrop(e: DragEvent) {
+function onDrop(e: DragEvent, x: number, y: number) {
 	e.preventDefault();
-	const item = draggedItem.value;
-	console.log("dropping", item);
-	if (item === null) return;
+	const charm = draggedItem.value;
+	if (charm === null) return;
 
-	// figure out which square was the cursor on
-
-	// add to grid
+	addCharmToGrid(charm, x, y);
 }
 </script>
 
@@ -120,15 +141,23 @@ function onDrop(e: DragEvent) {
 		</div>
 
 		<div class="middle">
-			<img
-				class="inventory"
-				src="../assets/charms/charm_inventory.png"
-				alt=""
-				dropzone="copy"
-				@drop="onDrop($event)"
-				@dragover.prevent
-				@dragenter.prevent
-			/>
+			<div class="inventory">
+				<img class="inventory-background" src="../assets/charms/charm_inventory.png" />
+				<div v-for="y in 4">
+					<div
+						class="inventory-square"
+						v-for="x in 10"
+						:style="{
+							left: `${7 + (x - 1) * (SQUARE_SIZE * INVENTORY_SCALE)}px`,
+							top: `${5 + (y - 1) * (SQUARE_SIZE * INVENTORY_SCALE)}px`,
+						}"
+						dropzone="copy"
+						@drop="onDrop($event, x - 1, y - 1)"
+						@dragover.prevent
+						@dragenter.prevent
+					></div>
+				</div>
+			</div>
 
 			<div>
 				<input class="search" type="text" placeholder="Search" />
@@ -300,7 +329,17 @@ function onDrop(e: DragEvent) {
 }
 
 .inventory {
-	width: calc(298px * 1.5);
+	position: relative;
+}
+
+.inventory-background {
+	width: calc(298px * v-bind(INVENTORY_SCALE));
+}
+
+.inventory-square {
+	position: absolute;
+	width: calc(1px * v-bind(SQUARE_SIZE) * v-bind(INVENTORY_SCALE));
+	aspect-ratio: 1;
 }
 
 .all-items {

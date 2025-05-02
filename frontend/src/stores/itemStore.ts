@@ -35,6 +35,12 @@ export function getDefaultEquippedItems(): EquippedItems {
 	};
 }
 
+export interface GridItem {
+	item: Item;
+	x: number;
+	y: number;
+}
+
 export const useItemStore = defineStore("items", () => {
 	const items = ref<Item[]>(loadFromStorage("items", []));
 	const selectedItem = ref<Item | null>(null);
@@ -43,11 +49,16 @@ export const useItemStore = defineStore("items", () => {
 	const equippedItems = ref<EquippedItems>(
 		loadFromStorage("equippedItems", getDefaultEquippedItems())
 	);
+	const equippedCharms = ref<GridItem[]>(loadFromStorage("equippedCharms", []));
 
 	watch(items, (newItems) => saveToStorage("items", newItems), { deep: true });
 	watch(equippedItems, (newEquippedItems) => saveToStorage("equippedItems", newEquippedItems), {
 		deep: true,
 	});
+	watch(equippedItems, (newEquippedItems) => saveToStorage("equippedItems", newEquippedItems), {
+		deep: true,
+	});
+	watch(equippedCharms, (newGrid) => saveToStorage("equippedCharms", newGrid));
 
 	const selectedItemIsAdded = computed(() => {
 		if (selectedItem.value === null) return false;
@@ -157,5 +168,6 @@ export const useItemStore = defineStore("items", () => {
 		removeSelectedItemFromBuild,
 		removeSelectedCharmFromBuild,
 		equippedItems,
+		equippedCharms,
 	};
 });
