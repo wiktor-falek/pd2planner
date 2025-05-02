@@ -61,16 +61,36 @@ onMounted(() => {
 	}
 });
 
+const draggedItem = ref<Item | null>(null);
+
 function startDrag(e: DragEvent, item: Item) {
+	console.log("drag started");
+	draggedItem.value = item;
+
 	const image = new Image();
 	image.src = `../src/assets/${item.img}`;
-	const scale = 1.5;
+	const scale = 1.5; // that doesnt work sadge
 	image.width = 28 * scale * (item.size?.[0] ?? 0);
 	image.height = 28 * scale * (item.size?.[1] ?? 0);
-	e.dataTransfer?.setDragImage(image, image.width / 2, image.height / 2);
+	e.dataTransfer?.setDragImage(image, image.width / 4, 0);
 }
 
-function onDrop() {}
+function endDrag(e: DragEvent) {
+	e.preventDefault();
+	console.log("drag ended");
+	draggedItem.value = null;
+}
+
+function onDrop(e: DragEvent) {
+	e.preventDefault();
+	const item = draggedItem.value;
+	console.log("dropping", item);
+	if (item === null) return;
+
+	// figure out which square was the cursor on
+
+	// add to grid
+}
 </script>
 
 <template>
@@ -83,6 +103,7 @@ function onDrop() {}
 						class="item-listing"
 						draggable="true"
 						@dragstart="startDrag($event, charm)"
+						@dragend="endDrag($event)"
 						v-for="charm in itemStore.items.filter((item) => item.type === 'charm')"
 						@click="selectCharm(charm)"
 					>
@@ -99,7 +120,15 @@ function onDrop() {}
 		</div>
 
 		<div class="middle">
-			<img class="inventory" src="../assets/charms/charm_inventory.png" alt="" />
+			<img
+				class="inventory"
+				src="../assets/charms/charm_inventory.png"
+				alt=""
+				dropzone="copy"
+				@drop="onDrop($event)"
+				@dragover.prevent
+				@dragenter.prevent
+			/>
 
 			<div>
 				<input class="search" type="text" placeholder="Search" />
