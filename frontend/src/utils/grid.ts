@@ -1,4 +1,4 @@
-interface GridItem<T> {
+export interface GridSquare<T> {
 	value: T | null;
 	isOriginSquare: boolean;
 	originX: number;
@@ -8,15 +8,15 @@ interface GridItem<T> {
 interface Grid<T> {
 	width: number;
 	height: number;
-	_squares: GridItem<T>[][];
+	_squares: GridSquare<T>[][];
 }
 
-function createGridItem<T>(
+function createGridSquare<T>(
 	value: T | null,
 	originX: number,
 	originY: number,
 	isOriginSquare: boolean = false
-): GridItem<T> {
+): GridSquare<T> {
 	return {
 		value,
 		isOriginSquare,
@@ -27,7 +27,7 @@ function createGridItem<T>(
 
 export function createGrid<T>(width: number, height: number): Grid<T> {
 	const _squares = Array.from({ length: height }, () =>
-		Array.from({ length: width }, () => createGridItem<T>(null, 0, 0))
+		Array.from({ length: width }, () => createGridSquare<T>(null, 0, 0))
 	);
 
 	return {
@@ -41,7 +41,7 @@ export function squareExists<T>(grid: Grid<T>, x: number, y: number): boolean {
 	return x >= 0 && x < grid.width && y >= 0 && y < grid.height;
 }
 
-export function getSquare<T>(grid: Grid<T>, x: number, y: number): GridItem<T> | null {
+export function getSquare<T>(grid: Grid<T>, x: number, y: number): GridSquare<T> | null {
 	if (squareExists(grid, x, y)) {
 		return grid._squares[y]![x]!;
 	}
@@ -108,21 +108,64 @@ export function addItem<T>(grid: Grid<T>, item: T, width: number, height: number
 	return false;
 }
 
+export function removeItem<T>(grid: Grid<T>, item: T): boolean {
+	let removed = false;
+
+	for (let x = 0; x < grid.width; x++) {
+		for (let y = 0; y < grid.height; y++) {
+			const square = getSquare(grid, x, y);
+			if (square && square.value === item) {
+				square.value = null;
+				removed = true;
+			}
+		}
+	}
+
+	return removed;
+}
+
+export function removeItemAt<T>(
+	grid: Grid<T>,
+	originX: number,
+	originY: number,
+	width: number,
+	height: number
+): boolean {
+	const originSquare = getSquare(grid, originX, originY);
+	if (!originSquare || originSquare.value === null) return false;
+
+	originSquare.isOriginSquare = false;
+
+	for (let dx = 0; dx < width; dx++) {
+		for (let dy = 0; dy < height; dy++) {
+			const x = originX + dx;
+			const y = originY + dy;
+
+			const square = getSquare(grid, x, y);
+			if (square !== null) {
+				square.value = null;
+			}
+		}
+	}
+
+	return true;
+}
+
 // export class Grid<T> {
 // 	width: number;
 // 	height: number;
-// 	private squares: GridItem<T>[][];
+// 	private squares: GridSquare<T>[][];
 
 // 	constructor(width: number, height: number) {
 // 		this.width = width;
 // 		this.height = height;
 
 // 		this.squares = Array.from({ length: height }, () =>
-// 			Array.from({ length: width }, () => new GridItem<T>(null, 0, 0))
+// 			Array.from({ length: width }, () => new GridSquare<T>(null, 0, 0))
 // 		);
 // 	}
 
-// 	private getSquare(x: number, y: number): GridItem<T> | null {
+// 	private getSquare(x: number, y: number): GridSquare<T> | null {
 // 		if (this.squareExists(x, y)) {
 // 			return this.squares[y]![x]!;
 // 		}
@@ -160,7 +203,7 @@ export function addItem<T>(grid: Grid<T>, item: T, width: number, height: number
 // 		return true;
 // 	}
 
-// 	getGridItem(x: number, y: number): GridItem<T> | null {
+// 	getGridSquare(x: number, y: number): GridSquare<T> | null {
 // 		return this.getSquare(x, y);
 // 	}
 

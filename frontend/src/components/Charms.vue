@@ -69,8 +69,6 @@ function addCharmToGrid(charm: Item, x: number, y: number) {
 	const [width, height] = charm.size!;
 	const added = grid.addItemAt(itemStore.charmGrid, charm, x, y, width, height);
 
-	console.log({ added });
-
 	if (!added) return;
 
 	const gridItem: GridItem = { item: charm, x, y };
@@ -107,6 +105,11 @@ function resolveImgPath(imgSrc: string) {
 	const url = new URL("../assets/" + imgSrc, import.meta.url).href;
 	console.log(url);
 	return url;
+}
+
+function unequipSquare(square: grid.GridSquare<Item>) {
+	const [width, height] = square.value!.size!;
+	grid.removeItemAt(itemStore.charmGrid, square.originX, square.originY, width, height);
 }
 </script>
 
@@ -157,6 +160,7 @@ function resolveImgPath(imgSrc: string) {
 								v-if="square && square.value && square.isOriginSquare"
 								class="inventory-item-img"
 								:src="resolveImgPath(square.value.img!)"
+								@click.right="unequipSquare(square)"
 							/>
 						</template>
 					</div>
@@ -350,6 +354,8 @@ function resolveImgPath(imgSrc: string) {
 }
 
 .inventory-item-img {
+	cursor: grab;
+	z-index: 1000;
 }
 
 .all-items {
@@ -361,6 +367,7 @@ function resolveImgPath(imgSrc: string) {
 .item-listing {
 	border-top: 1px solid rgba(0, 0, 0, 0);
 	border-bottom: 1px solid rgba(0, 0, 0, 0);
+	cursor: grab;
 }
 
 .item-listing p {
