@@ -8,6 +8,7 @@ A web build planner for Project Diablo 2, inspired by Path of Building.
 
 ### Roadmap
 
+See [Roadmap](ROADMAP.md)
 
 ### Running locally
 

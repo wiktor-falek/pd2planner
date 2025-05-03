@@ -65,24 +65,9 @@ onMounted(() => {
 	}
 });
 
-const charmGrid = ref(grid.createGrid<Item>(10, 4));
-
-// init equipped charms
-for (const charmGridItem of itemStore.equippedCharms) {
-	const [width, height] = charmGridItem.item.size!;
-	grid.addItemAt(
-		charmGrid.value,
-		charmGridItem.item,
-		charmGridItem.x,
-		charmGridItem.y,
-		width,
-		height
-	);
-}
-
 function addCharmToGrid(charm: Item, x: number, y: number) {
 	const [width, height] = charm.size!;
-	const added = grid.addItemAt(charmGrid.value, charm, x, y, width, height);
+	const added = grid.addItemAt(itemStore.charmGrid, charm, x, y, width, height);
 
 	console.log({ added });
 
@@ -116,6 +101,12 @@ function onDrop(e: DragEvent, x: number, y: number) {
 	if (charm === null) return;
 
 	addCharmToGrid(charm, x, y);
+}
+
+function resolveImgPath(imgSrc: string) {
+	const url = new URL("../assets/" + imgSrc, import.meta.url).href;
+	console.log(url);
+	return url;
 }
 </script>
 
@@ -160,7 +151,15 @@ function onDrop(e: DragEvent, x: number, y: number) {
 						@drop="onDrop($event, x - 1, y - 1)"
 						@dragover.prevent
 						@dragenter.prevent
-					></div>
+					>
+						<template v-for="square in [grid.getSquare(itemStore.charmGrid, x - 1, y - 1)]">
+							<img
+								v-if="square && square.value && square.isOriginSquare"
+								class="inventory-item-img"
+								:src="resolveImgPath(square.value.img!)"
+							/>
+						</template>
+					</div>
 				</div>
 			</div>
 
@@ -345,6 +344,12 @@ function onDrop(e: DragEvent, x: number, y: number) {
 	position: absolute;
 	width: calc(1px * v-bind(SQUARE_SIZE) * v-bind(INVENTORY_SCALE));
 	aspect-ratio: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.inventory-item-img {
 }
 
 .all-items {

@@ -4,6 +4,7 @@ import { loadFromStorage, saveToStorage } from "../persistence";
 import { createItemCopy } from "../core/items/item";
 import type { ItemBaseType, Slot } from "../types";
 import type { Item } from "../core/items/item";
+import * as grid from "../utils/grid";
 
 export type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
 
@@ -50,6 +51,8 @@ export const useItemStore = defineStore("items", () => {
 		loadFromStorage("equippedItems", getDefaultEquippedItems())
 	);
 	const equippedCharms = ref<GridItem[]>(loadFromStorage("equippedCharms", []));
+	const charmGrid = ref(grid.createGrid<Item>(10, 4));
+	_initEquippedCharms();
 
 	watch(items, (newItems) => saveToStorage("items", newItems), { deep: true });
 	watch(equippedItems, (newEquippedItems) => saveToStorage("equippedItems", newEquippedItems), {
@@ -155,6 +158,20 @@ export const useItemStore = defineStore("items", () => {
 		}
 	}
 
+	function _initEquippedCharms() {
+		for (const charmGridItem of equippedCharms.value) {
+			const [width, height] = charmGridItem.item.size!;
+			grid.addItemAt(
+				charmGrid.value,
+				charmGridItem.item,
+				charmGridItem.x,
+				charmGridItem.y,
+				width,
+				height
+			);
+		}
+	}
+
 	return {
 		items,
 		selectedItem,
@@ -169,5 +186,6 @@ export const useItemStore = defineStore("items", () => {
 		removeSelectedCharmFromBuild,
 		equippedItems,
 		equippedCharms,
+		charmGrid,
 	};
 });
