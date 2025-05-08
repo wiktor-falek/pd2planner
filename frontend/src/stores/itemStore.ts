@@ -4,6 +4,7 @@ import { loadFromStorage, saveToStorage } from "../persistence";
 import { createItemCopy } from "../core/items/item";
 import type { ItemBaseType, Slot } from "../types";
 import type { Item } from "../core/items/item";
+import * as grid from "../utils/grid";
 
 export type EquippedItems = Record<Slot, { items: Item[]; selected: number }>;
 
@@ -35,6 +36,12 @@ export function getDefaultEquippedItems(): EquippedItems {
 	};
 }
 
+export interface GridItem {
+	item: Item;
+	x: number;
+	y: number;
+}
+
 export const useItemStore = defineStore("items", () => {
 	const items = ref<Item[]>(loadFromStorage("items", []));
 	const selectedItem = ref<Item | null>(null);
@@ -43,11 +50,18 @@ export const useItemStore = defineStore("items", () => {
 	const equippedItems = ref<EquippedItems>(
 		loadFromStorage("equippedItems", getDefaultEquippedItems())
 	);
+	const equippedCharms = ref<GridItem[]>(loadFromStorage("equippedCharms", []));
+	const charmGrid = ref(grid.createGrid<Item>(10, 4));
+	_initEquippedCharms();
 
 	watch(items, (newItems) => saveToStorage("items", newItems), { deep: true });
 	watch(equippedItems, (newEquippedItems) => saveToStorage("equippedItems", newEquippedItems), {
 		deep: true,
 	});
+	watch(equippedItems, (newEquippedItems) => saveToStorage("equippedItems", newEquippedItems), {
+		deep: true,
+	});
+	watch(equippedCharms, (newGrid) => saveToStorage("equippedCharms", newGrid), { deep: true });
 
 	const selectedItemIsAdded = computed(() => {
 		if (selectedItem.value === null) return false;
@@ -144,6 +158,20 @@ export const useItemStore = defineStore("items", () => {
 		}
 	}
 
+	function _initEquippedCharms() {
+		for (const charmGridItem of equippedCharms.value) {
+			const [width, height] = charmGridItem.item.size!;
+			grid.addItemAt(
+				charmGrid.value,
+				charmGridItem.item,
+				charmGridItem.x,
+				charmGridItem.y,
+				width,
+				height
+			);
+		}
+	}
+
 	return {
 		items,
 		selectedItem,
@@ -157,5 +185,7 @@ export const useItemStore = defineStore("items", () => {
 		removeSelectedItemFromBuild,
 		removeSelectedCharmFromBuild,
 		equippedItems,
+		equippedCharms,
+		charmGrid,
 	};
 });

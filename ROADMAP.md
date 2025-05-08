@@ -28,7 +28,7 @@
 
 - [x] Dropdown for unique/preset charms
 - [ ] Crafting magic charms
-- [ ] Charm inventory drag and drop
+- [x] Charm inventory drag and drop
 
 #### General
 

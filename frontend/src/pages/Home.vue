@@ -290,6 +290,7 @@ header {
 	gap: 8px;
 	padding: 12px;
 	padding-top: 24px;
+	background-color: black;
 }
 
 .modal__buttons {

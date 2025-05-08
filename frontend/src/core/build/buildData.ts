@@ -7,6 +7,7 @@ import {
 	type SkillTreeState,
 } from "../../stores/skillStore";
 import type { Attributes, CharacterClass } from "../../types";
+import { createGrid } from "../../utils/grid";
 import type { Item } from "../items/item";
 
 export interface BuildData {
@@ -57,6 +58,9 @@ export function resetBuild() {
 
 	itemStore.items = [];
 	itemStore.equippedItems = getDefaultEquippedItems();
+
+	itemStore.equippedCharms = [];
+	itemStore.charmGrid = createGrid(10, 4);
 }
 
 export function importBuild(buildData: BuildData) {

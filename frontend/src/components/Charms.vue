@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { uniques } from "../core/items/unique";
-import { useItemStore } from "../stores/itemStore";
+import { useItemStore, type GridItem } from "../stores/itemStore";
 import {
 	getModifierDescription,
 	getModifierTooltip,
@@ -12,13 +12,17 @@ import { corruptionModifiers } from "../core/items/corruptions";
 import { useCharacterStore } from "../stores/characterStore";
 import { magic } from "../core/items/magic";
 import { createItemCopy, type Item } from "../core/items/item";
+import * as grid from "../utils/grid";
+
+const SQUARE_SIZE = 29;
+const INVENTORY_SCALE = 1.5;
 
 const itemStore = useItemStore();
 const characterStore = useCharacterStore();
 
 const uniqueCharms = Object.values(uniques.charm);
-const magicCharms: Item[] = Object.values(magic.charm);
-const charmList: Item[] = [...uniqueCharms, ...magicCharms];
+const magicCharms = Object.values(magic.charm);
+const charmList = [...uniqueCharms, ...magicCharms];
 
 function selectCharm(item: Item | null) {
 	const itemCopy = item === null ? null : createItemCopy(item);
@@ -60,6 +64,53 @@ onMounted(() => {
 		selectedModifier.value = rollableModifiers.value[0] ?? null;
 	}
 });
+
+function addCharmToGrid(charm: Item, x: number, y: number) {
+	const [width, height] = charm.size!;
+	const added = grid.addItemAt(itemStore.charmGrid, charm, x, y, width, height);
+
+	if (!added) return;
+
+	const gridItem: GridItem = { item: charm, x, y };
+	itemStore.equippedCharms.push(gridItem);
+}
+
+const draggedItem = ref<Item | null>(null);
+
+function startDrag(e: DragEvent, item: Item) {
+	draggedItem.value = item;
+
+	const image = new Image();
+	image.src = `../src/assets/${item.img}`;
+	const scale = INVENTORY_SCALE; // that doesnt work sadge
+	image.width = 28 * scale * (item.size?.[0] ?? 0);
+	image.height = 28 * scale * (item.size?.[1] ?? 0);
+	e.dataTransfer?.setDragImage(image, image.width / 4, 0);
+}
+
+function endDrag(e: DragEvent) {
+	e.preventDefault();
+	draggedItem.value = null;
+}
+
+function onDrop(e: DragEvent, x: number, y: number) {
+	e.preventDefault();
+	const charm = draggedItem.value;
+	if (charm === null) return;
+
+	addCharmToGrid(charm, x, y);
+}
+
+function resolveImgPath(imgSrc: string) {
+	const url = new URL("../assets/" + imgSrc, import.meta.url).href;
+	console.log(url);
+	return url;
+}
+
+function unequipSquare(square: grid.GridSquare<Item>) {
+	const [width, height] = square.value!.size!;
+	grid.removeItemAt(itemStore.charmGrid, square.originX, square.originY, width, height);
+}
 </script>
 
 <template>
@@ -70,6 +121,9 @@ onMounted(() => {
 				<div class="all-items">
 					<div
 						class="item-listing"
+						draggable="true"
+						@dragstart="startDrag($event, charm)"
+						@dragend="endDrag($event)"
 						v-for="charm in itemStore.items.filter((item) => item.type === 'charm')"
 						@click="selectCharm(charm)"
 					>
@@ -86,7 +140,32 @@ onMounted(() => {
 		</div>
 
 		<div class="middle">
-			<img class="inventory" src="../assets/charms/charm_inventory.png" alt="" />
+			<div class="inventory">
+				<img class="inventory-background" src="../assets/charms/charm_inventory.png" />
+				<div v-for="y in 4">
+					<div
+						class="inventory-square"
+						v-for="x in 10"
+						:style="{
+							left: `${7 + (x - 1) * (SQUARE_SIZE * INVENTORY_SCALE)}px`,
+							top: `${5 + (y - 1) * (SQUARE_SIZE * INVENTORY_SCALE)}px`,
+						}"
+						dropzone="copy"
+						@drop="onDrop($event, x - 1, y - 1)"
+						@dragover.prevent
+						@dragenter.prevent
+					>
+						<template v-for="square in [grid.getSquare(itemStore.charmGrid, x - 1, y - 1)]">
+							<img
+								v-if="square && square.value && square.isOriginSquare"
+								class="inventory-item-img"
+								:src="resolveImgPath(square.value.img!)"
+								@click.right="unequipSquare(square)"
+							/>
+						</template>
+					</div>
+				</div>
+			</div>
 
 			<div>
 				<input class="search" type="text" placeholder="Search" />
@@ -258,7 +337,25 @@ onMounted(() => {
 }
 
 .inventory {
-	width: calc(298px * 1.5);
+	position: relative;
+}
+
+.inventory-background {
+	width: calc(298px * v-bind(INVENTORY_SCALE));
+}
+
+.inventory-square {
+	position: absolute;
+	width: calc(1px * v-bind(SQUARE_SIZE) * v-bind(INVENTORY_SCALE));
+	aspect-ratio: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.inventory-item-img {
+	cursor: grab;
+	z-index: 1000;
 }
 
 .all-items {
@@ -270,6 +367,7 @@ onMounted(() => {
 .item-listing {
 	border-top: 1px solid rgba(0, 0, 0, 0);
 	border-bottom: 1px solid rgba(0, 0, 0, 0);
+	cursor: grab;
 }
 
 .item-listing p {
