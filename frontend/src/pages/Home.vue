@@ -13,7 +13,9 @@ import { getBuildData, resetBuild } from "../core/build/buildData";
 import { createBuild } from "../api";
 import router from "../router";
 import Modal from "../components/reusable/Modal.vue";
+import { useModalStore } from "../stores/modalStore";
 
+const modalStore = useModalStore();
 const characterStore = useCharacterStore();
 const attributeStore = useAttributeStore();
 const skillStore = useSkillStore();
@@ -36,38 +38,22 @@ async function handleExportBuild() {
 async function handleImportBuild() {}
 
 function handleOpenResetBuildModal() {
-	modalIsOpen.value = true;
+	modalStore.open("reset-build");
 }
 
 function handleResetBuild() {
 	resetBuild();
-	modalIsOpen.value = false;
+	modalStore.close();
 }
-
-const modalIsOpen = ref(false);
-
-function handleEscKey(event: KeyboardEvent) {
-	if (event.key === "Escape") {
-		modalIsOpen.value = false;
-	}
-}
-
-onMounted(() => {
-	window.addEventListener("keydown", handleEscKey);
-});
-
-onUnmounted(() => {
-	window.removeEventListener("keydown", handleEscKey);
-});
 </script>
 
 <template>
-	<Modal :is-open="modalIsOpen" @close="modalIsOpen = false">
+	<Modal :is-open="modalStore.activeModalId === 'reset-build'" @close="modalStore.close()">
 		<div class="modal">
 			<p class="modal__title">Are you sure you want to reset your build?</p>
 			<div class="modal__buttons">
 				<button @click="handleResetBuild">Reset</button>
-				<button @click="modalIsOpen = false">Close</button>
+				<button @click="modalStore.close()">Close</button>
 			</div>
 		</div>
 	</Modal>

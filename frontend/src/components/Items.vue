@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeMount, onMounted, ref, watch } from "vue";
 import { createItemCopy } from "../core/items/item";
 import {
 	getModifierDescription,
@@ -18,7 +18,9 @@ import { type Item } from "../core/items/item";
 import { createRuneword, runewordsData, type RunewordData } from "../core/items/runewords";
 import { corruptionModifiers } from "../core/items/corruptions";
 import { uniques } from "../core/items/unique";
+import { useModalStore } from "../stores/modalStore";
 
+const modalStore = useModalStore();
 const characterStore = useCharacterStore();
 const itemStore = useItemStore();
 const attributeStore = useAttributeStore();
@@ -82,8 +84,6 @@ watch(selectedModifier, async (newSelectedModifier) => {
 
 const modifierRangeInput = ref<HTMLInputElement>();
 
-const modalIsOpen = ref(false);
-
 const craftingItem = ref<{
 	name: string;
 	rarity: CraftableRarity;
@@ -129,22 +129,8 @@ function craftItem() {
 
 	selectItem(item);
 
-	modalIsOpen.value = false;
+	modalStore.close();
 }
-
-function handleEscKey(event: KeyboardEvent) {
-	if (event.key === "Escape") {
-		modalIsOpen.value = false;
-	}
-}
-
-onMounted(() => {
-	window.addEventListener("keydown", handleEscKey);
-});
-
-onUnmounted(() => {
-	window.removeEventListener("keydown", handleEscKey);
-});
 
 const filterQuery = ref("");
 
@@ -214,7 +200,7 @@ function selectSockets(item: Item, amount: number) {
 
 <template>
 	<div class="items">
-		<Modal :is-open="modalIsOpen" @close="modalIsOpen = false">
+		<Modal :is-open="modalStore.activeModalId === 'craft-item'" @close="modalStore.close()">
 			<div class="modal">
 				<div class="modal__titlebar">
 					<p class="modal__titlebar__title">Craft Item</p>
@@ -255,7 +241,7 @@ function selectSockets(item: Item, amount: number) {
 
 				<div class="modal__buttons">
 					<button @click="craftItem()">Create</button>
-					<button @click="modalIsOpen = false">Close</button>
+					<button @click="modalStore.close()">Close</button>
 				</div>
 			</div>
 		</Modal>
@@ -537,7 +523,7 @@ function selectSockets(item: Item, amount: number) {
 				<button @click="selectItem(null)">Cancel</button>
 			</div>
 			<div class="button-container" v-else>
-				<button @click="modalIsOpen = true">Craft Item</button>
+				<button @click="modalStore.open('craft-item')">Craft Item</button>
 			</div>
 			<div class="selected-item-container">
 				<div v-if="itemStore.selectedItem" class="selected-item-container__item-options">

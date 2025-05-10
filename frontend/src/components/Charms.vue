@@ -13,10 +13,14 @@ import { useCharacterStore } from "../stores/characterStore";
 import { magic } from "../core/items/magic";
 import { type Item } from "../core/items/item";
 import * as grid from "../utils/grid";
+import { bases } from "../core/items/bases";
+import { useModalStore } from "../stores/modalStore";
+import Modal from "./reusable/Modal.vue";
 
 const SQUARE_SIZE = 29;
 const INVENTORY_SCALE = 1.5;
 
+const modalStore = useModalStore();
 const itemStore = useItemStore();
 const characterStore = useCharacterStore();
 
@@ -24,12 +28,9 @@ const uniqueCharms = Object.values(uniques.charm);
 const magicCharms = Object.values(magic.charm);
 const charmList = [...uniqueCharms, ...magicCharms];
 
-const modalIsOpen = ref(false);
-
 const rollableModifiers = computed<SingleItemModifier[] | null>(
 	() =>
-		itemStore.selectedCharm?.basemods
-			.concat(itemStore.selectedCharm?.affixes)
+		itemStore.selectedCharm?.affixes
 			.concat(itemStore.selectedCharm.corruptedModifier ?? [])
 			.flatMap((affix) => ("modifiers" in affix ? affix.modifiers : affix))
 			.filter((affix) => affix.values.some((value) => value.rolls)) ?? null
@@ -59,6 +60,39 @@ onMounted(() => {
 		selectedModifier.value = rollableModifiers.value[0] ?? null;
 	}
 });
+
+const craftingItem = ref<{
+	name: string;
+	baseName: string;
+}>({
+	name: "New Charm",
+	baseName: Object.values(bases.charm)[0]!.baseName,
+});
+
+function craftCharm() {
+	const { name, baseName } = craftingItem.value;
+
+	if (!(baseName in bases.charm)) {
+		console.error(`Item base '${baseName}' not found.`);
+		return;
+	}
+
+	const base = bases.charm[baseName as keyof typeof bases.charm];
+
+	const item: Item = {
+		...base,
+		name,
+		rarity: "magic",
+		type: "charm",
+		baseName,
+	};
+
+	console.log(item);
+
+	itemStore.selectCharm(item);
+
+	modalStore.close();
+}
 
 function addCharmToGrid(charm: Item, x: number, y: number): boolean {
 	const [width, height] = charm.size!;
@@ -154,6 +188,9 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 
 <template>
 	<div class="container">
+		<Modal :is-open="modalStore.activeModalId === 'craft-charm'" @close="modalStore.close()">
+			<p>Craft Charm</p>
+		</Modal>
 		<div class="left">
 			<div>
 				<p for="" class="label">All Charms:</p>
@@ -247,7 +284,7 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 				<button @click="itemStore.selectCharm(null)">Cancel</button>
 			</div>
 			<div class="button-container" v-else>
-				<button @click="modalIsOpen = true">Craft Item</button>
+				<button @click="modalStore.open('craft-charm')">Craft Charm</button>
 			</div>
 
 			<div class="selected-item-container">
