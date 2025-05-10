@@ -105,17 +105,24 @@ function onDrop(e: DragEvent, x: number, y: number) {
 	const charm = draggedItem.value;
 	if (charm === null) return;
 
-	// TODO: remove -> add -> revert remove if not added
+	// case 1: add from list i.e. no dragOrigin
+	if (!dragOrigin.value) {
+		addCharmToGrid(charm, x, y);
+		return;
+	}
+
+	// TODO: swap two charms
+
+	// case 2. drag in inventory i.e. remove -> add -> revert remove if not added
+	const square = grid.getSquare(itemStore.charmGrid, dragOrigin.value.x, dragOrigin.value.y);
+	if (!square?.value) return;
+
+	unequipSquare(square);
 
 	const added = addCharmToGrid(charm, x, y);
 
-	if (!added) return;
-
-	if (dragOrigin.value) {
-		const square = grid.getSquare(itemStore.charmGrid, dragOrigin.value.x, dragOrigin.value.y);
-		if (square) {
-			unequipSquare(square);
-		}
+	if (!added) {
+		addCharmToGrid(charm, square.originX, square.originY);
 	}
 }
 
@@ -185,6 +192,13 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 								:src="resolveImgPath(square.value.img!)"
 								@click.right="unequipSquare(square)"
 								@dragstart="startMoveDrag($event, square.value, square.originX, square.originY)"
+								@dragend="endDrag($event)"
+								:style="{
+									'pointer-events':
+										dragOrigin?.x === square.originX && dragOrigin.y === square.originY
+											? 'none'
+											: 'all',
+								}"
 							/>
 						</template>
 					</div>

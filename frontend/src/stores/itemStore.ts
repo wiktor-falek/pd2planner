@@ -62,25 +62,6 @@ export const useItemStore = defineStore("items", () => {
 		deep: true,
 	});
 
-	// persist equippedCharms
-	// init charmGrid
-	// update charmGrid -> auto update equippedCharms
-	
-	// watch(charmGrid, (newCharmGrid) => {
-	// 	console.log("charm grid change");
-	// 	const newEquippedCharms: GridItem[] = [];
-	// 	for (let x = 0; x < newCharmGrid.height; x++) {
-	// 		for (let y = 0; y < newCharmGrid.width; y++) {
-	// 			const square = grid.getSquare(newCharmGrid, x, y);
-	// 			if (square?.isOriginSquare && square.value !== null) {
-	// 				newEquippedCharms.push({ x, y, item: square.value });
-	// 			}
-	// 		}
-	// 	}
-
-	// 	equippedCharms.value = newEquippedCharms;
-	// });
-
 	const selectedItemIsAdded = computed(() => {
 		if (selectedItem.value === null) return false;
 		return items.value.find((i) => i.id === selectedItem.value!.id);
