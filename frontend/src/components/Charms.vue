@@ -74,6 +74,8 @@ function addCharmToGrid(charm: Item, x: number, y: number): boolean {
 const draggedItem = ref<Item | null>(null);
 const dragOrigin = ref<{ x: number; y: number } | null>(null);
 
+const isDroppedOutside = ref(true);
+
 function startDrag(e: DragEvent, item: Item) {
 	draggedItem.value = item;
 
@@ -89,13 +91,9 @@ function startMoveDrag(e: DragEvent, item: Item, x: number, y: number) {
 	startDrag(e, item);
 }
 
-function endDrag(e: DragEvent) {
-	e.preventDefault();
-	draggedItem.value = null;
-	dragOrigin.value = null;
-}
-
 function onDrop(e: DragEvent, x: number, y: number) {
+	isDroppedOutside.value = false;
+
 	e.preventDefault();
 	const charm = draggedItem.value;
 	if (charm === null) return;
@@ -119,6 +117,22 @@ function onDrop(e: DragEvent, x: number, y: number) {
 	if (!added) {
 		addCharmToGrid(charm, square.originX, square.originY);
 	}
+}
+
+function endDrag(e: DragEvent) {
+	e.preventDefault();
+
+	// unequip if dragged outside of drop zone
+	if (isDroppedOutside.value && draggedItem.value !== null && dragOrigin.value !== null) {
+		const square = grid.getSquare(itemStore.charmGrid, dragOrigin.value.x, dragOrigin.value.y);
+		if (square !== null) {
+			unequipSquare(square);
+		}
+	}
+
+	isDroppedOutside.value = true;
+	draggedItem.value = null;
+	dragOrigin.value = null;
 }
 
 function resolveImgPath(imgSrc: string) {
@@ -204,7 +218,11 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 				<input class="search" type="text" placeholder="Search" />
 				<!-- v-model.trim="filterQuery" -->
 				<div class="charm-list">
-					<div class="item-listing" v-for="charm in charmList" @click="itemStore.selectCharm(charm)">
+					<div
+						class="item-listing"
+						v-for="charm in charmList"
+						@click="itemStore.selectCharm(charm)"
+					>
 						<p
 							:class="{
 								[charm.rarity]: true,
