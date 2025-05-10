@@ -53,7 +53,7 @@ export function baseToMagic(
 	affixes: ItemModifier[],
 	options: ItemOptions = {}
 ): Item {
-	return { ...base, ...cleanUndefined(options ?? {}), name, rarity: "magic", affixes };
+	return { ...base, ...cleanUndefined(options), name, rarity: "magic", affixes };
 }
 
 export function baseToUnique(

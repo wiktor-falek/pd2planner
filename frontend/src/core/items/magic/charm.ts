@@ -245,6 +245,27 @@ const DruidSummoningLifeSkiller = baseToMagic(
 	[modifiers.druidSummoningSkills(1), modifiers.life([5, 45])]
 );
 
+const FireSkillDamageLife = baseToMagic(bases.charm["Large Charm"], "Fire Skill Damage Life", [
+	modifiers.fireSkillDamage([2, 3]),
+	modifiers.life([6, 35]),
+]);
+
+const ColdSkillDamageLife = baseToMagic(bases.charm["Large Charm"], "Cold Skill Damage Life", [
+	modifiers.coldSkillDamage([2, 3]),
+	modifiers.life([6, 35]),
+]);
+
+const LightningSkillDamageLife = baseToMagic(
+	bases.charm["Large Charm"],
+	"Lightning Skill Damage Life",
+	[modifiers.lightningSkillDamage([2, 3]), modifiers.life([6, 35])]
+);
+
+const PoisonSkillDamageLife = baseToMagic(bases.charm["Large Charm"], "Poison Skill Damage Life", [
+	modifiers.poisonSkillDamage([2, 3]),
+	modifiers.life([6, 35]),
+]);
+
 export const charm = {
 	AmazonJavelinAndSpearSkiller,
 	AmazonPassiveAndMagicSkiller,
@@ -288,4 +309,8 @@ export const charm = {
 	DruidElementalLifeSkiller,
 	DruidShapeShiftingLifeSkiller,
 	DruidSummoningLifeSkiller,
+	FireSkillDamageLife,
+	ColdSkillDamageLife,
+	LightningSkillDamageLife,
+	PoisonSkillDamageLife,
 } as const satisfies Record<string, Item>;

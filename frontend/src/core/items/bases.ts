@@ -25,6 +25,7 @@ function createItemBase(
 		ethereal: false,
 		corrupted: false,
 		size: options?.size,
+		img: options?.img,
 	};
 }
 
