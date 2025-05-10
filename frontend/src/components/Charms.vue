@@ -11,7 +11,7 @@ import {
 import { corruptionModifiers } from "../core/items/corruptions";
 import { useCharacterStore } from "../stores/characterStore";
 import { magic } from "../core/items/magic";
-import { createItemCopy, type Item } from "../core/items/item";
+import { type Item } from "../core/items/item";
 import * as grid from "../utils/grid";
 
 const SQUARE_SIZE = 29;
@@ -23,11 +23,6 @@ const characterStore = useCharacterStore();
 const uniqueCharms = Object.values(uniques.charm);
 const magicCharms = Object.values(magic.charm);
 const charmList = [...uniqueCharms, ...magicCharms];
-
-function selectCharm(item: Item | null) {
-	const itemCopy = item === null ? null : createItemCopy(item);
-	itemStore.selectedCharm = itemCopy;
-}
 
 const modalIsOpen = ref(false);
 
@@ -155,7 +150,7 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 						@dragstart="startDrag($event, charm)"
 						@dragend="endDrag($event)"
 						v-for="charm in itemStore.items.filter((item) => item.type === 'charm')"
-						@click="selectCharm(charm)"
+						@click="itemStore.selectCharm(charm)"
 					>
 						<p
 							:class="{
@@ -209,13 +204,13 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 				<input class="search" type="text" placeholder="Search" />
 				<!-- v-model.trim="filterQuery" -->
 				<div class="charm-list">
-					<div class="item-listing" v-for="item in charmList" @click="selectCharm(item)">
+					<div class="item-listing" v-for="charm in charmList" @click="itemStore.selectCharm(charm)">
 						<p
 							:class="{
-								[item.rarity]: true,
+								[charm.rarity]: true,
 							}"
 						>
-							{{ item.name }}, {{ item.baseName }}
+							{{ charm.name }}, {{ charm.baseName }}
 						</p>
 					</div>
 				</div>
@@ -231,7 +226,7 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 					Remove
 				</button>
 				<button v-else @click="itemStore.addSelectedCharmToBuild()">Add to build</button>
-				<button @click="selectCharm(null)">Cancel</button>
+				<button @click="itemStore.selectCharm(null)">Cancel</button>
 			</div>
 			<div class="button-container" v-else>
 				<button @click="modalIsOpen = true">Craft Item</button>

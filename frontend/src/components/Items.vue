@@ -490,15 +490,15 @@ function selectSockets(item: Item, amount: number) {
 				<div class="all-items">
 					<div
 						class="item-listing"
-						v-for="item in itemStore.items.filter((item) => item.type !== 'charm')"
-						@click="selectItem(item)"
+						v-for="charm in itemStore.items.filter((charm) => charm.type !== 'charm')"
+						@click="selectItem(charm)"
 					>
 						<p
 							:class="{
-								[item.rarity]: true,
+								[charm.rarity]: true,
 							}"
 						>
-							{{ item.name }}, {{ item.baseName }}
+							{{ charm.name }}, {{ charm.baseName }}
 						</p>
 					</div>
 				</div>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref, watch, type Ref } from "vue";
+import { computed, ref, toRaw, watch, type Ref } from "vue";
 import { loadFromStorage, saveToStorage } from "../persistence";
 import { createItemCopy } from "../core/items/item";
 import type { ItemBaseType, Slot } from "../types";
