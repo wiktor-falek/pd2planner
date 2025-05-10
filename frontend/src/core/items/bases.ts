@@ -24,6 +24,7 @@ function createItemBase(
 		sockets: 0,
 		ethereal: false,
 		corrupted: false,
+		size: options?.size,
 	};
 }
 
@@ -235,9 +236,18 @@ const belt = {
 };
 
 const charm = {
-	"Small Charm": createItemBase("Small Charm", "charm", "normal"),
-	"Large Charm": createItemBase("Large Charm", "charm", "normal"),
-	"Grand Charm": createItemBase("Grand Charm", "charm", "normal"),
+	"Small Charm": createItemBase("Small Charm", "charm", "normal", {
+		size: [1, 1],
+		img: "charms/small_charm-1.png",
+	}),
+	"Large Charm": createItemBase("Large Charm", "charm", "normal", {
+		size: [1, 2],
+		img: "charms/large_charm-1.png",
+	}),
+	"Grand Charm": createItemBase("Grand Charm", "charm", "normal", {
+		size: [1, 3],
+		img: "charms/grand_charm-1.png",
+	}),
 };
 
 export const bases = {

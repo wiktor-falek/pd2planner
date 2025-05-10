@@ -1,6 +1,7 @@
 import type { ItemModifier } from "./modifiers";
 import { toRawDeep } from "../../utils/toRawDeep";
 import type { CharacterClass, ItemBaseType, Rarity, Tier } from "../../types";
+import { cleanUndefined } from "../../utils/cleanUndefined";
 
 export interface Item {
 	id: string;
@@ -50,16 +51,16 @@ export function baseToMagic(
 	base: Item,
 	name: string,
 	affixes: ItemModifier[],
-	options?: ItemOptions
+	options: ItemOptions = {}
 ): Item {
-	return { ...base, name, rarity: "magic", affixes, ...options };
+	return { ...base, ...cleanUndefined(options ?? {}), name, rarity: "magic", affixes };
 }
 
 export function baseToUnique(
 	base: Item,
 	name: string,
 	affixes: ItemModifier[],
-	options?: ItemOptions
+	options: ItemOptions = {}
 ): Item {
-	return { ...base, name, rarity: "unique", affixes, ...options };
+	return { ...base, ...cleanUndefined(options), name, rarity: "unique", affixes };
 }

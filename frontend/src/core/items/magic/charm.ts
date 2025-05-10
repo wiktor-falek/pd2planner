@@ -6,7 +6,8 @@ import { baseToMagic, type Item } from "../item";
 const AmazonJavelinAndSpearSkiller = baseToMagic(
 	bases.charm["Grand Charm"],
 	"Amazon Javelin and Spear Skiller",
-	[modifiers.amazonJavelinAndSpearSkills(1)]
+	[modifiers.amazonJavelinAndSpearSkills(1)],
+	{ img: "charms/grand_charm-1.png" }
 );
 
 const AmazonPassiveAndMagicSkiller = baseToMagic(

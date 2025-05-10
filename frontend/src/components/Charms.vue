@@ -65,32 +65,39 @@ onMounted(() => {
 	}
 });
 
-function addCharmToGrid(charm: Item, x: number, y: number) {
+function addCharmToGrid(charm: Item, x: number, y: number): boolean {
 	const [width, height] = charm.size!;
 	const added = grid.addItemAt(itemStore.charmGrid, charm, x, y, width, height);
 
-	if (!added) return;
+	if (!added) return false;
 
 	const gridItem: GridItem = { item: charm, x, y };
 	itemStore.equippedCharms.push(gridItem);
+	return true;
 }
 
 const draggedItem = ref<Item | null>(null);
+const dragOrigin = ref<{ x: number; y: number } | null>(null);
 
 function startDrag(e: DragEvent, item: Item) {
 	draggedItem.value = item;
 
 	const image = new Image();
 	image.src = `../src/assets/${item.img}`;
-	const scale = INVENTORY_SCALE; // that doesnt work sadge
-	image.width = 28 * scale * (item.size?.[0] ?? 0);
-	image.height = 28 * scale * (item.size?.[1] ?? 0);
+	image.width = 28 * (item.size?.[0] ?? 0);
+	image.height = 28 * (item.size?.[1] ?? 0);
 	e.dataTransfer?.setDragImage(image, image.width / 4, 0);
+}
+
+function startMoveDrag(e: DragEvent, item: Item, x: number, y: number) {
+	dragOrigin.value = { x, y };
+	startDrag(e, item);
 }
 
 function endDrag(e: DragEvent) {
 	e.preventDefault();
 	draggedItem.value = null;
+	dragOrigin.value = null;
 }
 
 function onDrop(e: DragEvent, x: number, y: number) {
@@ -98,18 +105,34 @@ function onDrop(e: DragEvent, x: number, y: number) {
 	const charm = draggedItem.value;
 	if (charm === null) return;
 
-	addCharmToGrid(charm, x, y);
+	// TODO: remove -> add -> revert remove if not added
+
+	const added = addCharmToGrid(charm, x, y);
+
+	if (!added) return;
+
+	if (dragOrigin.value) {
+		const square = grid.getSquare(itemStore.charmGrid, dragOrigin.value.x, dragOrigin.value.y);
+		if (square) {
+			unequipSquare(square);
+		}
+	}
 }
 
 function resolveImgPath(imgSrc: string) {
 	const url = new URL("../assets/" + imgSrc, import.meta.url).href;
-	console.log(url);
 	return url;
 }
 
 function unequipSquare(square: grid.GridSquare<Item>) {
 	const [width, height] = square.value!.size!;
+	const charm = grid.getSquare(itemStore.charmGrid, square.originX, square.originY)?.value;
+	if (!charm) return;
+
 	grid.removeItemAt(itemStore.charmGrid, square.originX, square.originY, width, height);
+	itemStore.equippedCharms = itemStore.equippedCharms.filter(
+		(gridItem) => !(gridItem.x === square.originX && gridItem.y === square.originY)
+	);
 }
 </script>
 
@@ -161,6 +184,7 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 								class="inventory-item-img"
 								:src="resolveImgPath(square.value.img!)"
 								@click.right="unequipSquare(square)"
+								@dragstart="startMoveDrag($event, square.value, square.originX, square.originY)"
 							/>
 						</template>
 					</div>

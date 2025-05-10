@@ -151,6 +151,14 @@ export function removeItemAt<T>(
 	return true;
 }
 
+export function* getItems<T>(grid: Grid<T>): Iterable<T> {
+	for (let row of grid._squares) {
+		for (let cell of row) {
+			if (cell.value !== null) yield cell.value;
+		}
+	}
+}
+
 // export class Grid<T> {
 // 	width: number;
 // 	height: number;
