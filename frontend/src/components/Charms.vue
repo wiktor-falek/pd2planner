@@ -11,7 +11,7 @@ import {
 import { corruptionModifiers } from "../core/items/corruptions";
 import { useCharacterStore } from "../stores/characterStore";
 import { magic } from "../core/items/magic";
-import { type Item } from "../core/items/item";
+import { baseToMagic, type Item } from "../core/items/item";
 import * as grid from "../utils/grid";
 import { bases } from "../core/items/bases";
 import { useModalStore } from "../stores/modalStore";
@@ -79,15 +79,9 @@ function craftCharm() {
 
 	const base = bases.charm[baseName as keyof typeof bases.charm];
 
-	const item: Item = {
-		...base,
-		name,
-		rarity: "magic",
-		type: "charm",
-		baseName,
-	};
+	const charm = baseToMagic(base, name, []);
 
-	itemStore.selectCharm(item);
+	itemStore.selectCharm(charm);
 	modalStore.close();
 }
 
@@ -256,6 +250,7 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 								v-if="square && square.value && square.isOriginSquare"
 								class="inventory-item-img"
 								:src="resolveImgPath(square.value.img!)"
+								@click.left="itemStore.selectCharm(square.value)"
 								@click.right="unequipSquare(square)"
 								@dragstart="startMoveDrag($event, square.value, square.originX, square.originY)"
 								@dragend="endDrag($event)"

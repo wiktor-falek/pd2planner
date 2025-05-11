@@ -130,12 +130,20 @@ export const useItemStore = defineStore("items", () => {
 	}
 
 	function removeSelectedCharmFromBuild() {
+		if (!selectedCharm.value) return;
+
 		_removeSelectedItemFromBuild(selectedCharm);
-		if (selectedCharm.value) {
-			for (const item of grid.getItems(charmGrid.value)) {
-				if (item.id === selectedCharm.value.id) {
-					grid.removeItem(charmGrid.value, item);
-				}
+
+		for (let i = equippedCharms.value.length - 1; i >= 0; i--) {
+			const gridItem = equippedCharms.value[i];
+			if (gridItem && gridItem.item.id === selectedCharm.value.id) {
+				equippedCharms.value.splice(i, 1);
+			}
+		}
+
+		for (const item of grid.getItems(charmGrid.value)) {
+			if (item.id === selectedCharm.value.id) {
+				grid.removeItem(charmGrid.value, item);
 			}
 		}
 	}
