@@ -1473,6 +1473,16 @@ export function hybridVitalityEnergy(
 	return createHybridItem("hybrid_vitality_energy", [vitality(vitalityValue), energy(energyValue)]);
 }
 
+export function hybridMinimumDamageAttackRating(
+	minDamageValue: ModifierValue,
+	attackRatingValue: ModifierValue
+): HybridItemModifier {
+	return createHybridItem("hybrid_minimum_damage_attack_rating", [
+		minimumDamage(minDamageValue),
+		attackRating(attackRatingValue),
+	]);
+}
+
 export function amazonBowAndCrossbowSkills(value: ModifierValue): SingleItemModifier {
 	return createItemModifier(
 		"amazon_bow_and_crossbow_skills",
