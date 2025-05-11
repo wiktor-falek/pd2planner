@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref, toRaw, watch, type Ref } from "vue";
+import { computed, ref, watch, type Ref } from "vue";
 import { loadFromStorage, saveToStorage } from "../persistence";
 import { createItemCopy } from "../core/items/item";
 import type { ItemBaseType, Slot } from "../types";
@@ -131,6 +131,13 @@ export const useItemStore = defineStore("items", () => {
 
 	function removeSelectedCharmFromBuild() {
 		_removeSelectedItemFromBuild(selectedCharm);
+		if (selectedCharm.value) {
+			for (const item of grid.getItems(charmGrid.value)) {
+				if (item.id === selectedCharm.value.id) {
+					grid.removeItem(charmGrid.value, item);
+				}
+			}
+		}
 	}
 
 	function _equipItem(item: Item, slot: Slot, select: boolean = false) {
