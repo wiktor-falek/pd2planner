@@ -233,8 +233,8 @@ function selectSockets(item: Item, amount: number) {
 				<div class="label-input">
 					<label for="">Base:</label>
 					<select name="" id="" v-model="craftingItem.baseName">
-						<option v-for="base in Object.values(bases[craftingItem.type])" :value="base.baseName">
-							{{ base.baseName }}
+						<option v-for="baseName in Object.keys(bases[craftingItem.type])" :value="baseName">
+							{{ baseName }}
 						</option>
 					</select>
 				</div>

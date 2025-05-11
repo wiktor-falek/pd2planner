@@ -87,10 +87,7 @@ function craftCharm() {
 		baseName,
 	};
 
-	console.log(item);
-
 	itemStore.selectCharm(item);
-
 	modalStore.close();
 }
 
@@ -189,7 +186,30 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 <template>
 	<div class="container">
 		<Modal :is-open="modalStore.activeModalId === 'craft-charm'" @close="modalStore.close()">
-			<p>Craft Charm</p>
+			<div class="modal">
+				<div class="modal__titlebar">
+					<p class="modal__titlebar__title">Craft Charm</p>
+				</div>
+
+				<div class="label-input">
+					<label for="">Name:</label>
+					<input type="text" v-model="craftingItem.name" />
+				</div>
+
+				<div class="label-input">
+					<label for="">Base:</label>
+					<select name="" id="" v-model="craftingItem.baseName">
+						<option v-for="baseName in Object.keys(bases.charm)" :value="baseName">
+							{{ baseName }}
+						</option>
+					</select>
+				</div>
+
+				<div class="modal__buttons">
+					<button @click="craftCharm()">Create</button>
+					<button @click="modalStore.close()">Close</button>
+				</div>
+			</div>
 		</Modal>
 		<div class="left">
 			<div>
@@ -489,5 +509,48 @@ function unequipSquare(square: grid.GridSquare<Item>) {
 .selected-item {
 	padding: 4px;
 	border: 1px solid gray;
+}
+
+.modal {
+	position: relative;
+	border: 1px solid gray;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 12px;
+	padding-top: 24px;
+	background-color: black;
+}
+
+.modal__titlebar {
+	position: absolute;
+	top: -15px;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+}
+
+.modal__titlebar__title {
+	background-color: black;
+	border: 1px solid gray;
+	padding: 2px 8px;
+	margin: 0;
+}
+
+.modal > .label-input > label {
+	margin-left: auto;
+}
+
+.modal > .label-input > input,
+.modal > .label-input > select {
+	box-sizing: border-box;
+	width: 200px;
+}
+
+.modal__buttons {
+	margin-top: 12px;
+	display: flex;
+	justify-content: space-around;
 }
 </style>
