@@ -135,8 +135,8 @@ export const useItemStore = defineStore("items", () => {
 		_removeSelectedItemFromBuild(selectedCharm);
 
 		for (let i = equippedCharms.value.length - 1; i >= 0; i--) {
-			const gridItem = equippedCharms.value[i];
-			if (gridItem && gridItem.item.id === selectedCharm.value.id) {
+			const gridItem = equippedCharms.value[i]!;
+			if (gridItem.item.id === selectedCharm.value.id) {
 				equippedCharms.value.splice(i, 1);
 			}
 		}
