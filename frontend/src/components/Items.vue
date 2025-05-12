@@ -16,7 +16,7 @@ import Modal from "./reusable/Modal.vue";
 import { bases } from "../core/items/bases";
 import { type Item } from "../core/items/item";
 import { createRuneword, runewordsData, type RunewordData } from "../core/items/runewords";
-import { corruptionModifiers } from "../core/items/corruptions";
+import { corruptionModifiers, desecratedModifiers } from "../core/items/corruptions";
 import { uniques } from "../core/items/unique";
 import { useModalStore } from "../stores/modalStore";
 
@@ -28,6 +28,7 @@ const attributeStore = useAttributeStore();
 onBeforeMount(() => {
 	if (itemStore.selectedItem !== null) {
 		selectedCorruptedModifier.value = itemStore.selectedItem.corruptedModifier;
+		selectedDesecratedModifier.value = itemStore.selectedItem.desecratedModifier ?? null;
 	}
 });
 
@@ -36,9 +37,10 @@ function selectItem(item: Item | null) {
 
 	if (item === null) {
 		selectedCorruptedModifier.value = null;
+		selectedDesecratedModifier.value = null;
 	} else {
-		// this doesn't work for some reason
 		selectedCorruptedModifier.value = item.corruptedModifier;
+		selectedDesecratedModifier.value = item.desecratedModifier ?? null;
 	}
 }
 
@@ -53,6 +55,7 @@ const rollableModifiers = computed<SingleItemModifier[] | null>(
 		itemStore.selectedItem?.basemods
 			.concat(itemStore.selectedItem?.affixes)
 			.concat(itemStore.selectedItem.corruptedModifier ?? [])
+			.concat(itemStore.selectedItem.desecratedModifier ?? [])
 			.flatMap((affix) => ("modifiers" in affix ? affix.modifiers : affix))
 			.filter((affix) => affix.values.some((value) => value.rolls)) ?? null
 );
@@ -165,10 +168,12 @@ function selectEntry(entry: Item | RunewordData) {
 }
 
 const selectedCorruptedModifier = ref<ItemModifier | null>(null);
+const selectedDesecratedModifier = ref<ItemModifier | null>(null);
 
 onBeforeMount(() => {
 	if (itemStore.selectedItem !== null) {
 		selectedCorruptedModifier.value = itemStore.selectedItem.corruptedModifier;
+		selectedDesecratedModifier.value = itemStore.selectedItem.desecratedModifier ?? null;
 	}
 });
 
@@ -176,6 +181,12 @@ watch(selectedCorruptedModifier, (newSelectedCorruptedModifier) => {
 	if (itemStore.selectedItem === null) return;
 
 	selectCorruptedModifier(itemStore.selectedItem, newSelectedCorruptedModifier);
+});
+
+watch(selectedDesecratedModifier, (newSelectedDesecratedModifier) => {
+	if (itemStore.selectedItem === null) return;
+
+	selectDesecratedModifier(itemStore.selectedItem, newSelectedDesecratedModifier);
 });
 
 function selectCorruptedModifier(item: Item, modifier: ItemModifier | null) {
@@ -186,6 +197,10 @@ function selectCorruptedModifier(item: Item, modifier: ItemModifier | null) {
 	}
 
 	item.corrupted = !(modifier === null && item.sockets <= item.maxSockets);
+}
+
+function selectDesecratedModifier(item: Item, modifier: ItemModifier | null) {
+	item.desecratedModifier = modifier ?? undefined;
 }
 
 // TODO: add additional corrupted outcome sockets to dropdown
@@ -551,6 +566,16 @@ function selectSockets(item: Item, amount: number) {
 						</select>
 					</div>
 
+					<div class="label-input" v-if="itemStore.selectedItem.type === 'amulet'">
+						<label for="desecrated">Desecrated: </label>
+						<select id="desecrated" class="select" v-model="selectedDesecratedModifier">
+							<option :value="null">None</option>
+							<option v-for="modifier in desecratedModifiers" :value="modifier">
+								{{ getModifierDescription(modifier) }}
+							</option>
+						</select>
+					</div>
+
 					<div class="label-input" v-if="itemStore.selectedItem.maxSockets !== 0">
 						<label for="sockets">Sockets: </label>
 						<select id="sockets" v-model="itemStore.selectedItem.sockets">
@@ -689,6 +714,14 @@ function selectSockets(item: Item, amount: number) {
 									characterStore.characterLevel
 								)
 							}}<span class="corrupted">*</span>
+						</p>
+						<p class="magic" v-if="itemStore.selectedItem.desecratedModifier">
+							{{
+								getModifierTooltip(
+									itemStore.selectedItem.desecratedModifier,
+									characterStore.characterLevel
+								)
+							}}<span class="desecrated">*</span>
 						</p>
 						<p class="ethereal" v-if="itemStore.selectedItem.ethereal">
 							Ethereal (Cannot Be Repaired)

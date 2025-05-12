@@ -14,6 +14,7 @@ export interface Item {
 	automods: ItemModifier[];
 	affixes: ItemModifier[];
 	corruptedModifier: ItemModifier | null;
+	desecratedModifier?: ItemModifier;
 	maxSockets: number;
 	sockets: number;
 	ethereal: boolean;

@@ -307,3 +307,14 @@ export const corruptionModifiers = {
 		modifiers.experienceGained([3, 5]),
 	],
 } as const satisfies Record<ItemBaseType, ItemModifier[]>;
+
+export const desecratedModifiers: ItemModifier[] = [
+	modifiers.allSkills(1),
+	modifiers.fasterCastRate(10),
+	modifiers.fasterRunWalk(10),
+	modifiers.curseResistance(10),
+	modifiers.enhancedDamage([30, 40]),
+	modifiers.cannotBeFrozen(),
+	modifiers.maxAllResist(2),
+	modifiers.allResist([7, 10]),
+] as const;
