@@ -31,7 +31,9 @@ function createItemBase(
 
 // prettier-ignore
 const weapon = {
-	"Test Weapon": createItemBase("Test Weapon", "weapon", "normal", { maxSockets: 2, basemods: [] }),
+	// Axes
+	// Normal
+	"Hand Axe": createItemBase("Hand Axe", "weapon", "normal", { weaponType: "axe", maxSockets: 2, basemods: [modifiers.addsDamage(3, 6)] }),
 };
 
 const shield = {

@@ -1,6 +1,6 @@
 import type { ItemModifier } from "./modifiers";
 import { toRawDeep } from "../../utils/toRawDeep";
-import type { CharacterClass, ItemBaseType, Rarity, Tier } from "../../types";
+import type { CharacterClass, ItemBaseType, ItemBaseWeaponType, Rarity, Tier } from "../../types";
 import { cleanUndefined } from "../../utils/cleanUndefined";
 
 export interface Item {
@@ -8,6 +8,7 @@ export interface Item {
 	name: string;
 	baseName: string;
 	type: ItemBaseType;
+	weaponType?: ItemBaseWeaponType;
 	rarity: Rarity;
 	tier: Tier;
 	basemods: ItemModifier[];
@@ -30,6 +31,7 @@ export interface Item {
 }
 
 export interface ItemOptions {
+	weaponType?: ItemBaseWeaponType;
 	maxSockets?: number;
 	requirements?: {
 		level?: number;

@@ -61,6 +61,21 @@ export type ItemBaseType =
 	| "quiver"
 	| "charm";
 
+export type ItemBaseWeaponType =
+	| "axe"
+	| "mace" // club | tipped mace | hammer
+	| "sword"
+	| "dagger"
+	| "orb"
+	| "wand"
+	| "scepter"
+	| "claw"
+	| "bow"
+	| "crossbow"
+	| "polearm"
+	| "spear"
+	| "staff";
+
 export type RunewordBaseType = "weapon" | "shield" | "helmet" | "chest";
 
 export const ALL_ITEM_BASE_TYPES = [
